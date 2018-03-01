@@ -25,6 +25,12 @@ public class IntBoard {
 		calcAdjacencies();
 	}
 
+	/**
+	 * Populates the Map adjacencies with adjacent points.
+	 * Key corresponds to a BoardCell piece,
+	 * Inside is a set of all adjacent BoardCell pieces.
+	 */
+	
 	public void calcAdjacencies() {
 
 		for (int i = 0; i < grid.length; i++) {
@@ -51,6 +57,16 @@ public class IntBoard {
 
 	}
 
+	/**
+	 * Returns the list of Adjacent cells as a set for a given cell.
+	 * 
+	 * To avoid instance errors, creates a new set from adjacencies consisting of 
+	 * already existing BoardCell (uses getCell)
+	 * 
+	 * @param cell
+	 * @return
+	 */
+	
 	public Set<BoardCell> getAdjList(BoardCell cell) {
 
 		Set<BoardCell> temp = new HashSet<BoardCell>();
@@ -61,6 +77,12 @@ public class IntBoard {
 
 	}
 
+	/**
+	 * Calculates the possible targets given the starting cell and the "die roll"
+	 * @param startCell
+	 * @param pathLength
+	 */
+	
 	public void calcTargets(BoardCell startCell, int pathLength) {
 
 		targets = new HashSet<BoardCell>();
@@ -70,6 +92,13 @@ public class IntBoard {
 
 	}
 
+	/**
+	 * Recursive function called by calcTargets.
+	 * Finds targets for the given cell.
+	 * @param curCell
+	 * @param numSteps
+	 */
+	
 	public void findAllTargets(BoardCell curCell, int numSteps) {
 
 		for (BoardCell cell_t : adjacencies.get(curCell)) {
@@ -89,12 +118,29 @@ public class IntBoard {
 
 	}
 
+	/**
+	 * Returns the possible targets as a set.
+	 * NOTE: Call calcTargets first, as this doesn't actually calculate them, it just returns the set calculated by calcTargets.
+	 * @return
+	 */
+	
 	public Set<BoardCell> getTargets() {
 
 		return targets;
 
 	}
 
+	/**
+	 * Returns a BoardCell given the row and column numbers.
+	 * 
+	 * To avoid instance errors, this method loops through adjacencies and tries to return
+	 * a BoardCell from that map. If said BoardCell does not yet exist, returns a new BoardCell.
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	
 	public BoardCell getCell(int x, int y) {
 
 		Set<BoardCell> keys = adjacencies.keySet();

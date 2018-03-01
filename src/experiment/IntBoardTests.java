@@ -24,6 +24,10 @@ public class IntBoardTests {
 								// you can test them
 	}
 
+	/**
+	 * Tests cell (0,0)
+	 */
+	
 	@Test
 	public void testAdjacency0() {
 		BoardCell cell = board.getCell(0, 0);
@@ -33,6 +37,10 @@ public class IntBoardTests {
 		assertEquals(2, testList.size());
 	}
 
+	/**
+	 * Tests cell (1,1)
+	 */
+	
 	@Test
 	public void testAdjacency1() {
 
@@ -45,6 +53,10 @@ public class IntBoardTests {
 
 	}
 
+	/**
+	 * Tests cell (3,3)
+	 */
+	
 	@Test
 	public void testAdjacency2() {
 
@@ -55,6 +67,10 @@ public class IntBoardTests {
 
 	}
 
+	/**
+	 * Tests cell (1,3)
+	 */
+	
 	@Test
 	public void testAdjacency3() {
 
@@ -66,6 +82,10 @@ public class IntBoardTests {
 
 	}
 
+	/**
+	 * Tests cell (3,0)
+	 */
+	
 	@Test
 	public void testAdjacency4() {
 
@@ -76,6 +96,10 @@ public class IntBoardTests {
 
 	}
 
+	/**
+	 * Tests cell (2,2)
+	 */
+	
 	@Test
 	public void testAdjacency5() {
 
@@ -88,6 +112,10 @@ public class IntBoardTests {
 
 	}
 
+	/**
+	 * Tests cell (0,0)
+	 */
+	
 	@Test
 	public void testCalcTarget0(){
 		
@@ -103,6 +131,10 @@ public class IntBoardTests {
 		assertTrue(targets.contains(board.getCell(1, 0)));
 		
 	}
+	
+	/**
+	 * Tests cell (1,1)
+	 */
 	
 	@Test
 	public void testCalcTarget1(){
