@@ -1,11 +1,14 @@
-package experiment;
-import static org.junit.Assert.*;
+package tests;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import experiment.BoardCell;
+import experiment.IntBoard;
 
 /**
  * 
