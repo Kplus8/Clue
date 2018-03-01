@@ -26,10 +26,10 @@ public class BoardCell {
 		return column;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "(" + row + ", " + column + ")";
-//	}
+	@Override
+	public String toString() {
+		return "(" + row + ", " + column + ")";
+	}
 
 	@Override
 	public boolean equals(Object o) {
