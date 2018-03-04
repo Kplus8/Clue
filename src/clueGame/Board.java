@@ -1,14 +1,22 @@
 package clueGame;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+/**
+ * 
+ * @author Jim DeBlock
+ * @author Graham Kitchenka
+ *
+ */
 
 public class Board {
 
 	public static final int MAX_BOARD_SIZE = 50;
 	
-	private int numRoes;
+	private int numRows;
 	private int numColumns;
 	private static BoardCell[][] board;
 	private Map<Character, String> legend;
@@ -18,28 +26,32 @@ public class Board {
 	private String roomConfigFile;
 	private Set<BoardCell> visited;
 	
+	// variable used for singleton pattern
+	private static Board theInstance = new Board();
+	// constructor is private to ensure only one can be created
+	private Board() {}
+	// this method returns the only Board
 	public static Board getInstance() {
-		return null;
+		return theInstance;
 	}
 
 	public void setConfigFiles(String string, String string2) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	public void initialize() {
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	public Map<Character, String> getLegend() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return new HashMap<Character, String>();
 	}
 
-	public Object getNumRows() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getNumRows() {
+		return numRows;
 	}
 	
 	public void calcAdjacencies() {

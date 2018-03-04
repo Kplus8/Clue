@@ -1,5 +1,13 @@
 package tests;
 
+
+/**
+ *     This is the test file given to us, no changes (except adding data/ to the dir)
+ *     The tests we wrote are in FileTests.java
+ */
+
+
+
 /*
  * This program tests that config files are loaded properly.
  */
