@@ -17,6 +17,7 @@ public class Board {
 	public static final int MAX_BOARD_SIZE = 50;
 	
 	private int numRows;
+	private int numCols;
 	private int numColumns;
 	private static BoardCell[][] board;
 	private Map<Character, String> legend;
@@ -52,6 +53,10 @@ public class Board {
 
 	public int getNumRows() {
 		return numRows;
+	}
+	
+	public int getNumCols() {
+		return numCols;
 	}
 	
 	public void calcAdjacencies() {
