@@ -1,2 +1,2 @@
 
-Unrecognized type in Legend file: data\CTest_ClueLegendBadFormat.txt
+Unrecognized type in Legend file: data//CTest_ClueLegend.txt

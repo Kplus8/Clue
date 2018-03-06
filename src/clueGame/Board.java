@@ -24,9 +24,9 @@ public class Board {
 	private Map<Character, String> legend;
 	private Map<BoardCell, Set<BoardCell>> adjMatrix;
 	private Set<BoardCell> targets;
+	private Set<BoardCell> visited;
 	private String boardConfigFile;
 	private String roomConfigFile;
-	private Set<BoardCell> visited;
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -252,6 +252,44 @@ public class Board {
 
 		return board[x][y];
 
+	}
+
+	/**
+	 * Returns the AdjList for pos (i, j)
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	
+	public Set<BoardCell> getAdjList(int x, int y) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * Generates targets for pos (x, y)
+	 * 
+	 * @param x
+	 * @param y
+	 * @param pathLength
+	 */
+	
+	public void calcTargets(int x, int y, int pathLength) {
+		
+		
+	}
+
+	/**
+	 * Returns the valid targets 
+	 * 
+	 * 
+	 * @return
+	 */
+	
+	public Set<BoardCell> getTargets() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
