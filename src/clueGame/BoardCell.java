@@ -10,11 +10,22 @@ package clueGame;
 public class BoardCell {
 
 	private int row, column;
+	private char initial;
+	private DoorDirection dir = DoorDirection.NONE;
 
 	public BoardCell(int row, int column) {
 
 		this.row = row;
 		this.column = column;
+
+	}
+	
+	public BoardCell(int row, int column, char initial, DoorDirection dir) {
+
+		this.row = row;
+		this.column = column;
+		this.initial = initial;
+		this.dir = dir;
 
 	}
 
@@ -37,27 +48,40 @@ public class BoardCell {
 		return c.getRow() == this.getRow() && this.getColumn() == c.getColumn();
 	}
 
-	public Object getDoorDirection() {
+	public DoorDirection getDoorDirection() {
 
-		return null;
+		return dir;
 	}
 
 	public boolean isDoorway() {
 
-		return false;
+		if (dir ==DoorDirection.NONE) {
+			return false;
+		} else {
+			return true;
+		}
+
 	}
 
-	public Object getInitial() {
+	public char getInitial() {
 
-		return null;
+		return initial;
 	}
 
 	public boolean isWalkway() {
-		return false;
+
+		if (initial == 'W') {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
-	
+
 	public boolean isRoom() {
-		return false;
+
+		return !isWalkway();
+
 	}
-	
+
 }
