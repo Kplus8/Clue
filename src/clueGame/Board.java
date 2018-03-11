@@ -3,6 +3,7 @@ package clueGame;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -84,6 +85,8 @@ public class Board {
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			e.printStackTrace();
 		}
+
+		calcAdjacencies();
 
 	}
 
@@ -257,6 +260,80 @@ public class Board {
 	}
 
 	/**
+	 * Creates adjMatrix for all BoardCells.
+	 */
+
+	public void calcAdjacencies() {
+
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+
+				int l = board[i].length;
+				HashSet<BoardCell> temp = new HashSet<BoardCell>();
+				BoardCell bc;
+
+				if (i - 1 >= 0) {
+					bc = getCellAt(i - 1, j);
+					if (bc.isDoorway()) {
+						if (bc.getDoorDirection() == DoorDirection.UP) {
+							temp.add(bc);
+						}
+					} else {
+						if (bc.getInitial() == 'W') {
+							temp.add(bc);
+						}
+					}
+				}
+				if (j - 1 >= 0) {
+					bc = getCellAt(i, j - 1);
+					if (bc.isDoorway()) {
+						if (bc.getDoorDirection() == DoorDirection.RIGHT) {
+							temp.add(bc);
+						}
+					} else {
+						if (bc.getInitial() == 'W') {
+							temp.add(bc);
+						}
+					}
+				}
+				if (i + 1 <= l) {
+					bc = getCellAt(i + 1, j);
+					if (bc.isDoorway()) {
+						if (bc.getDoorDirection() == DoorDirection.DOWN) {
+							temp.add(bc);
+						}
+					} else {
+						if (bc.getInitial() == 'W') {
+							temp.add(bc);
+						}
+					}
+				}
+				if (j + 1 <= l) {
+					bc = getCellAt(i, j + 1);
+					if (bc.isDoorway()) {
+						if (bc.getDoorDirection() == DoorDirection.LEFT) {
+							temp.add(bc);
+						}
+					} else {
+						if (bc.getInitial() == 'W') {
+							temp.add(bc);
+						}
+					}
+				}
+
+				// null pointer, not sure how to fix.
+				
+				if (temp.size() != 0) {
+					adjMatrix.put(getCellAt(i, j), temp);
+				} else {
+					adjMatrix.put(getCellAt(i,j), null);
+				}
+			}
+		}
+
+	}
+
+	/**
 	 * Returns the AdjList for pos (i, j)
 	 * 
 	 * @param x
@@ -266,7 +343,7 @@ public class Board {
 
 	public Set<BoardCell> getAdjList(int x, int y) {
 		// TODO Auto-generated method stub
-		return null;
+		return adjMatrix.get(getCellAt(x, y));
 	}
 
 	/**
@@ -279,8 +356,35 @@ public class Board {
 
 	public void calcTargets(int x, int y, int pathLength) {
 
+		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
+		BoardCell startCell = getCellAt(x, y);
+		visited.add(startCell);
+		findAllTargets(startCell, pathLength);
+		
 	}
 
+	public void findAllTargets(BoardCell curCell, int numSteps) {
+
+		for (BoardCell cell_t : adjMatrix.get(curCell)) {
+			BoardCell cell = getCellAt(cell_t.getRow(), cell_t.getColumn());
+			if (!visited.contains(cell)) {
+
+				visited.add(cell);
+				if (numSteps == 1) {
+					if (cell.getInitial() == 'W' || cell.isDoorway()) { // need to make sure that the wrong directions aren't accounted for
+						targets.add(cell);
+					}
+				} else {
+					findAllTargets(cell, numSteps - 1);
+				}
+				visited.remove(cell);
+
+			}
+		}
+
+	}
+	
 	/**
 	 * Returns the valid targets
 	 * 
@@ -289,8 +393,14 @@ public class Board {
 	 */
 
 	public Set<BoardCell> getTargets() {
-		// TODO Auto-generated method stub
-		return null;
+		return targets;
+	}
+
+	public static void main(String[] args) {
+		Board board = Board.getInstance();
+		board.setConfigFiles("data\\Map.csv", "data\\ClueRooms.txt");
+		board.initialize();
+
 	}
 
 }
