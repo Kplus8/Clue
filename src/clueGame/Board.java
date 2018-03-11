@@ -103,10 +103,12 @@ public class Board {
 
 			String line = sc.nextLine();
 			String[] parts = line.split(", ");
-			if (!(parts[2] == "Card" || parts[2] == "Other")) {
+			if (parts[2].equals("Card") || parts[2].equals("Other")) {
+			} else {
 				sc.close();
 				throw new BadConfigFormatException(
-						"Unrecognized type in Legend file: " + roomConfigFile);
+						"Unrecognized type in Legend file: " + roomConfigFile
+								+ ", " + parts[2]);
 			}
 			legend.put(line.charAt(0), parts[1]);
 
@@ -142,10 +144,10 @@ public class Board {
 							"Mismatched column length. " + boardConfigFile);
 				}
 
-				if (legend.keySet().contains(parts[column].charAt(0))) {
+				if (!legend.keySet().contains(parts[column].charAt(0))) {
 					sc.close();
 					throw new BadConfigFormatException("Unrecognized initial. "
-							+ boardConfigFile);
+							+ boardConfigFile + ", " + parts[column].charAt(0));
 				}
 
 				if (parts[column].length() == 1) {
@@ -261,7 +263,7 @@ public class Board {
 	 * @param y
 	 * @return
 	 */
-	
+
 	public Set<BoardCell> getAdjList(int x, int y) {
 		// TODO Auto-generated method stub
 		return null;
@@ -274,19 +276,18 @@ public class Board {
 	 * @param y
 	 * @param pathLength
 	 */
-	
+
 	public void calcTargets(int x, int y, int pathLength) {
-		
-		
+
 	}
 
 	/**
-	 * Returns the valid targets 
+	 * Returns the valid targets
 	 * 
 	 * 
 	 * @return
 	 */
-	
+
 	public Set<BoardCell> getTargets() {
 		// TODO Auto-generated method stub
 		return null;

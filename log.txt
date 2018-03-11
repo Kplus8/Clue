@@ -1,2 +1,2 @@
 
-Unrecognized type in Legend file: data//CTest_ClueLegend.txt
+Unrecognized initial. data\Map.csv, G
