@@ -39,7 +39,7 @@ public class BoardCell {
 
 	@Override
 	public String toString() {
-		return "(" + row + ", " + column + ")";
+		return "(" + row + ", " + column + "): " + initial + ", " + dir;
 	}
 
 	@Override

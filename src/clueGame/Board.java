@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.Collections;
 
 /**
  * 
@@ -23,7 +24,7 @@ public class Board {
 	private int numCols;
 	private static BoardCell[][] board;
 	private Map<Character, String> legend;
-	private Map<BoardCell, Set<BoardCell>> adjMatrix;
+	private Map<BoardCell, HashSet<BoardCell>> adjMatrix;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	private String boardConfigFile;
@@ -86,6 +87,7 @@ public class Board {
 			e.printStackTrace();
 		}
 
+		adjMatrix = new HashMap<BoardCell, HashSet<BoardCell>>();
 		calcAdjacencies();
 
 	}
@@ -97,8 +99,7 @@ public class Board {
 	 * @throws BadConfigFormatException
 	 */
 
-	public void loadRoomConfig() throws FileNotFoundException,
-			BadConfigFormatException {
+	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
 
 		Scanner sc = new Scanner(new File(roomConfigFile));
 
@@ -110,8 +111,7 @@ public class Board {
 			} else {
 				sc.close();
 				throw new BadConfigFormatException(
-						"Unrecognized type in Legend file: " + roomConfigFile
-								+ ", " + parts[2]);
+						"Unrecognized type in Legend file: " + roomConfigFile + ", " + parts[2]);
 			}
 			legend.put(line.charAt(0), parts[1]);
 
@@ -127,8 +127,7 @@ public class Board {
 	 * @throws FileNotFoundException
 	 */
 
-	public void loadBoardConfig() throws FileNotFoundException,
-			BadConfigFormatException {
+	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
 
 		Scanner sc = new Scanner(new File(boardConfigFile));
 
@@ -143,35 +142,28 @@ public class Board {
 
 				if (parts.length != numCols) {
 					sc.close();
-					throw new BadConfigFormatException(
-							"Mismatched column length. " + boardConfigFile);
+					throw new BadConfigFormatException("Mismatched column length. " + boardConfigFile);
 				}
 
 				if (!legend.keySet().contains(parts[column].charAt(0))) {
 					sc.close();
-					throw new BadConfigFormatException("Unrecognized initial. "
-							+ boardConfigFile + ", " + parts[column].charAt(0));
+					throw new BadConfigFormatException(
+							"Unrecognized initial. " + boardConfigFile + ", " + parts[column].charAt(0));
 				}
 
 				if (parts[column].length() == 1) {
-					board[row][column] = new BoardCell(row, column,
-							parts[column].charAt(0), DoorDirection.NONE);
+					board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE);
 				} else {
 					if (parts[column].substring(1).equals("U")) {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.UP);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.UP);
 					} else if (parts[column].substring(1).equals("D")) {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.DOWN);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.DOWN);
 					} else if (parts[column].substring(1).equals("L")) {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.LEFT);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.LEFT);
 					} else if (parts[column].substring(1).equals("R")) {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.RIGHT);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.RIGHT);
 					} else {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.NONE);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE);
 					}
 
 				}
@@ -267,66 +259,87 @@ public class Board {
 
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
-
 				int l = board[i].length;
-				HashSet<BoardCell> temp = new HashSet<BoardCell>();
-				BoardCell bc;
+				int w = board.length;
+				if (getCellAt(i, j).getInitial() == 'W' || getCellAt(i, j).isDoorway()) {
 
-				if (i - 1 >= 0) {
-					bc = getCellAt(i - 1, j);
-					if (bc.isDoorway()) {
-						if (bc.getDoorDirection() == DoorDirection.UP) {
-							temp.add(bc);
-						}
-					} else {
-						if (bc.getInitial() == 'W') {
-							temp.add(bc);
-						}
-					}
-				}
-				if (j - 1 >= 0) {
-					bc = getCellAt(i, j - 1);
-					if (bc.isDoorway()) {
-						if (bc.getDoorDirection() == DoorDirection.RIGHT) {
-							temp.add(bc);
-						}
-					} else {
-						if (bc.getInitial() == 'W') {
-							temp.add(bc);
-						}
-					}
-				}
-				if (i + 1 <= l) {
-					bc = getCellAt(i + 1, j);
-					if (bc.isDoorway()) {
-						if (bc.getDoorDirection() == DoorDirection.DOWN) {
-							temp.add(bc);
-						}
-					} else {
-						if (bc.getInitial() == 'W') {
-							temp.add(bc);
-						}
-					}
-				}
-				if (j + 1 <= l) {
-					bc = getCellAt(i, j + 1);
-					if (bc.isDoorway()) {
-						if (bc.getDoorDirection() == DoorDirection.LEFT) {
-							temp.add(bc);
-						}
-					} else {
-						if (bc.getInitial() == 'W') {
-							temp.add(bc);
-						}
-					}
-				}
+					HashSet<BoardCell> temp = new HashSet<BoardCell>();
+					BoardCell bc;
 
-				// null pointer, not sure how to fix.
-				
-				if (temp.size() != 0) {
+					if (!getCellAt(i, j).isDoorway()) {
+						if (i + 1 < w) {
+							bc = getCellAt(i + 1, j);
+							if (bc.isDoorway()) {
+								if (bc.getDoorDirection() == DoorDirection.UP) {
+									temp.add(bc);
+								}
+							} else {
+								if (bc.getInitial() == 'W') {
+									temp.add(bc);
+								}
+							}
+						}
+						if (j - 1 >= 0) {
+							bc = getCellAt(i, j - 1);
+							if (bc.isDoorway()) {
+								if (bc.getDoorDirection() == DoorDirection.RIGHT) {
+									temp.add(bc);
+								}
+							} else {
+								if (bc.getInitial() == 'W') {
+									temp.add(bc);
+								}
+							}
+						}
+						if (i - 1 >= 0) {
+							bc = getCellAt(i - 1, j);
+							if (bc.isDoorway()) {
+								if (bc.getDoorDirection() == DoorDirection.DOWN) {
+									temp.add(bc);
+								}
+							} else {
+								if (bc.getInitial() == 'W') {
+									temp.add(bc);
+								}
+							}
+						}
+						if (j + 1 < l) {
+							bc = getCellAt(i, j + 1);
+							if (bc.isDoorway()) {
+								if (bc.getDoorDirection() == DoorDirection.LEFT) {
+									temp.add(bc);
+								}
+							} else {
+								if (bc.getInitial() == 'W') {
+									temp.add(bc);
+								}
+							}
+						}
+					} else {
+
+						if (getCellAt(i, j).getDoorDirection() == DoorDirection.LEFT) {
+
+							temp.add(getCellAt(i, j - 1));
+
+						} else if (getCellAt(i, j).getDoorDirection() == DoorDirection.RIGHT) {
+
+							temp.add(getCellAt(i, j + 1));
+
+						} else if (getCellAt(i, j).getDoorDirection() == DoorDirection.UP) {
+
+							temp.add(getCellAt(i - 1, j));
+
+						} else if (getCellAt(i, j).getDoorDirection() == DoorDirection.DOWN) {
+
+							temp.add(getCellAt(i + 1, j));
+
+						}
+
+					}
+
 					adjMatrix.put(getCellAt(i, j), temp);
 				} else {
-					adjMatrix.put(getCellAt(i,j), null);
+					adjMatrix.put(getCellAt(i, j), new HashSet<BoardCell>());
 				}
 			}
 		}
@@ -361,9 +374,17 @@ public class Board {
 		BoardCell startCell = getCellAt(x, y);
 		visited.add(startCell);
 		findAllTargets(startCell, pathLength);
-		
+
 	}
 
+	/**
+	 * Recursive method that calulcated targets.
+	 * Called by calcTargets, no need to call directly.
+	 * 
+	 * @param curCell
+	 * @param numSteps
+	 */
+	
 	public void findAllTargets(BoardCell curCell, int numSteps) {
 
 		for (BoardCell cell_t : adjMatrix.get(curCell)) {
@@ -372,10 +393,13 @@ public class Board {
 
 				visited.add(cell);
 				if (numSteps == 1) {
-					if (cell.getInitial() == 'W' || cell.isDoorway()) { // need to make sure that the wrong directions aren't accounted for
+					if (cell.getInitial() == 'W' || cell.isDoorway()) {
 						targets.add(cell);
 					}
 				} else {
+					if (cell.isDoorway()) {
+						targets.add(cell);
+					}
 					findAllTargets(cell, numSteps - 1);
 				}
 				visited.remove(cell);
@@ -384,7 +408,7 @@ public class Board {
 		}
 
 	}
-	
+
 	/**
 	 * Returns the valid targets
 	 * 
@@ -394,13 +418,6 @@ public class Board {
 
 	public Set<BoardCell> getTargets() {
 		return targets;
-	}
-
-	public static void main(String[] args) {
-		Board board = Board.getInstance();
-		board.setConfigFiles("data\\Map.csv", "data\\ClueRooms.txt");
-		board.initialize();
-
 	}
 
 }
