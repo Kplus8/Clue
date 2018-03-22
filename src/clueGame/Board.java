@@ -130,12 +130,12 @@ public class Board {
 			String line = sc.nextLine();
 			String[] parts = line.split(",");
 
+			if (parts.length != numCols) {
+				sc.close();
+				throw new BadConfigFormatException("Mismatched column length. " + boardConfigFile);
+			}
+			
 			for (int column = 0; column < parts.length; column++) {
-
-				if (parts.length != numCols) {
-					sc.close();
-					throw new BadConfigFormatException("Mismatched column length. " + boardConfigFile);
-				}
 
 				if (!legend.keySet().contains(parts[column].charAt(0))) {
 					sc.close();
