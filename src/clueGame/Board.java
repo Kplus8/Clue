@@ -107,8 +107,7 @@ public class Board {
 
 			String line = sc.nextLine();
 			String[] parts = line.split(", ");
-			if (parts[2].equals("Card") || parts[2].equals("Other")) {
-			} else {
+			if (!(parts[2].equals("Card") || parts[2].equals("Other"))) {
 				sc.close();
 				throw new BadConfigFormatException(
 						"Unrecognized type in Legend file: " + roomConfigFile + ", " + parts[2]);
@@ -355,7 +354,7 @@ public class Board {
 	 */
 
 	public Set<BoardCell> getAdjList(int x, int y) {
-		// TODO Auto-generated method stub
+
 		return adjMatrix.get(getCellAt(x, y));
 	}
 
