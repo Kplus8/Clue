@@ -73,16 +73,9 @@ public class Board {
 		legend = new HashMap<Character, String>();
 		board = new BoardCell[numRows][numCols];
 
-		// read in legend file
 		try {
-			loadRoomConfig();
-		} catch (FileNotFoundException | BadConfigFormatException e) {
-			e.printStackTrace();
-		}
-
-		// read in map file
-		try {
-			loadBoardConfig();
+			loadRoomConfig(); // read in legend file
+			loadBoardConfig(); // reads in board file
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			e.printStackTrace();
 		}
@@ -377,13 +370,13 @@ public class Board {
 	}
 
 	/**
-	 * Recursive method that calulcated targets.
-	 * Called by calcTargets, no need to call directly.
+	 * Recursive method that calulcated targets. Called by calcTargets, no need
+	 * to call directly.
 	 * 
 	 * @param curCell
 	 * @param numSteps
 	 */
-	
+
 	public void findAllTargets(BoardCell curCell, int numSteps) {
 
 		for (BoardCell cell_t : adjMatrix.get(curCell)) {
