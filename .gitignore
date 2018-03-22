@@ -7,6 +7,9 @@
 # Log file
 *.log
 
+# Javadoc Files
+/doc/
+
 # BlueJ files
 *.ctxt
 
