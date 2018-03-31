@@ -13,6 +13,7 @@ import java.util.Collections;
  * 
  * @author Jim DeBlock
  * @author Graham Kitchenka
+ * @author Brandon Verkamp
  *
  */
 
@@ -37,7 +38,11 @@ public class Board {
 	private Board() {
 	}
 
-	// this method returns the only Board
+	/**
+	 * Obtain the Board instance
+	 *
+	 * @return The Board singleton
+	 */
 	public static Board getInstance() {
 		return theInstance;
 	}
@@ -175,7 +180,7 @@ public class Board {
 	}
 
 	/**
-	 * Calculated number of cols and rows.
+	 * Calculates number of cols and rows.
 	 * 
 	 * @throws FileNotFoundException
 	 */
@@ -199,9 +204,7 @@ public class Board {
 	}
 
 	/**
-	 * Returns legend Map
-	 * 
-	 * @return
+	 * @return The legend Map
 	 */
 
 	public Map<Character, String> getLegend() {
@@ -210,9 +213,7 @@ public class Board {
 	}
 
 	/**
-	 * Returns number of rows
-	 * 
-	 * @return
+	 * @return Number of rows
 	 */
 
 	public int getNumRows() {
@@ -220,9 +221,7 @@ public class Board {
 	}
 
 	/**
-	 * Returns number of cols
-	 * 
-	 * @return
+	 * @return Number of cols
 	 */
 
 	public int getNumCols() {
@@ -230,11 +229,9 @@ public class Board {
 	}
 
 	/**
-	 * Returns the cell at pos (x, y)
-	 * 
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return The cell at pos (x, y)
 	 */
 
 	public BoardCell getCellAt(int x, int y) {
@@ -339,16 +336,15 @@ public class Board {
 	}
 
 	/**
-	 * Returns the AdjList for pos (i, j)
-	 * 
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return The AdjList for pos (x, y)
 	 */
 
 	public Set<BoardCell> getAdjList(int x, int y) {
 
 		return adjMatrix.get(getCellAt(x, y));
+
 	}
 
 	/**
@@ -356,7 +352,7 @@ public class Board {
 	 * 
 	 * @param x
 	 * @param y
-	 * @param pathLength
+	 * @param pathLength TODO what is this for?
 	 */
 
 	public void calcTargets(int x, int y, int pathLength) {
@@ -370,14 +366,14 @@ public class Board {
 	}
 
 	/**
-	 * Recursive method that calulcated targets. Called by calcTargets, no need
+	 * Recursive method that calulcates targets. Called by calcTargets, no need
 	 * to call directly.
 	 * 
-	 * @param curCell
-	 * @param numSteps
+	 * @param curCell The player's current cell
+	 * @param numSteps The number of steps to take (TODO: Is this correct?)
 	 */
 
-	public void findAllTargets(BoardCell curCell, int numSteps) {
+	public void findAllTargets(BoardCell curCell, int numSteps) { //TODO can be private
 
 		for (BoardCell cell_t : adjMatrix.get(curCell)) {
 			BoardCell cell = getCellAt(cell_t.getRow(), cell_t.getColumn());
@@ -402,10 +398,7 @@ public class Board {
 	}
 
 	/**
-	 * Returns the valid targets
-	 * 
-	 * 
-	 * @return
+	 * @return A collection of valid targets
 	 */
 
 	public Set<BoardCell> getTargets() {
