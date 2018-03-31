@@ -70,7 +70,7 @@ public class Board {
 			e.printStackTrace();
 		}
 
-		legend = new HashMap<Character, String>();
+		legend = new HashMap<>(); //"diamond" syntax is convenient if the key/value type of the collection is changed
 		board = new BoardCell[numRows][numCols];
 
 		try {
@@ -80,7 +80,7 @@ public class Board {
 			e.printStackTrace();
 		}
 
-		adjMatrix = new HashMap<BoardCell, HashSet<BoardCell>>();
+		adjMatrix = new HashMap<>();
 		calcAdjacencies();
 
 	}
@@ -255,7 +255,7 @@ public class Board {
 				int w = board.length;
 				if (getCellAt(i, j).getInitial() == 'W' || getCellAt(i, j).isDoorway()) {
 
-					HashSet<BoardCell> temp = new HashSet<BoardCell>();
+					HashSet<BoardCell> temp = new HashSet<>();
 					BoardCell bc;
 
 					if (!getCellAt(i, j).isDoorway()) {
@@ -331,7 +331,7 @@ public class Board {
 
 					adjMatrix.put(getCellAt(i, j), temp);
 				} else {
-					adjMatrix.put(getCellAt(i, j), new HashSet<BoardCell>());
+					adjMatrix.put(getCellAt(i, j), new HashSet<>());
 				}
 			}
 		}
@@ -361,8 +361,8 @@ public class Board {
 
 	public void calcTargets(int x, int y, int pathLength) {
 
-		targets = new HashSet<BoardCell>();
-		visited = new HashSet<BoardCell>();
+		targets = new HashSet<>();
+		visited = new HashSet<>();
 		BoardCell startCell = getCellAt(x, y);
 		visited.add(startCell);
 		findAllTargets(startCell, pathLength);
