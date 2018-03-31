@@ -373,7 +373,7 @@ public class Board {
 	 * @param numSteps The number of steps to take (TODO: Is this correct?)
 	 */
 
-	public void findAllTargets(BoardCell curCell, int numSteps) { //TODO can be private
+	private void findAllTargets(BoardCell curCell, int numSteps) {
 
 		for (BoardCell cell_t : adjMatrix.get(curCell)) {
 			BoardCell cell = getCellAt(cell_t.getRow(), cell_t.getColumn());
