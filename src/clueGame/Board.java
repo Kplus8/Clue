@@ -75,7 +75,9 @@ public class Board {
 			e.printStackTrace();
 		}
 
-		legend = new HashMap<>(); //"diamond" syntax is convenient if the key/value type of the collection is changed
+		legend = new HashMap<>(); // "diamond" syntax is convenient if the
+									// key/value type of the collection is
+									// changed
 		board = new BoardCell[numRows][numCols];
 
 		try {
@@ -139,7 +141,7 @@ public class Board {
 				sc.close();
 				throw new BadConfigFormatException("Mismatched column length. " + boardConfigFile);
 			}
-			
+
 			for (int column = 0; column < parts.length; column++) {
 
 				if (!legend.keySet().contains(parts[column].charAt(0))) {
@@ -352,7 +354,8 @@ public class Board {
 	 * 
 	 * @param x
 	 * @param y
-	 * @param pathLength TODO what is this for?
+	 * @param pathLength
+	 *            TODO what is this for?
 	 */
 
 	public void calcTargets(int x, int y, int pathLength) {
@@ -369,8 +372,10 @@ public class Board {
 	 * Recursive method that calulcates targets. Called by calcTargets, no need
 	 * to call directly.
 	 * 
-	 * @param curCell The player's current cell
-	 * @param numSteps The number of steps to take (TODO: Is this correct?)
+	 * @param curCell
+	 *            The player's current cell
+	 * @param numSteps
+	 *            The number of steps to take (TODO: Is this correct?)
 	 */
 
 	private void findAllTargets(BoardCell curCell, int numSteps) {
@@ -403,6 +408,22 @@ public class Board {
 
 	public Set<BoardCell> getTargets() {
 		return targets;
+	}
+
+	public void loadConfigFiles() {
+
+	}
+
+	public void selectAnswer() {
+
+	}
+
+	public Card handleSuggestions() {
+		return null;
+	}
+
+	public boolean checkAccusation() {
+		return false;
 	}
 
 }
