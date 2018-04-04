@@ -11,10 +11,12 @@ package clueGame;
 public class Card {
 
 	private String cardName;
+	private CardType ct;
 
-	public Card(String cardName) {
+	public Card(String cardName, CardType ct) {
 
 		this.cardName = cardName;
+		this.ct = ct;
 
 	}
 
@@ -30,11 +32,24 @@ public class Card {
 
 	}
 
+	/**
+	 * Returns card type
+	 * 
+	 * @return CardType
+	 */
+
+	public CardType getCardType() {
+
+		return ct;
+
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 
 		Card c = (Card) obj;
-		return c.getCardName().equals(this.getCardName());
+		return c.getCardName().equals(this.getCardName())
+				&& c.getCardType().equals(this.getCardType());
 
 	}
 

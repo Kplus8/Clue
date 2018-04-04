@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Collections;
+import java.util.Stack;
 
 /**
  * 
@@ -30,6 +31,10 @@ public class Board {
 	private Set<BoardCell> visited;
 	private String boardConfigFile;
 	private String roomConfigFile;
+	private String playerConfigFile;
+	private String weaponConfigFile;
+	private Stack<Card> deck;
+	private Player[] players;
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -58,6 +63,9 @@ public class Board {
 
 		boardConfigFile = layout;
 		roomConfigFile = legend;
+
+		playerConfigFile = "data\\people.txt";
+		weaponConfigFile = "data\\weapons.txt";
 
 	}
 
@@ -99,7 +107,8 @@ public class Board {
 	 * @throws BadConfigFormatException
 	 */
 
-	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
+	public void loadRoomConfig() throws FileNotFoundException,
+			BadConfigFormatException {
 
 		Scanner sc = new Scanner(new File(roomConfigFile));
 
@@ -110,7 +119,8 @@ public class Board {
 			if (!(parts[2].equals("Card") || parts[2].equals("Other"))) {
 				sc.close();
 				throw new BadConfigFormatException(
-						"Unrecognized type in Legend file: " + roomConfigFile + ", " + parts[2]);
+						"Unrecognized type in Legend file: " + roomConfigFile
+								+ ", " + parts[2]);
 			}
 			legend.put(line.charAt(0), parts[1]);
 
@@ -126,7 +136,8 @@ public class Board {
 	 * @throws FileNotFoundException
 	 */
 
-	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
+	public void loadBoardConfig() throws FileNotFoundException,
+			BadConfigFormatException {
 
 		Scanner sc = new Scanner(new File(boardConfigFile));
 
@@ -139,30 +150,37 @@ public class Board {
 
 			if (parts.length != numCols) {
 				sc.close();
-				throw new BadConfigFormatException("Mismatched column length. " + boardConfigFile);
+				throw new BadConfigFormatException("Mismatched column length. "
+						+ boardConfigFile);
 			}
 
 			for (int column = 0; column < parts.length; column++) {
 
 				if (!legend.keySet().contains(parts[column].charAt(0))) {
 					sc.close();
-					throw new BadConfigFormatException(
-							"Unrecognized initial. " + boardConfigFile + ", " + parts[column].charAt(0));
+					throw new BadConfigFormatException("Unrecognized initial. "
+							+ boardConfigFile + ", " + parts[column].charAt(0));
 				}
 
 				if (parts[column].length() == 1) {
-					board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE);
+					board[row][column] = new BoardCell(row, column,
+							parts[column].charAt(0), DoorDirection.NONE);
 				} else {
 					if (parts[column].substring(1).equals("U")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.UP);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.UP);
 					} else if (parts[column].substring(1).equals("D")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.DOWN);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.DOWN);
 					} else if (parts[column].substring(1).equals("L")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.LEFT);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.LEFT);
 					} else if (parts[column].substring(1).equals("R")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.RIGHT);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.RIGHT);
 					} else {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.NONE);
 					}
 
 				}
@@ -252,7 +270,8 @@ public class Board {
 			for (int j = 0; j < board[i].length; j++) {
 				int l = board[i].length;
 				int w = board.length;
-				if (getCellAt(i, j).getInitial() == 'W' || getCellAt(i, j).isDoorway()) {
+				if (getCellAt(i, j).getInitial() == 'W'
+						|| getCellAt(i, j).isDoorway()) {
 
 					HashSet<BoardCell> temp = new HashSet<>();
 					BoardCell bc;
@@ -412,6 +431,33 @@ public class Board {
 
 	public void loadConfigFiles() {
 
+		// load people
+		loadPeople();
+		// load deck
+		loadDeck();
+
+	}
+
+	private void loadPeople() {
+
+	}
+	
+	private void loadDeck() {
+
+	}
+
+	public void dealCards() {
+		
+	}
+	
+	public Stack<Card> getDeck() {
+		return deck;
+	}
+	
+	public Player[] getPeople() {
+
+		return players;
+		
 	}
 
 	public void selectAnswer() {

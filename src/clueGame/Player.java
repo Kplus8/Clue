@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 /**
  * 
@@ -16,6 +17,8 @@ public class Player {
 	private String playerName;
 	private int row, column;
 	private Color color;
+	private ArrayList<Card> cards;
+	private ArrayList<Card> seenCards;
 
 	public Player() {
 		super();
@@ -25,6 +28,18 @@ public class Player {
 		this.playerName = playerName;
 	}
 
+	public Color getColor() {
+		return color;
+	}
+	
+	public String getName() {
+		return playerName;
+	}
+	
+	public ArrayList<Card> getCards() {
+		return cards;
+	}
+	
 	/**
 	 * Converts a string to a color
 	 * 
