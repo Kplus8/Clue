@@ -21,6 +21,7 @@ import java.util.Stack;
 public class Board {
 
 	public static final int MAX_BOARD_SIZE = 50;
+	public static final int NUM_PLAYERS = 6;
 
 	private int numRows;
 	private int numCols;
@@ -34,6 +35,7 @@ public class Board {
 	private String playerConfigFile;
 	private String weaponConfigFile;
 	private Stack<Card> deck;
+	private Card[] chosenCards;
 	private Player[] players;
 
 	// variable used for singleton pattern
@@ -429,35 +431,140 @@ public class Board {
 		return targets;
 	}
 
+	/**
+	 * Loads people and the deck
+	 */
+	
 	public void loadConfigFiles() {
 
-		// load people
-		loadPeople();
-		// load deck
-		loadDeck();
+		try {
+			// load people
+			loadPeople();
+			// load deck
+			loadDeck();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
 	}
 
-	private void loadPeople() {
-
-	}
+	/**
+	 * Loads in people from the file
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	
-	private void loadDeck() {
+	private void loadPeople() throws FileNotFoundException {
+
+		Scanner sc = new Scanner(new File(playerConfigFile));
+
+		players = new Player[NUM_PLAYERS];
+		int i = 0;
+
+		while (sc.hasNextLine()) {
+
+			String line = sc.nextLine();
+			String[] parts = line.split(", ");
+			players[i] = new Player(parts[0], parts[1]);
+			i++;
+		}
+
+		sc.close();
 
 	}
 
+	/**
+	 * Loads deck from files
+	 * 
+	 * @throws FileNotFoundException
+	 */
+	
+	private void loadDeck() throws FileNotFoundException {
+
+		deck = new Stack<>();
+
+		// gets weapons
+		Scanner sc = new Scanner(new File(weaponConfigFile));
+		while (sc.hasNextLine()) {
+			String line = sc.nextLine();
+			deck.push(new Card(line, CardType.WEAPON));
+		}
+		sc.close();
+
+		// gets rooms
+		Scanner rSc = new Scanner(new File(roomConfigFile));
+		while (rSc.hasNextLine()) {
+			String line = rSc.nextLine();
+			String[] parts = line.split(", ");
+			if (parts[2].equals("Card")) {
+				deck.push(new Card(parts[1], CardType.ROOM));
+			}
+		}
+		rSc.close();
+
+		// gets players
+		for (Player p : players) {
+			deck.push(new Card(p.getName(), CardType.PERSON));
+		}
+	}
+
+	/**
+	 * Deals out cards to each player
+	 */
+	
 	public void dealCards() {
+
+		deck = randomize(deck);
+
+		int i = 0;
+		
+		while(deck.size() != 0) {
+			
+			players[i].giveCard(deck.pop());
+			i++;
+			if (i == NUM_PLAYERS) {
+				i = 0;
+			}
+			
+		}
+		
 		
 	}
+
+	/**
+	 * Randomizes the deck, as well as choosing one card of each type
+	 * 
+	 * NOT YET IMPLEMENTED!
+	 * currently removes 3 cards from the deck to simulate choosing the 3 cards
+	 * and returns the unrandomized deck.
+	 * 
+	 * @param deck
+	 * @return randomized deck
+	 */
+	private Stack<Card> randomize(Stack<Card> deck) {
+		Card c;
+		c = deck.pop();
+		c = deck.pop();
+		c = deck.pop();
+		return deck;
+	}
+	
+	/**
+	 * @return deck
+	 */
 	
 	public Stack<Card> getDeck() {
 		return deck;
 	}
+
+	/**
+	 * @return players
+	 */
 	
 	public Player[] getPeople() {
 
 		return players;
-		
+
 	}
 
 	public void selectAnswer() {

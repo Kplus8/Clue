@@ -50,9 +50,9 @@ public class GameSetupTests {
 		for (Player p : players) {
 
 			if (p.getName().equals("Colonel Mustard")) {
-				assertTrue(p.getColor().equals(p.convertColor("Yellow")));
+				assertTrue(p.getColor().equals(p.convertColor("yellow")));
 			} else if (p.getName().equals("Professor Plum")) {
-				assertTrue(p.getColor().equals(p.convertColor("Purple")));
+				assertTrue(p.getColor().equals(p.convertColor("magenta")));
 			}
 
 		}
@@ -110,8 +110,13 @@ public class GameSetupTests {
 	@Test
 	public void testDealCards() {
 
-		board.dealCards();
+		// since the previous test popped cards off the deck, have to reinitialize it
+		board.loadConfigFiles();
+		
 		Stack<Card> deck = board.getDeck();
+		assertEquals(deck.size(), (6 + 6 + 9)); // 6 people, 6 weapons, 9 rooms
+		board.dealCards();
+		deck = board.getDeck();
 
 		assertEquals(deck.size(), 0); // all cards are dealt
 
@@ -119,5 +124,8 @@ public class GameSetupTests {
 		for (Player p : players) {
 			assertEquals(p.getCards().size(), 3); // all players get 3 cards
 		}
+		
+		// since cards are removed as they are dealt it is impossible to deal the same card twice,
+		// so we did not test for this.
 	}
 }

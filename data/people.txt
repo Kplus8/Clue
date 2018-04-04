@@ -1,6 +1,6 @@
-Professor Plum, Purple
-Colonel Mustard, Yellow
-Miss Scarlet, Red
-Mr. Green, Green
-Mrs. Peacock, Blue
-Mrs. White, White
+Professor Plum, magenta
+Colonel Mustard, yellow
+Miss Scarlet, red
+Mr. Green, green
+Mrs. Peacock, blue
+Mrs. White, white

@@ -23,23 +23,50 @@ public class Player {
 	public Player() {
 		super();
 	}
-	
-	public Player(String playerName) {
+
+	public Player(String playerName, String color) {
 		this.playerName = playerName;
+		this.color = convertColor(color);
+		
+		cards = new ArrayList<>();
+		seenCards = new ArrayList<>();
 	}
 
+	/**
+	 * @return color
+	 */
+	
 	public Color getColor() {
 		return color;
 	}
+
+	/**
+	 * @return name
+	 */
 	
 	public String getName() {
 		return playerName;
 	}
+
+	/**
+	 * @return cards
+	 */
 	
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
-	
+
+	/**
+	 * Adds the specified card to this player's cards
+	 * @param card
+	 */
+
+	public void giveCard(Card c) {
+
+		cards.add(c);
+		
+	}
+
 	/**
 	 * Converts a string to a color
 	 * 
@@ -51,7 +78,7 @@ public class Player {
 		Color color;
 		try {
 			// We can use reflection to convert the string to a color
-			Field field = Class.forName("java.awt.Color").getField(strColor.trim());
+			Field field = Class.forName("java.awt.Color").getField(strColor);
 			color = (Color) field.get(null);
 		} catch (Exception e) {
 			color = null; // Not defined
