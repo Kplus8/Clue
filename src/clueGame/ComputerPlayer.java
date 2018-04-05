@@ -10,7 +10,6 @@ import java.util.HashSet;
  * @author Brandon Verkamp
  */
 public class ComputerPlayer extends Player{
-
 	/**
 	 * Picks a location to move to
 	 * @param targets

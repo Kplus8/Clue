@@ -73,7 +73,7 @@ public class Board {
 		// get numRows and numCols
 		try {
 			readRowsCols();
-		} catch (FileNotFoundException e) {
+		} catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
@@ -83,7 +83,7 @@ public class Board {
 		try {
 			loadRoomConfig(); // read in legend file
 			loadBoardConfig(); // reads in board file
-		} catch (FileNotFoundException | BadConfigFormatException e) { //FIXME technically bad form (catch different exceptions separately)
+		} catch(FileNotFoundException | BadConfigFormatException e) { //FIXME technically bad form (catch different exceptions separately)
 			e.printStackTrace();
 		}
 
@@ -100,10 +100,10 @@ public class Board {
 	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
 		Scanner sc = new Scanner(new File(roomConfigFile));
 
-		while (sc.hasNextLine()) {
+		while(sc.hasNextLine()) {
 			String line = sc.nextLine();
 			String[] parts = line.split(", ");
-			if (!(parts[2].equals("Card") || parts[2].equals("Other"))) {
+			if(!(parts[2].equals("Card") || parts[2].equals("Other"))) {
 				sc.close();
 				throw new BadConfigFormatException("Unrecognized type in Legend file: " +
 						roomConfigFile + ", " + parts[2]);
@@ -123,37 +123,37 @@ public class Board {
 		Scanner sc = new Scanner(new File(boardConfigFile));
 		int row = 0;
 
-		while (sc.hasNextLine()) {
+		while(sc.hasNextLine()) {
 			String line = sc.nextLine();
 			String[] parts = line.split(",");
 
-			if (parts.length != numCols) {
+			if(parts.length != numCols) {
 				sc.close();
 				throw new BadConfigFormatException("Mismatched column length. "
 						+ boardConfigFile);
 			}
 
-			for (int column = 0; column < parts.length; column++) {
-				if (!legend.keySet().contains(parts[column].charAt(0))) {
+			for(int column = 0; column < parts.length; column++) {
+				if(!legend.keySet().contains(parts[column].charAt(0))) {
 					sc.close();
 					throw new BadConfigFormatException("Unrecognized initial. "
 							+ boardConfigFile + ", " + parts[column].charAt(0));
 				}
 
-				if (parts[column].length() == 1) {
+				if(parts[column].length() == 1) {
 					board[row][column] = new BoardCell(row, column,
 							parts[column].charAt(0), DoorDirection.NONE);
 				} else {
-					if (parts[column].substring(1).equals("U")) {
+					if(parts[column].substring(1).equals("U")) {
 						board[row][column] = new BoardCell(row, column,
 								parts[column].charAt(0), DoorDirection.UP);
-					} else if (parts[column].substring(1).equals("D")) {
+					} else if(parts[column].substring(1).equals("D")) {
 						board[row][column] = new BoardCell(row, column,
 								parts[column].charAt(0), DoorDirection.DOWN);
-					} else if (parts[column].substring(1).equals("L")) {
+					} else if(parts[column].substring(1).equals("L")) {
 						board[row][column] = new BoardCell(row, column,
 								parts[column].charAt(0), DoorDirection.LEFT);
-					} else if (parts[column].substring(1).equals("R")) {
+					} else if(parts[column].substring(1).equals("R")) {
 						board[row][column] = new BoardCell(row, column,
 								parts[column].charAt(0), DoorDirection.RIGHT);
 					} else {
@@ -168,7 +168,7 @@ public class Board {
 
 		sc.close();
 
-		if (row != numRows) {
+		if(row != numRows) {
 			throw new BadConfigFormatException("Mismatched column length.");
 		}
 	}
@@ -184,7 +184,7 @@ public class Board {
 		numRows = 0;
 
 		Scanner sc = new Scanner(new File(boardConfigFile));
-		while (sc.hasNextLine()) {
+		while(sc.hasNextLine()) {
 			String[] parts = sc.nextLine().split(",");
 			numRows++;
 			numCols = parts.length;
@@ -229,71 +229,71 @@ public class Board {
 	 */
 
 	public void calcAdjacencies() {
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[i].length; j++) {
+		for(int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board[i].length; j++) {
 				int l = board[i].length;
 				int w = board.length;
-				if (getCellAt(i, j).getInitial() == 'W' || getCellAt(i, j).isDoorway()) {
+				if(getCellAt(i, j).getInitial() == 'W' || getCellAt(i, j).isDoorway()) {
 					HashSet<BoardCell> temp = new HashSet<>();
 					BoardCell bc;
 
-					if (!getCellAt(i, j).isDoorway()) {
-						if (i + 1 < w) {
+					if(!getCellAt(i, j).isDoorway()) {
+						if(i + 1 < w) {
 							bc = getCellAt(i + 1, j);
-							if (bc.isDoorway()) {
-								if (bc.getDoorDirection() == DoorDirection.UP) {
+							if(bc.isDoorway()) {
+								if(bc.getDoorDirection() == DoorDirection.UP) {
 									temp.add(bc);
 								}
 							} else {
-								if (bc.getInitial() == 'W') {
+								if(bc.getInitial() == 'W') {
 									temp.add(bc);
 								}
 							}
 						}
-						if (j - 1 >= 0) {
+						if(j - 1 >= 0) {
 							bc = getCellAt(i, j - 1);
-							if (bc.isDoorway()) {
-								if (bc.getDoorDirection() == DoorDirection.RIGHT) {
+							if(bc.isDoorway()) {
+								if(bc.getDoorDirection() == DoorDirection.RIGHT) {
 									temp.add(bc);
 								}
 							} else {
-								if (bc.getInitial() == 'W') {
+								if(bc.getInitial() == 'W') {
 									temp.add(bc);
 								}
 							}
 						}
-						if (i - 1 >= 0) {
+						if(i - 1 >= 0) {
 							bc = getCellAt(i - 1, j);
-							if (bc.isDoorway()) {
-								if (bc.getDoorDirection() == DoorDirection.DOWN) {
+							if(bc.isDoorway()) {
+								if(bc.getDoorDirection() == DoorDirection.DOWN) {
 									temp.add(bc);
 								}
 							} else {
-								if (bc.getInitial() == 'W') {
+								if(bc.getInitial() == 'W') {
 									temp.add(bc);
 								}
 							}
 						}
-						if (j + 1 < l) {
+						if(j + 1 < l) {
 							bc = getCellAt(i, j + 1);
-							if (bc.isDoorway()) {
-								if (bc.getDoorDirection() == DoorDirection.LEFT) {
+							if(bc.isDoorway()) {
+								if(bc.getDoorDirection() == DoorDirection.LEFT) {
 									temp.add(bc);
 								}
 							} else {
-								if (bc.getInitial() == 'W') {
+								if(bc.getInitial() == 'W') {
 									temp.add(bc);
 								}
 							}
 						}
 					} else {
-						if (getCellAt(i, j).getDoorDirection() == DoorDirection.LEFT) {
+						if(getCellAt(i, j).getDoorDirection() == DoorDirection.LEFT) {
 							temp.add(getCellAt(i, j - 1));
-						} else if (getCellAt(i, j).getDoorDirection() == DoorDirection.RIGHT) {
+						} else if(getCellAt(i, j).getDoorDirection() == DoorDirection.RIGHT) {
 							temp.add(getCellAt(i, j + 1));
-						} else if (getCellAt(i, j).getDoorDirection() == DoorDirection.UP) {
+						} else if(getCellAt(i, j).getDoorDirection() == DoorDirection.UP) {
 							temp.add(getCellAt(i - 1, j));
-						} else if (getCellAt(i, j).getDoorDirection() == DoorDirection.DOWN) {
+						} else if(getCellAt(i, j).getDoorDirection() == DoorDirection.DOWN) {
 							temp.add(getCellAt(i + 1, j));
 						}
 					}
@@ -341,16 +341,16 @@ public class Board {
 	 *            The number of steps to take (TODO: Is this correct?)
 	 */
 	private void findAllTargets(BoardCell curCell, int numSteps) {
-		for (BoardCell cell_t : adjMatrix.get(curCell)) {
+		for(BoardCell cell_t : adjMatrix.get(curCell)) {
 			BoardCell cell = getCellAt(cell_t.getRow(), cell_t.getColumn());
-			if (!visited.contains(cell)) {
+			if(!visited.contains(cell)) {
 				visited.add(cell);
-				if (numSteps == 1) {
-					if (cell.getInitial() == 'W' || cell.isDoorway()) {
+				if(numSteps == 1) {
+					if(cell.getInitial() == 'W' || cell.isDoorway()) {
 						targets.add(cell);
 					}
 				} else {
-					if (cell.isDoorway()) {
+					if(cell.isDoorway()) {
 						targets.add(cell);
 					}
 					findAllTargets(cell, numSteps - 1);
@@ -374,7 +374,7 @@ public class Board {
 		try {
 			loadPeople(); // load people
 			loadDeck(); // load deck
-		} catch (FileNotFoundException e) {
+		} catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
@@ -389,7 +389,7 @@ public class Board {
 		players = new Player[NUM_PLAYERS];
 		int i = 0;
 
-		while (sc.hasNextLine()) {
+		while(sc.hasNextLine()) {
 			String line = sc.nextLine();
 			String[] parts = line.split(", ");
 			players[i] = new Player(parts[0], parts[1]);
@@ -409,7 +409,7 @@ public class Board {
 
 		// gets weapons
 		Scanner sc = new Scanner(new File(weaponConfigFile));
-		while (sc.hasNextLine()) {
+		while(sc.hasNextLine()) {
 			String line = sc.nextLine();
 			deck.push(new Card(line, CardType.WEAPON));
 		}
@@ -417,17 +417,17 @@ public class Board {
 
 		// gets rooms
 		Scanner rSc = new Scanner(new File(roomConfigFile));
-		while (rSc.hasNextLine()) {
+		while(rSc.hasNextLine()) {
 			String line = rSc.nextLine();
 			String[] parts = line.split(", ");
-			if (parts[2].equals("Card")) {
+			if(parts[2].equals("Card")) {
 				deck.push(new Card(parts[1], CardType.ROOM));
 			}
 		}
 		rSc.close();
 
 		// gets players
-		for (Player p : players) {
+		for(Player p : players) {
 			deck.push(new Card(p.getName(), CardType.PERSON));
 		}
 	}
@@ -442,7 +442,7 @@ public class Board {
 		while(deck.size() != 0) {
 			players[i].giveCard(deck.pop());
 			i++;
-			if (i == NUM_PLAYERS) {
+			if(i == NUM_PLAYERS) {
 				i = 0;
 			}
 		}

@@ -71,7 +71,7 @@ public class Player {
 			// We can use reflection to convert the string to a color
 			Field field = Class.forName("java.awt.Color").getField(strColor);
 			color = (Color) field.get(null);
-		} catch (Exception e) {
+		} catch(Exception e) {
 			color = null; // Not defined
 		}
 		return color;

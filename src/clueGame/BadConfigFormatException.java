@@ -29,7 +29,7 @@ public class BadConfigFormatException extends Exception {
 		super(message);
 		try {
 			log(message);
-		} catch (IOException e) {
+		} catch(IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

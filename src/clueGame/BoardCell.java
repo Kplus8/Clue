@@ -48,7 +48,7 @@ public class BoardCell {
 	}
 
 	public boolean isDoorway() {
-		if (dir ==DoorDirection.NONE) {
+		if(dir ==DoorDirection.NONE) {
 			return false;
 		} else {
 			return true;
@@ -60,7 +60,7 @@ public class BoardCell {
 	}
 
 	public boolean isWalkway() {
-		if (initial == 'W') {
+		if(initial == 'W') {
 			return true;
 		} else {
 			return false;
