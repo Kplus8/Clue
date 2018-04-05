@@ -9,6 +9,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -30,7 +31,7 @@ public class FileTests {
 	@BeforeClass
 	public static void setUp() {
 		board = Board.getInstance();
-		board.setConfigFiles("data\\Map.csv", "data\\ClueRooms.txt");
+		board.setConfigFiles("data" + File.separatorChar + "Map.csv", "data" + File.separatorChar + "ClueRooms.txt");
 		board.initialize();
 	}
 

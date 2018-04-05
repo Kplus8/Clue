@@ -4,6 +4,7 @@ package tests;
  * This program tests that adjacencies and targets are calculated correctly.
  */
 
+import java.io.File;
 import java.util.Set;
 
 //Doing a static import allows me to write assertEquals rather than
@@ -24,7 +25,7 @@ public class CTest_BoardAdjTargetTests {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
-		board.setConfigFiles("data\\CTest_ClueLayout.csv", "data\\CTest_ClueLegend.txt");		
+		board.setConfigFiles("data" + File.separatorChar + "CTest_ClueLayout.csv", "data" + File.separatorChar + "CTest_ClueLegend.txt");
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}

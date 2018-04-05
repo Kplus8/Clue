@@ -4,6 +4,8 @@ package tests;
  * This program tests that adjacencies and targets are calculated correctly.
  */
 
+import java.io.File;
+import java.nio.file.FileSystem;
 import java.util.Set;
 
 //Doing a static import allows to write assertEquals rather than
@@ -17,14 +19,14 @@ import clueGame.BoardCell;
 
 public class BoardAdjTargetTests {
 	// We make the Board static because we can load it one time and 
-	// then do all the tests. 
+	// then do all the tests.
 	private static Board board;
 	@BeforeClass
 	public static void setUp() {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
-		board.setConfigFiles("data\\Map.csv", "data\\ClueRooms.txt");		
+		board.setConfigFiles("data" + File.separatorChar +"Map.csv", "data" + File.separatorChar + "ClueRooms.txt");
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}
