@@ -1,2 +1,274 @@
+commit 32f03caa9eeca846bfdac86fb4523e7533c4307a
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Thu Apr 5 15:48:50 2018 -0600
 
-Unrecognized type in Legend file: data/CTest_ClueLegendBadFormat.txt, X
+    Added note about recent changes to README
+
+commit 6f9e89546d8f8d55ae39a8932d410c6a9570b19d
+Merge: 94bee97 be0a078
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Wed Apr 4 23:44:27 2018 -0600
+
+    Merge remote-tracking branch 'origin/filesep-test' into filesep-test
+    
+    # Conflicts:
+    #       src/clueGame/Board.java
+    #       src/clueGame/BoardCell.java
+    #       src/tests/BoardAdjTargetTests.java
+    #       src/tests/CTest_ExceptionTests.java
+
+commit 94bee97b7929a588482f3d97f0fd9d277cbcd19b
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Wed Apr 4 22:21:55 2018 -0600
+
+    Made file paths a little more Linux-friendly. UNTESTED ON WINDOWS.
+
+commit 387382cecdfedb316c72aaa98b7d8c8f64252398
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Wed Apr 4 22:53:25 2018 -0600
+
+    Unified style and added some descriptions/comments
+
+commit 979e0612bc06fe4febad94742687952fe05c67ba
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Wed Apr 4 22:27:38 2018 -0600
+
+    Made setConfigFiles calls a little prettier
+
+commit 55063999cfe8b07ba5084f30c98ee9b756c95dfa
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Wed Apr 4 22:21:55 2018 -0600
+
+    Made file paths a little more Linux-friendly. UNTESTED ON WINDOWS.
+
+commit 7559054b070aa1be373849edf110bfe1999ca547
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Wed Apr 4 23:37:02 2018 -0600
+
+    Style improvements
+
+commit 8da05db6985f5aa7224dc5b955bb50de6283cb60
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Wed Apr 4 23:28:10 2018 -0600
+
+    More style improvements - space between reserved words and argument parentheses
+
+commit 9525187d620f82b973a9fa212eeebeed3926be58
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Wed Apr 4 23:20:57 2018 -0600
+
+    Improved style consistency in tests
+
+commit 6ba07e9e00553a253a3138ec5bb7ca119c0915c8
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Wed Apr 4 23:01:51 2018 -0600
+
+    Added note about filesep-test branch to README
+
+commit 26c4d601b259617e43b943f1c13417bfc1077591
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Wed Apr 4 22:53:25 2018 -0600
+
+    Unified style and added some descriptions/comments
+    
+    (cherry picked from commit be0a078)
+
+commit be0a078ff9df25cfe32ec4b11bb853c2fb581b6c
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Wed Apr 4 22:53:25 2018 -0600
+
+    Unified style and added some descriptions/comments
+
+commit 566022eb97d558a0debf42180f14c5919666d0f9
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Wed Apr 4 22:27:38 2018 -0600
+
+    Made setConfigFiles calls a little prettier
+
+commit 562c5e50f0202c8143738dc5863cbf20e2d8cdb6
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Wed Apr 4 22:21:55 2018 -0600
+
+    Made file paths a little more Linux-friendly. UNTESTED ON WINDOWS.
+
+commit ee58eb1023a260a9a00d5d6d10aee15eb5b6d239
+Author: BuildTools <unconfigured@null.spigotmc.org>
+Date:   Wed Apr 4 17:35:13 2018 -0600
+
+    Finished writing GameSetup methods
+
+commit 396cb4571b52488360b3c85172c8ded6e7d4c01d
+Author: BuildTools <unconfigured@null.spigotmc.org>
+Date:   Wed Apr 4 16:52:04 2018 -0600
+
+    Wrote all GameSetup Tests (removed all tests that were considered gameActionTests), they all fail
+
+commit 698114375114ae60f5d7cb61aca596130d7bb011
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Tue Apr 3 16:44:28 2018 -0600
+
+    Added empty tests for GameSetup
+
+commit cc064ac56a664d900d7321651ea55edd96f66125
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Tue Apr 3 16:30:54 2018 -0600
+
+    Added classes for Player Part 1
+
+commit 123acc3c35ffca13de9e6423c7cde2e28a7e4387
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Fri Mar 30 20:34:58 2018 -0600
+
+    Made findAllTargets private - this method is only used within its class
+
+commit 5d2d380b0e55aa4f9e49c4abf4c00c0d1e941615
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Fri Mar 30 20:34:06 2018 -0600
+
+    Refactored javadoc to specify parameter meaning and return values in many cases
+
+commit 14b2125b1a2079439ff7d6bd818d88e671ac1716
+Author: Brandon Verkamp <jadelclemens@gmail.com>
+Date:   Fri Mar 30 20:15:26 2018 -0600
+
+    Changed generic type assignments to use (empty) diamond format, making potential type changes easier
+
+commit 3b1aec772babb5303fb3c5ae475ca7eaa8c91f49
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Thu Mar 22 16:44:31 2018 -0600
+
+    Moved an if statement from inside a loop to outside to increase readability.
+
+commit 9ae82fffeca53d79fcadcf22d91574bc26c3bc39
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Thu Mar 22 16:37:37 2018 -0600
+
+    Reduced number of try catches in initialize
+
+commit 07d15eda302400a65e89e26f5d1ea25afc002817
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Thu Mar 22 16:35:31 2018 -0600
+
+    Removed javadoc folder from git
+
+commit d2331d238ddc46b183498c0e7ec3f0b2e41530f6
+Author: Kplus8 <35977528+Kplus8@users.noreply.github.com>
+Date:   Thu Mar 22 16:33:02 2018 -0600
+
+    Update to ignore javadoc folder
+
+commit 6c588a246efd787514cb81dad87fe7c695089844
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Thu Mar 22 16:30:26 2018 -0600
+
+    Changed syntax of an if statement so it would be not, as opposed to being empty and just using else.
+
+commit a3bd93861e952c4d32a7e9ae325fac45417d0b0b
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Tue Mar 13 17:03:49 2018 -0600
+
+    Finished writing calcAdjacencies and findTargets, all tests pass.
+
+commit 987bd8edc18955630b91d0300dbcc496fe0e3216
+Author: BuildTools <unconfigured@null.spigotmc.org>
+Date:   Sun Mar 11 16:40:17 2018 -0700
+
+    Almost added all mothods, there are some errors.
+
+commit bbe8735cbd24fb50012dc876daa846aa9d9888a5
+Author: BuildTools <unconfigured@null.spigotmc.org>
+Date:   Sun Mar 11 15:02:09 2018 -0700
+
+    Fixed some errors with throwing BadConfigFormatExceptions
+
+commit ec8d5deae832ef101a6712722f151adab72fd4d1
+Author: BuildTools <unconfigured@null.spigotmc.org>
+Date:   Sun Mar 11 14:37:27 2018 -0700
+
+    Finished creating AdjTargetTests
+
+commit 43344ab33413fcf2cd3127bfaf90245425f9d5ae
+Author: Graham Kitchenka <kitchenka@mymail.mines.edu>
+Date:   Tue Mar 6 16:42:54 2018 -0700
+
+    BoardAdjTargetsTest written halfway progress marked by ///////////// in file
+
+commit 1bba3681e49e094e5f9a25b1b322255d50474080
+Author: Graham Kitchenka <kitchenka@mymail.mines.edu>
+Date:   Tue Mar 6 15:46:35 2018 -0700
+
+    Add CTest_BoardAdjTargetTests testing file
+
+commit cd1a13ff7ed4f14a0a73dd8f5f2ce943dfc1a1f4
+Author: BuildTools <unconfigured@null.spigotmc.org>
+Date:   Mon Mar 5 19:08:41 2018 -0700
+
+    Finished next part. Completed Board class, all tests pass.
+
+commit 3217446b43b57658845f0414fa0a5647abea4ec5
+Author: BuildTools <unconfigured@null.spigotmc.org>
+Date:   Sun Mar 4 20:52:18 2018 -0700
+
+    Finished creating tests for the file init process, skeleton classes at this point.
+
+commit a40610a53eb58781b29fb010c4e87ef2e761b3c5
+Author: BuildTools <unconfigured@null.spigotmc.org>
+Date:   Sun Mar 4 16:00:30 2018 -0700
+
+    Fixed all errors that were present. Added skeleton test file
+
+commit ee5a622020a48d66e2162151bbc7b488a0357d7e
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Thu Mar 1 16:52:59 2018 -0700
+
+    Started next part, created clueGame package
+
+commit 71c951baa06bb206d1e2ba12e190788216524c97
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Thu Mar 1 16:00:41 2018 -0700
+
+    Commented code
+
+commit 00e5a0e93553e211f05ef749206d7e06eb4dda6d
+Author: jdeblock <35852639+jdeblock@users.noreply.github.com>
+Date:   Thu Mar 1 13:08:26 2018 -0700
+
+    Added .settings to gitignore
+
+commit 92ce912eaa41c4fd45a6250ff00f95ce028d6623
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Thu Mar 1 13:03:38 2018 -0700
+
+    Uncommented toString() of BoardCell. Readded files that got lost to Git.
+
+commit fe1dd8bb71549a49121a646b44a01afeb1da4261
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Thu Mar 1 12:55:46 2018 -0700
+
+    Finished Part 2, fixed Instance Errors
+
+commit 813e076d2346ffa334793bc6aa6ccf4c8f0a4486
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Tue Feb 27 17:43:38 2018 -0700
+
+    Almost completed Part 2 - Instance Errors
+
+commit 620bfebdc82f217cfca44c871b143db46f0eeacc
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Tue Feb 27 16:18:19 2018 -0700
+
+    Part 1 completed
+
+commit 1021e5d5e00b437e8849636497f7d9c6701d4433
+Author: Kplus8 <35977528+Kplus8@users.noreply.github.com>
+Date:   Tue Feb 27 15:50:41 2018 -0700
+
+    Update .gitignore
+    
+    edit .gitignore
+
+commit d6598649ce9cb9c8129c03c2821b3000355fbd37
+Author: Kplus8 <35977528+Kplus8@users.noreply.github.com>
+Date:   Tue Feb 27 15:49:54 2018 -0700
+
+    Initial commit
