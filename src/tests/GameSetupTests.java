@@ -14,15 +14,13 @@ import clueGame.CardType;
 import clueGame.Player;
 
 /**
- * 
+ * Tests to see if file load/game setup works properly
+ *
  * @author Jim DeBlock
  * @author Graham Kitchenka
  * @author Brandon Verkamp
- *
  */
-
 public class GameSetupTests {
-
 	private static Board board;
 
 	@BeforeClass
@@ -41,27 +39,21 @@ public class GameSetupTests {
 	 * Tests that some of the people are loaded correctly. Also checks the
 	 * colors of said players
 	 */
-
 	@Test
 	public void testLoadingPeople() {
-
 		Player[] players = board.getPeople();
 
-		for (Player p : players) {
-
-			if (p.getName().equals("Colonel Mustard")) {
+		for(Player p : players) {
+			if(p.getName().equals("Colonel Mustard")) {
 				assertTrue(p.getColor().equals(p.convertColor("yellow")));
-			} else if (p.getName().equals("Professor Plum")) {
+			} else if(p.getName().equals("Professor Plum")) {
 				assertTrue(p.getColor().equals(p.convertColor("magenta")));
 			}
-
 		}
-
 	}
 
 	@Test
 	public void testLoadDeck() {
-
 		Stack<Card> deck = board.getDeck();
 
 		assertEquals(deck.size(), (6 + 6 + 9)); // 6 people, 6 weapons, 9 rooms
@@ -70,46 +62,44 @@ public class GameSetupTests {
 		ArrayList<Card> weapons = new ArrayList<>();
 		ArrayList<Card> rooms = new ArrayList<>();
 
-		for (int i = 0; i < 21; i++) {
+		for(int i = 0; i < 21; i++) {
 			Card c = deck.pop();
-			if (c.getCardType().equals(CardType.PERSON)) {
+			if(c.getCardType().equals(CardType.PERSON)) {
 				people.add(c);
-			} else if (c.getCardType().equals(CardType.ROOM)) {
+			} else if(c.getCardType().equals(CardType.ROOM)) {
 				rooms.add(c);
-			} else if (c.getCardType().equals(CardType.WEAPON)) {
+			} else if(c.getCardType().equals(CardType.WEAPON)) {
 				weapons.add(c);
 			}
 		}
 
 		assertEquals(people.size(), 6);
-		for (Card c : people) {
-			if (c.getCardName().equals("Colonel Mustard")) {
+		for(Card c : people) {
+			if(c.getCardName().equals("Colonel Mustard")) {
 				assertTrue(true); // Colonel Mustard is in List
 				break;
 			}
 		}
 
 		assertEquals(weapons.size(), 6);
-		for (Card c : weapons) {
-			if (c.getCardName().equals("CandleStick")) {
+		for(Card c : weapons) {
+			if(c.getCardName().equals("CandleStick")) {
 				assertTrue(true); // Candlestick is in List
 				break;
 			}
 		}
 
 		assertEquals(rooms.size(), 9);
-		for (Card c : rooms) {
-			if (c.getCardName().equals("Den")) {
+		for(Card c : rooms) {
+			if(c.getCardName().equals("Den")) {
 				assertTrue(true); // Den is in List
 				break;
 			}
 		}
-
 	}
 
 	@Test
 	public void testDealCards() {
-
 		// since the previous test popped cards off the deck, have to reinitialize it
 		board.loadConfigFiles();
 		
@@ -121,7 +111,7 @@ public class GameSetupTests {
 		assertEquals(deck.size(), 0); // all cards are dealt
 
 		Player[] players = board.getPeople();
-		for (Player p : players) {
+		for(Player p : players) {
 			assertEquals(p.getCards().size(), 3); // all players get 3 cards
 		}
 		

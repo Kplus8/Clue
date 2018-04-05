@@ -1,19 +1,6 @@
 package tests;
 
 
-/**
- *     This is the test file given to us, no changes (except adding data/ to the dir)
- *     The tests we wrote are in FileTests.java
- */
-
-
-
-/*
- * This program tests that config files are loaded properly.
- */
-
-// Doing a static import allows me to write assertEquals rather than
-// Assert.assertEquals
 import static org.junit.Assert.*;
 
 import java.util.Map;
@@ -26,6 +13,16 @@ import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.DoorDirection;
 
+/**
+ * Tests that config files are loaded properly.
+ *
+ * @author Jim DeBlock
+ * @author Graham Kitchenka
+ * @author Brandon Verkamp
+ *
+ * This is the test file given to us, no changes (except adding data/ to the dir)
+ * The tests we wrote are in FileTests.java
+ */
 public class CTest_FileInitTests {
 	// Constants that I will use to test whether the file was loaded correctly
 	public static final int LEGEND_SIZE = 11;
@@ -45,6 +42,7 @@ public class CTest_FileInitTests {
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}
+	
 	@Test
 	public void testRooms() {
 		// Get the map of initial => room 
@@ -67,42 +65,48 @@ public class CTest_FileInitTests {
 		assertEquals(NUM_COLUMNS, board.getNumCols());		
 	}
 	
-	// Test a doorway in each direction (RIGHT/LEFT/UP/DOWN), plus 
-	// two cells that are not a doorway.
-	// These cells are white on the planning spreadsheet
+	/**
+	 * Test a doorway in each direction (RIGHT/LEFT/UP/DOWN), plus
+	 * two cells that are not a doorway.
+	 * These cells are white on the planning spreadsheet
+	 */
 	@Test
 	public void FourDoorDirections() {
 		BoardCell room = board.getCellAt(4, 3);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.RIGHT, room.getDoorDirection());
+		
 		room = board.getCellAt(4, 8);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.DOWN, room.getDoorDirection());
+		
 		room = board.getCellAt(15, 18);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.LEFT, room.getDoorDirection());
+		
 		room = board.getCellAt(14, 11);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.UP, room.getDoorDirection());
+		
 		// Test that room pieces that aren't doors know it
 		room = board.getCellAt(14, 14);
-		assertFalse(room.isDoorway());	
+		assertFalse(room.isDoorway());
+		
 		// Test that walkways are not doors
 		BoardCell cell = board.getCellAt(0, 6);
-		assertFalse(cell.isDoorway());		
-
+		assertFalse(cell.isDoorway());
 	}
 	
-	// Test that we have the correct number of doors
+	/**
+	 * Test that we have the correct number of doors
+ 	 */
 	@Test
-	public void testNumberOfDoorways() 
-	{
+	public void testNumberOfDoorways() {
 		int numDoors = 0;
-		for (int row=0; row<board.getNumRows(); row++)
-			for (int col=0; col<board.getNumCols(); col++) {
+		for(int row=0; row<board.getNumRows(); row++)
+			for(int col=0; col<board.getNumCols(); col++) {
 				BoardCell cell = board.getCellAt(row, col);
-				if (cell.isDoorway())
-					numDoors++;
+				if(cell.isDoorway()) numDoors++;
 			}
 		Assert.assertEquals(16, numDoors);
 	}
@@ -122,7 +126,4 @@ public class CTest_FileInitTests {
 		// Test the closet
 		assertEquals('X', board.getCellAt(9,13).getInitial());
 	}
-	
-
-	
 }

@@ -1,12 +1,5 @@
 package tests;
 
-/**
- * 
- * @author Jim DeBlock
- * @author Graham Kitchenka
- *
- */
-
 import static org.junit.Assert.*;
 
 import java.util.Map;
@@ -16,11 +9,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.Board;
-import clueGame.BoardCell;
 import clueGame.DoorDirection;
+import clueGame.BoardCell;
 
+/**
+ * Tests to make sure that file loading is done properly
+ *
+ * @author Jim DeBlock
+ * @author Graham Kitchenka
+ * @author Brandon Verkamp
+ */
 public class FileTests {
-
 	public static final int LEGEND_SIZE = 11;
 	public static final int NUM_ROWS = 24;
 	public static final int NUM_COLUMNS = 22;
@@ -37,10 +36,8 @@ public class FileTests {
 	/**
 	 * Tests to make sure that the legend file is loaded correctly.
 	 */
-
 	@Test
 	public void testLegend() {
-
 		Map<Character, String> legend = board.getLegend();
 		assertEquals(legend.size(), LEGEND_SIZE);
 
@@ -55,44 +52,35 @@ public class FileTests {
 		assertEquals(legend.get('T'), "Theater");
 		assertEquals(legend.get('X'), "Closet");
 		assertEquals(legend.get('W'), "Walkway");
-
 	}
 
 	/**
 	 * Checks for correct row dimension.
 	 */
-
 	@Test
 	public void testRows() {
-
 		assertEquals(NUM_ROWS, board.getNumRows());
-
 	}
 
 	/**
 	 * Checks for correct column dimension.
 	 */
-
 	@Test
 	public void testColumns() {
-
 		assertEquals(NUM_COLUMNS, board.getNumCols());
-
 	}
 
 	/**
 	 * Tests for number of doors, as well as making sure that there is at lest
 	 * one of each direction door.
 	 */
-
 	@Test
 	public void testDoorways() {
-
 		int numDoors = 0;
-		for (int row = 0; row < board.getNumRows(); row++)
-			for (int col = 0; col < board.getNumCols(); col++) {
+		for(int row = 0; row < board.getNumRows(); row++)
+			for(int col = 0; col < board.getNumCols(); col++) {
 				BoardCell cell = board.getCellAt(row, col);
-				if (cell.isDoorway()) {
+				if(cell.isDoorway()) {
 					numDoors++;
 				}
 			}
@@ -116,16 +104,13 @@ public class FileTests {
 		// Test that walkways are not doors
 		BoardCell cell = board.getCellAt(7, 7);
 		assertFalse(cell.isDoorway());
-
 	}
 
 	/**
 	 * Tests to determine if rooms are loaded correctly.
 	 */
-
 	@Test
 	public void testRooms() {
-
 		// Tests some rooms
 		assertEquals('G', board.getCellAt(0, 0).getInitial());
 		assertEquals('L', board.getCellAt(10, 2).getInitial());
@@ -135,7 +120,5 @@ public class FileTests {
 		assertEquals('W', board.getCellAt(7, 7).getInitial());
 		// Test the closet
 		assertEquals('X', board.getCellAt(12, 12).getInitial());
-
 	}
-
 }
