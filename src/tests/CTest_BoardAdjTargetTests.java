@@ -1,5 +1,10 @@
 package tests;
 
+/*
+ * This program tests that adjacencies and targets are calculated correctly.
+ */
+
+import java.io.File;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -26,7 +31,7 @@ public class CTest_BoardAdjTargetTests {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
-		board.setConfigFiles("data\\CTest_ClueLayout.csv", "data\\CTest_ClueLegend.txt");		
+		board.setConfigFiles("data" + File.separatorChar + "CTest_ClueLayout.csv", "data" + File.separatorChar + "CTest_ClueLegend.txt");
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}
@@ -75,7 +80,7 @@ public class CTest_BoardAdjTargetTests {
 		assertEquals(1, testList.size());
 		assertTrue(testList.contains(board.getCellAt(11, 7)));
 		
-		// TEST DOORWAY LEFT 
+		// TEST DOORWAY LEFT
 		testList = board.getAdjList(10, 17);
 		assertEquals(1, testList.size());
 		assertTrue(testList.contains(board.getCellAt(10, 16)));

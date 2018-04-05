@@ -61,8 +61,9 @@ public class Board {
 		boardConfigFile = layout;
 		roomConfigFile = legend;
 
-		playerConfigFile = "data\\people.txt";
-		weaponConfigFile = "data\\weapons.txt";
+		playerConfigFile = "data" + File.separatorChar + "people.txt";
+		weaponConfigFile = "data" + File.separatorChar + "weapons.txt";
+
 	}
 
 	/**
