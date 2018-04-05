@@ -63,7 +63,6 @@ public class Board {
 
 		playerConfigFile = "data" + File.separatorChar + "people.txt";
 		weaponConfigFile = "data" + File.separatorChar + "weapons.txt";
-
 	}
 
 	/**
@@ -84,7 +83,7 @@ public class Board {
 		try {
 			loadRoomConfig(); // read in legend file
 			loadBoardConfig(); // reads in board file
-		} catch(FileNotFoundException | BadConfigFormatException e) { //FIXME technically bad form (catch different exceptions separately)
+		} catch (FileNotFoundException | BadConfigFormatException e) { //FIXME technically bad form (catch different exceptions separately)
 			e.printStackTrace();
 		}
 
@@ -197,7 +196,6 @@ public class Board {
 	/**
 	 * @return The legend Map
 	 */
-
 	public Map<Character, String> getLegend() {
 		return legend;
 	}
