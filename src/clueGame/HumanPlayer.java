@@ -7,7 +7,6 @@ package clueGame;
  * @author Brandon Verkamp
  *
  */
-
 public class HumanPlayer extends Player{
 
 }

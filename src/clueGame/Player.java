@@ -5,15 +5,13 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
- * 
+ * Represents a player and information about them
+ *
  * @author Jim DeBlock
  * @author Graham Kitchenka
  * @author Brandon Verkamp
- *
  */
-
 public class Player {
-
 	private String playerName;
 	private int row, column;
 	private Color color;
@@ -21,7 +19,7 @@ public class Player {
 	private ArrayList<Card> seenCards;
 
 	public Player() {
-		super();
+		super(); //I think this is implicit for children of Object (and in general)?
 	}
 
 	public Player(String playerName, String color) {
@@ -35,7 +33,6 @@ public class Player {
 	/**
 	 * @return color
 	 */
-	
 	public Color getColor() {
 		return color;
 	}
@@ -43,7 +40,6 @@ public class Player {
 	/**
 	 * @return name
 	 */
-	
 	public String getName() {
 		return playerName;
 	}
@@ -51,7 +47,6 @@ public class Player {
 	/**
 	 * @return cards
 	 */
-	
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
@@ -60,11 +55,8 @@ public class Player {
 	 * Adds the specified card to this player's cards
 	 * @param card
 	 */
-
 	public void giveCard(Card c) {
-
 		cards.add(c);
-		
 	}
 
 	/**
@@ -73,7 +65,6 @@ public class Player {
 	 * @param strColor
 	 * @return Color
 	 */
-
 	public Color convertColor(String strColor) {
 		Color color;
 		try {
@@ -88,12 +79,10 @@ public class Player {
 
 	/**
 	 * Provides a card that disproves the suggestion
-	 * 
+	 *
 	 * @return Card
 	 */
-
 	public Card disproveSuggestion() {
 		return null;
 	}
-
 }
