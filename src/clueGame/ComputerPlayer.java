@@ -1,6 +1,6 @@
 package clueGame;
 
-import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A player which chooses moves algorithmically as opposed to choosing according to human input
@@ -12,10 +12,10 @@ import java.util.HashSet;
 public class ComputerPlayer extends Player{
 	/**
 	 * Picks a location to move to
-	 * @param targets
+	 * @param set
 	 * @return BoardCell
 	 */
-	public BoardCell pickLocation(HashSet<BoardCell> targets) {
+	public BoardCell pickLocation(Set<BoardCell> set) {
 		return null;
 	}
 	
