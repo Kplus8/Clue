@@ -19,13 +19,14 @@ public class Player {
 	private ArrayList<Card> seenCards;
 
 	public Player() {
-		super(); //I think this is implicit for children of Object (and in general)?
+		super(); // I think this is implicit for children of Object (and in
+					// general)?
 	}
 
 	public Player(String playerName, String color) {
 		this.playerName = playerName;
 		this.color = convertColor(color);
-		
+
 		cards = new ArrayList<>();
 		seenCards = new ArrayList<>();
 	}
@@ -53,10 +54,11 @@ public class Player {
 
 	/**
 	 * Adds the specified card to this player's cards
+	 * 
 	 * @param card
 	 */
-	public void giveCard(Card c) {
-		cards.add(c);
+	public void giveCard(Card card) {
+		cards.add(card);
 	}
 
 	/**
@@ -71,7 +73,7 @@ public class Player {
 			// We can use reflection to convert the string to a color
 			Field field = Class.forName("java.awt.Color").getField(strColor);
 			color = (Color) field.get(null);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			color = null; // Not defined
 		}
 		return color;
@@ -85,4 +87,16 @@ public class Player {
 	public Card disproveSuggestion() {
 		return null;
 	}
+
+	public BoardCell getRoom() {
+		Board board = Board.getInstance();
+		BoardCell cell = board.getCellAt(row, column);
+
+		if (cell.getInitial() != 'W') {
+			return cell;
+		} else {
+			return null;
+		}
+	}
+
 }

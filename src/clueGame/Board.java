@@ -35,6 +35,7 @@ public class Board {
 	private Stack<Card> deck;
 	private Card[] chosenCards;
 	private Player[] players;
+	private Card[] suggestedCards;
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -488,6 +489,10 @@ public class Board {
 	}
 
 	public boolean checkAccusation() {
+		return false;
+	}
+	
+	public boolean makeSuggestion(Card c1, Card c2, Card c3) {
 		return false;
 	}
 }
