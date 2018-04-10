@@ -33,9 +33,10 @@ public class Board {
 	private String playerConfigFile;
 	private String weaponConfigFile;
 	private Stack<Card> deck;
-	private Card[] chosenCards;
+	private Card[] chosenCards; // always in the order: PERSON, WEAPON, ROOM
 	private Player[] players;
-	private Card[] suggestedCards;
+	private Card[] suggestedCards; // always in the order: PERSON, WEAPON, ROOM
+	private Player activePlayer;
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -52,6 +53,14 @@ public class Board {
 		return theInstance;
 	}
 
+	public Card[] getSuggestedCards() {
+		return suggestedCards;
+	}
+	
+	public Card[] getChosenCards() {
+		return chosenCards;
+	}
+	
 	/**
 	 * Sets the legend and layout files
 	 * 
@@ -493,6 +502,10 @@ public class Board {
 	}
 	
 	public boolean makeSuggestion(Card c1, Card c2, Card c3) {
+		return false;
+	}
+	
+	public boolean makeAccusation(Card c1, Card c2, Card c3) {
 		return false;
 	}
 }

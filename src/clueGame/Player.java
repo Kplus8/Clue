@@ -22,7 +22,7 @@ public class Player {
 		super(); // I think this is implicit for children of Object (and in
 					// general)?
 	}
-
+	
 	public Player(String playerName, String color) {
 		this.playerName = playerName;
 		this.color = convertColor(color);
@@ -38,6 +38,11 @@ public class Player {
 		return color;
 	}
 
+	public void setLocation(int row, int column) {
+		this.row = row;
+		this.column = column;
+	}
+	
 	/**
 	 * @return name
 	 */
@@ -51,6 +56,13 @@ public class Player {
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
+	
+	/**
+	 * @return seenCards
+	 */
+	public ArrayList<Card> getSeenCards() {
+		return seenCards;
+	}
 
 	/**
 	 * Adds the specified card to this player's cards
@@ -59,6 +71,15 @@ public class Player {
 	 */
 	public void giveCard(Card card) {
 		cards.add(card);
+	}
+	
+	/**
+	 * Adds the specified card to this player's seen cards
+	 * 
+	 * @param card
+	 */
+	public void giveSeenCard(Card card) {
+		seenCards.add(card);
 	}
 
 	/**

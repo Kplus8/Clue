@@ -13,6 +13,7 @@ import org.junit.Test;
 import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.ComputerPlayer;
+import clueGame.Player;
 
 /**
  * Tests to see if file game actions work properly
@@ -89,25 +90,122 @@ public class GameActionTests {
 	@Test
 	public void testCreateSuggestion() {
 
+		Board board = Board.getInstance();
+
 		ComputerPlayer p = new ComputerPlayer();
+		p.setLocation(4, 3); // should be in Game Room
 		p.giveCard(new Card("Colonel Mustard", CardType.PERSON));
 		p.giveCard(new Card("Knife", CardType.WEAPON));
 		p.giveCard(new Card("Den", CardType.ROOM));
-		
+
+		p.giveSeenCard(new Card("Candlestick", CardType.WEAPON));
+		p.giveSeenCard(new Card("Rope", CardType.WEAPON));
+		p.giveSeenCard(new Card("Revolver", CardType.WEAPON));
+		p.giveSeenCard(new Card("Wrench", CardType.WEAPON));
+
+		p.giveSeenCard(new Card("Professor Plum", CardType.PERSON));
+		p.giveSeenCard(new Card("Miss Scarlet", CardType.PERSON));
+		p.giveSeenCard(new Card("Mr. Green", CardType.PERSON));
+		p.giveSeenCard(new Card("Mrs. Peacock", CardType.PERSON));
+
 		p.createSuggestion();
-		
+
+		Card[] suggested = board.getSuggestedCards();
+		// doesn't choose from cards that it has
+		assertNotEquals(new Card("Colonel Mustard", CardType.PERSON), suggested[0]);
+		assertNotEquals(new Card("Knife", CardType.WEAPON), suggested[1]);
+		assertNotEquals(new Card("Den", CardType.ROOM), suggested[2]);
+		// has to be in the room
+		assertEquals(p.getRoom().getInitial(), 'G');
+		assertEquals(new Card("Game Room", CardType.ROOM), suggested[2]);
+
+		// one weapon not seen
+		assertEquals(new Card("Poison", CardType.WEAPON), suggested[1]);
+
+		// one person not seen
+		assertEquals(new Card("Mrs. White", CardType.PERSON), suggested[0]);
 	}
 
 	@Test
-	public void testHandleAccusation() {
+	public void testHandleSuggestion() {
+
+		ComputerPlayer p1 = new ComputerPlayer();
+		ComputerPlayer p2 = new ComputerPlayer();
+		ComputerPlayer p3 = new ComputerPlayer();
+		ComputerPlayer p4 = new ComputerPlayer();
+		ComputerPlayer p5 = new ComputerPlayer();
+		Player hp = new Player();
+
+		Card c1 = new Card("Colonel Mustard", CardType.PERSON);
+		Card c2 = new Card("Den", CardType.ROOM);
+		Card c3 = new Card("Knife", CardType.WEAPON);
+		// Suggestion no one can disprove returns null
+		board.makeSuggestion(c1, c2, c3);
+		assertEquals(board.handleSuggestions(), null);
+		// Suggestion only accusing player can disprove returns null
+		p1.giveCard(c1);
+		p1.giveCard(new Card("Irrelevant", CardType.WEAPON));
+		p1.giveCard(new Card("Irrelevant", CardType.ROOM));
+		assertEquals(board.handleSuggestions(), new Card("Colonel Mustard", CardType.PERSON));
+		// Suggestion only human can disprove returns answer (i.e., card that
+		// disproves suggestion)
+		assertEquals(board.handleSuggestions(), new Card("Colonel Mustard", CardType.PERSON));
+		// Suggestion only human can disprove, but human is accuser, returns
+		// null
+		assertEquals(board.handleSuggestions(), null);
+		// Suggestion that two players can disprove, correct player (based on
+		// starting with next player in list) returns answer
+		p2.giveCard(c2);
+		p1.giveCard(new Card("Irrelevant", CardType.WEAPON));
+		p1.giveCard(new Card("Irrelevant", CardType.PERSON));
+		assertEquals(board.handleSuggestions(), c1);
+
+		// Suggestion that human and another player can disprove, other player
+		// is next in list, ensure other player returns answer
+		assertEquals(board.handleSuggestions(), c1);
 
 	}
-	
+
 	@Test
 	public void testMakeAccusation() {
 
-	}
+		board.selectAnswer(); // this is chosen randomly
+		Card[] answer = board.getChosenCards(); // correct answers
 
+		// correct answer
+		assertTrue(board.makeAccusation(answer[0], answer[1], answer[2]));
+
+		// get a player that is not the chosen player
+		Card person = null;
+		for (Player p : board.getPeople()) {
+			if (!new Card(p.getName(), CardType.PERSON).equals(answer[0])) {
+				person = new Card(p.getName(), CardType.PERSON);
+			}
+		}
+		assertFalse(board.makeAccusation(person, answer[1], answer[2]));
+
+		// get a weapon that is not the chosen player
+		String[] weapons = { "Candlestick", "Knife", "Rope", "Revolver", "Wrench", "Poison" };
+		Card weapon = null;
+		for (String w : weapons) {
+			if (!new Card(w, CardType.WEAPON).equals(answer[1])) {
+				weapon = new Card(w, CardType.WEAPON);
+			}
+		}
+		assertFalse(board.makeAccusation(answer[0], weapon, answer[2]));
+
+		// get a room that is not the chosen player
+		String[] rooms = { "Game room", "Living room", "Office", "Bedroom", "Den", "Dining room", "Kitchen",
+				"Greenhouse", "Theater" };
+		Card room = null;
+		for (String r : rooms) {
+			if (!new Card(r, CardType.ROOM).equals(answer[2])) {
+				room = new Card(r, CardType.ROOM);
+			}
+		}
+		assertFalse(board.makeAccusation(answer[0], answer[1], room));
+
+	}
 
 	@Test
 	public void testTargetLocation() {
