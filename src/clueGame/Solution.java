@@ -8,11 +8,25 @@ package clueGame;
  * @author Brandon Verkamp
  */
 public class Solution {
-	private String person, room, weapon;
+	private Card person, room, weapon;
 
-	public Solution(String person, String room, String weapon) {
+	public Solution(Card person, Card room, Card weapon) {
 		this.person = person;
 		this.room = room;
 		this.weapon = weapon;
 	}
+
+	public String getPerson() {
+		return person.getCardName();
+	}
+
+	public String getRoom() {
+		return room.getCardName();
+	}
+
+	public String getWeapon() {
+		return weapon.getCardName();
+	}
+	
+	
 }

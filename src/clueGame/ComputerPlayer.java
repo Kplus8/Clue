@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -16,7 +18,15 @@ public class ComputerPlayer extends Player{
 	 * @return BoardCell
 	 */
 	public BoardCell pickLocation(Set<BoardCell> set) {
+		String[] rooms = { "Game room", "Living room", "Office", "Bedroom", "Den", "Dining room", "Kitchen",
+				"Greenhouse", "Theater" };
+		Set<BoardCell> options = new HashSet<>();
+		Random die = new Random();
+		
+		
+		
 		return null;
+		
 	}
 	
 	/**

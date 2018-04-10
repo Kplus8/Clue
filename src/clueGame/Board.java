@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Collections;
@@ -34,9 +35,13 @@ public class Board {
 	private String weaponConfigFile;
 	private Stack<Card> deck;
 	private Card[] chosenCards; // always in the order: PERSON, WEAPON, ROOM
+	private Card[] weapons; //list of all weapons
+	private Card[] rooms; //list of all rooms
 	private Player[] players;
 	private Card[] suggestedCards; // always in the order: PERSON, WEAPON, ROOM
 	private Player activePlayer;
+	private Solution solution;
+	private Random random = new Random();
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -416,29 +421,62 @@ public class Board {
 	private void loadDeck() throws FileNotFoundException {
 		deck = new Stack<>();
 
+		Card answerPerson;
+		Card answerRoom;
+		Card answerWeapon;
 		// gets weapons
 		Scanner sc = new Scanner(new File(weaponConfigFile));
+		
+		int i = 0;
 		while(sc.hasNextLine()) {
-			String line = sc.nextLine();
-			deck.push(new Card(line, CardType.WEAPON));
+		String line = sc.nextLine();
+			weapons[i] = new Card(line, CardType.WEAPON);
+			i++;
 		}
+		int answer = random.nextInt(weapons.length);
+		for(int j = 0; j < weapons.length; j++) {
+			if(j != answer) {
+				deck.push(weapons[j]);
+			}
+		}
+		answerWeapon = weapons[answer];
 		sc.close();
 
 		// gets rooms
 		Scanner rSc = new Scanner(new File(roomConfigFile));
+		i = 0;
+		
 		while(rSc.hasNextLine()) {
 			String line = rSc.nextLine();
 			String[] parts = line.split(", ");
 			if(parts[2].equals("Card")) {
-				deck.push(new Card(parts[1], CardType.ROOM));
+				rooms[i] = new Card(parts[1], CardType.ROOM);
 			}
 		}
+		answer = random.nextInt(rooms.length);
+		for(int j = 0; j < rooms.length; j++) {
+			if(j != answer) {
+				deck.push(rooms[j]);
+			}
+		}
+		answerRoom = rooms[answer];
+		
 		rSc.close();
 
 		// gets players
-		for(Player p : players) {
-			deck.push(new Card(p.getName(), CardType.PERSON));
+		answer = random.nextInt(players.length);
+		for(int j = 0; j < players.length; j++) {
+			if(j != answer) {
+				deck.push(new Card(players[j].getName(), CardType.PERSON));
+			}
 		}
+		answerPerson = new Card(players[answer].getName(), CardType.PERSON);
+		
+		solution = new Solution(answerPerson, answerRoom, answerWeapon);
+		chosenCards[0] = answerPerson;
+		chosenCards[1] = answerRoom;
+		chosenCards[2] = answerWeapon;
+		
 	}
 
 	/**
@@ -489,8 +527,12 @@ public class Board {
 		return players;
 	}
 
+	/**
+	 *Creates a dummy solution for testing
+	 * 
+	 */
 	public void selectAnswer() {
-		return;
+			
 	}
 
 	public Card handleSuggestions() {
