@@ -19,8 +19,10 @@ public class Player {
 	private ArrayList<Card> seenCards;
 
 	public Player() {
-		super(); // I think this is implicit for children of Object (and in
-					// general)?
+		super();
+		
+		cards = new ArrayList<>();
+		seenCards = new ArrayList<>();
 	}
 	
 	public Player(String playerName, String color) {

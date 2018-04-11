@@ -117,7 +117,7 @@ public class GameActionTests {
 		assertNotEquals(new Card("Den", CardType.ROOM), suggested[2]);
 		// has to be in the room
 		assertEquals(p.getRoom().getInitial(), 'G');
-		assertEquals(new Card("Game Room", CardType.ROOM), suggested[2]);
+		assertEquals(new Card("Game room", CardType.ROOM), suggested[2]);
 
 		// one weapon not seen
 		assertEquals(new Card("Poison", CardType.WEAPON), suggested[1]);

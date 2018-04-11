@@ -66,6 +66,14 @@ public class Board {
 		return chosenCards;
 	}
 	
+	public Card[] getWeapons() {
+		return weapons;
+	}
+	
+	public Card[] getRooms() {
+		return rooms;
+	}
+	
 	/**
 	 * Sets the legend and layout files
 	 * 
@@ -545,8 +553,31 @@ public class Board {
 		return false;
 	}
 	
-	public boolean makeSuggestion(Card c1, Card c2, Card c3) {
-		return false;
+	public void makeSuggestion(Card c1, Card c2, Card c3) {
+		
+		suggestedCards = new Card[3];
+		suggestedCards[0] = c1;
+		suggestedCards[1] = c2;
+		suggestedCards[2] = c3;
+		
+	}
+	
+	public String getRoom(char ch) throws FileNotFoundException{
+		Scanner sc = new Scanner(new File(roomConfigFile));
+
+		String room = "";
+		
+		while(sc.hasNextLine()) {
+			String line = sc.nextLine();
+			String[] parts = line.split(", ");
+			if (parts[0].charAt(0) == ch) {
+				room = parts[1];
+				break;
+			}
+		}
+
+		sc.close();
+		return room;
 	}
 	
 	public boolean makeAccusation(Card c1, Card c2, Card c3) {
