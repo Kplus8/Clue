@@ -37,12 +37,15 @@ public class GameActionTests {
 
 		board.loadConfigFiles();
 	}
-
+	
+	/**
+	 * Test that disproving suggestions works as expected - returning the disproving card when
+	 * disproval can be made or null when it cannot
+	 */
 	@Test
 	public void testDisproveSuggestion() {
 
 		// if player has matching card
-
 		ComputerPlayer p = new ComputerPlayer();
 		Card c = new Card("Knife", CardType.WEAPON);
 		p.giveCard(c);
@@ -52,7 +55,6 @@ public class GameActionTests {
 		assertEquals(c, p.disproveSuggestion());
 
 		// if player has no matching card
-
 		ComputerPlayer p2 = new ComputerPlayer();
 
 		board.makeSuggestion(new Card("iRrelevant", CardType.WEAPON), new Card("Irrelevant", CardType.ROOM),
@@ -61,7 +63,6 @@ public class GameActionTests {
 		assertNull(p2.disproveSuggestion());
 
 		// if player has more than one matching card
-
 		ComputerPlayer p3 = new ComputerPlayer();
 
 		Card c2 = new Card("Den", CardType.ROOM);
@@ -86,7 +87,11 @@ public class GameActionTests {
 		assertTrue(knife);
 		assertTrue(den);
 	}
-
+	
+	/**
+	 * Test that players create new suggestions properly - they do not suggest a card they have already seen
+	 * and they are in the room that they suggest the murder was done in
+	 */
 	@Test
 	public void testCreateSuggestion() {
 
@@ -125,7 +130,11 @@ public class GameActionTests {
 		// one person not seen
 		assertEquals(new Card("Mrs. White", CardType.PERSON), suggested[0]);
 	}
-
+	
+	/**
+	 * Test that the board handles suggestions properly - that they return null when no player can disprove the suggestion or if only the
+	 * suggesting player can, and that they return the proper disproving card when a player has a card that contradicts the suggestion
+	 */
 	@Test
 	public void testHandleSuggestion() {
 		Card[] answer = board.getChosenCards();
@@ -146,10 +155,13 @@ public class GameActionTests {
 		assertEquals(board.handleSuggestions(), answer[1]);
 
 	}
-
+	
+	/**
+	 * Test that the board handles accusations correctly
+	 * TODO what does this specifically test for?
+	 */
 	@Test
 	public void testMakeAccusation() {
-
 		Card[] answer = board.getChosenCards(); // correct answers
 
 		// correct answer
@@ -186,7 +198,10 @@ public class GameActionTests {
 		assertFalse(board.makeAccusation(answer[0], answer[1], room));
 
 	}
-
+	
+	/**
+	 * Test that player selects targets properly
+	 */
 	@Test
 	public void testTargetLocation() {
 		ComputerPlayer player = new ComputerPlayer();
