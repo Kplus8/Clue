@@ -12,7 +12,8 @@ import java.util.Collections;
 import java.util.Stack;
 
 /**
- * Represents the state of the game board as well as other game components - e.g. the deck and players
+ * Represents the state of the game board as well as other game components -
+ * e.g. the deck and players
  *
  * @author Jim DeBlock
  * @author Graham Kitchenka
@@ -35,8 +36,8 @@ public class Board {
 	private String weaponConfigFile;
 	private Stack<Card> deck;
 	private Card[] chosenCards; // always in the order: PERSON, WEAPON, ROOM
-	private Card[] weapons; //list of all weapons
-	private Card[] rooms; //list of all rooms
+	private Card[] weapons; // list of all weapons
+	private Card[] rooms; // list of all rooms
 	private Player[] players;
 	private Card[] suggestedCards; // always in the order: PERSON, WEAPON, ROOM
 	private Player activePlayer;
@@ -47,7 +48,8 @@ public class Board {
 	private static Board theInstance = new Board();
 
 	// constructor is private to ensure only one can be created
-	private Board() {}
+	private Board() {
+	}
 
 	/**
 	 * Obtain the Board instance
@@ -61,19 +63,19 @@ public class Board {
 	public Card[] getSuggestedCards() {
 		return suggestedCards;
 	}
-	
+
 	public Card[] getChosenCards() {
 		return chosenCards;
 	}
-	
+
 	public Card[] getWeapons() {
 		return weapons;
 	}
-	
+
 	public Card[] getRooms() {
 		return rooms;
 	}
-	
+
 	/**
 	 * Sets the legend and layout files
 	 * 
@@ -96,17 +98,26 @@ public class Board {
 		// get numRows and numCols
 		try {
 			readRowsCols();
-		} catch(FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
-		legend = new HashMap<>(); // "diamond" syntax is convenient if the key/value type of the collection is changed
+		legend = new HashMap<>(); // "diamond" syntax is convenient if the
+									// key/value type of the collection is
+									// changed
 		board = new BoardCell[numRows][numCols];
 
 		try {
 			loadRoomConfig(); // read in legend file
 			loadBoardConfig(); // reads in board file
-		} catch (FileNotFoundException | BadConfigFormatException e) { //FIXME technically bad form (catch different exceptions separately)
+		} catch (FileNotFoundException | BadConfigFormatException e) { // FIXME
+																		// technically
+																		// bad
+																		// form
+																		// (catch
+																		// different
+																		// exceptions
+																		// separately)
 			e.printStackTrace();
 		}
 
@@ -120,20 +131,22 @@ public class Board {
 	 * @throws FileNotFoundException
 	 * @throws BadConfigFormatException
 	 */
-	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
+	public void loadRoomConfig() throws FileNotFoundException,
+			BadConfigFormatException {
 		Scanner sc = new Scanner(new File(roomConfigFile));
 
-		while(sc.hasNextLine()) {
+		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
 			String[] parts = line.split(", ");
-			if(!(parts[2].equals("Card") || parts[2].equals("Other"))) {
+			if (!(parts[2].equals("Card") || parts[2].equals("Other"))) {
 				sc.close();
-				throw new BadConfigFormatException("Unrecognized type in Legend file: " +
-						roomConfigFile + ", " + parts[2]);
+				throw new BadConfigFormatException(
+						"Unrecognized type in Legend file: " + roomConfigFile
+								+ ", " + parts[2]);
 			}
 			legend.put(line.charAt(0), parts[1]);
 		}
-		
+
 		sc.close();
 	}
 
@@ -142,41 +155,42 @@ public class Board {
 	 * 
 	 * @throws FileNotFoundException
 	 */
-	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
+	public void loadBoardConfig() throws FileNotFoundException,
+			BadConfigFormatException {
 		Scanner sc = new Scanner(new File(boardConfigFile));
 		int row = 0;
 
-		while(sc.hasNextLine()) {
+		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
 			String[] parts = line.split(",");
 
-			if(parts.length != numCols) {
+			if (parts.length != numCols) {
 				sc.close();
 				throw new BadConfigFormatException("Mismatched column length. "
 						+ boardConfigFile);
 			}
 
-			for(int column = 0; column < parts.length; column++) {
-				if(!legend.keySet().contains(parts[column].charAt(0))) {
+			for (int column = 0; column < parts.length; column++) {
+				if (!legend.keySet().contains(parts[column].charAt(0))) {
 					sc.close();
 					throw new BadConfigFormatException("Unrecognized initial. "
 							+ boardConfigFile + ", " + parts[column].charAt(0));
 				}
 
-				if(parts[column].length() == 1) {
+				if (parts[column].length() == 1) {
 					board[row][column] = new BoardCell(row, column,
 							parts[column].charAt(0), DoorDirection.NONE);
 				} else {
-					if(parts[column].substring(1).equals("U")) {
+					if (parts[column].substring(1).equals("U")) {
 						board[row][column] = new BoardCell(row, column,
 								parts[column].charAt(0), DoorDirection.UP);
-					} else if(parts[column].substring(1).equals("D")) {
+					} else if (parts[column].substring(1).equals("D")) {
 						board[row][column] = new BoardCell(row, column,
 								parts[column].charAt(0), DoorDirection.DOWN);
-					} else if(parts[column].substring(1).equals("L")) {
+					} else if (parts[column].substring(1).equals("L")) {
 						board[row][column] = new BoardCell(row, column,
 								parts[column].charAt(0), DoorDirection.LEFT);
-					} else if(parts[column].substring(1).equals("R")) {
+					} else if (parts[column].substring(1).equals("R")) {
 						board[row][column] = new BoardCell(row, column,
 								parts[column].charAt(0), DoorDirection.RIGHT);
 					} else {
@@ -191,7 +205,7 @@ public class Board {
 
 		sc.close();
 
-		if(row != numRows) {
+		if (row != numRows) {
 			throw new BadConfigFormatException("Mismatched column length.");
 		}
 	}
@@ -207,7 +221,7 @@ public class Board {
 		numRows = 0;
 
 		Scanner sc = new Scanner(new File(boardConfigFile));
-		while(sc.hasNextLine()) {
+		while (sc.hasNextLine()) {
 			String[] parts = sc.nextLine().split(",");
 			numRows++;
 			numCols = parts.length;
@@ -251,75 +265,76 @@ public class Board {
 	 */
 
 	public void calcAdjacencies() {
-		for(int i = 0; i < board.length; i++) {
-			for(int j = 0; j < board[i].length; j++) {
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
 				int l = board[i].length;
 				int w = board.length;
-				if(getCellAt(i, j).getInitial() == 'W' || getCellAt(i, j).isDoorway()) {
+				if (getCellAt(i, j).getInitial() == 'W'
+						|| getCellAt(i, j).isDoorway()) {
 					HashSet<BoardCell> temp = new HashSet<>();
 					BoardCell bc;
 
-					if(!getCellAt(i, j).isDoorway()) {
-						if(i + 1 < w) {
+					if (!getCellAt(i, j).isDoorway()) {
+						if (i + 1 < w) {
 							bc = getCellAt(i + 1, j);
-							if(bc.isDoorway()) {
-								if(bc.getDoorDirection() == DoorDirection.UP) {
+							if (bc.isDoorway()) {
+								if (bc.getDoorDirection() == DoorDirection.UP) {
 									temp.add(bc);
 								}
 							} else {
-								if(bc.getInitial() == 'W') {
+								if (bc.getInitial() == 'W') {
 									temp.add(bc);
 								}
 							}
 						}
-						if(j - 1 >= 0) {
+						if (j - 1 >= 0) {
 							bc = getCellAt(i, j - 1);
-							if(bc.isDoorway()) {
-								if(bc.getDoorDirection() == DoorDirection.RIGHT) {
+							if (bc.isDoorway()) {
+								if (bc.getDoorDirection() == DoorDirection.RIGHT) {
 									temp.add(bc);
 								}
 							} else {
-								if(bc.getInitial() == 'W') {
+								if (bc.getInitial() == 'W') {
 									temp.add(bc);
 								}
 							}
 						}
-						if(i - 1 >= 0) {
+						if (i - 1 >= 0) {
 							bc = getCellAt(i - 1, j);
-							if(bc.isDoorway()) {
-								if(bc.getDoorDirection() == DoorDirection.DOWN) {
+							if (bc.isDoorway()) {
+								if (bc.getDoorDirection() == DoorDirection.DOWN) {
 									temp.add(bc);
 								}
 							} else {
-								if(bc.getInitial() == 'W') {
+								if (bc.getInitial() == 'W') {
 									temp.add(bc);
 								}
 							}
 						}
-						if(j + 1 < l) {
+						if (j + 1 < l) {
 							bc = getCellAt(i, j + 1);
-							if(bc.isDoorway()) {
-								if(bc.getDoorDirection() == DoorDirection.LEFT) {
+							if (bc.isDoorway()) {
+								if (bc.getDoorDirection() == DoorDirection.LEFT) {
 									temp.add(bc);
 								}
 							} else {
-								if(bc.getInitial() == 'W') {
+								if (bc.getInitial() == 'W') {
 									temp.add(bc);
 								}
 							}
 						}
 					} else {
-						if(getCellAt(i, j).getDoorDirection() == DoorDirection.LEFT) {
+						if (getCellAt(i, j).getDoorDirection() == DoorDirection.LEFT) {
 							temp.add(getCellAt(i, j - 1));
-						} else if(getCellAt(i, j).getDoorDirection() == DoorDirection.RIGHT) {
+						} else if (getCellAt(i, j).getDoorDirection() == DoorDirection.RIGHT) {
 							temp.add(getCellAt(i, j + 1));
-						} else if(getCellAt(i, j).getDoorDirection() == DoorDirection.UP) {
+						} else if (getCellAt(i, j).getDoorDirection() == DoorDirection.UP) {
 							temp.add(getCellAt(i - 1, j));
-						} else if(getCellAt(i, j).getDoorDirection() == DoorDirection.DOWN) {
+						} else if (getCellAt(i, j).getDoorDirection() == DoorDirection.DOWN) {
 							temp.add(getCellAt(i + 1, j));
 						}
 					}
-					
+
 					adjMatrix.put(getCellAt(i, j), temp);
 				} else {
 					adjMatrix.put(getCellAt(i, j), new HashSet<>());
@@ -363,16 +378,16 @@ public class Board {
 	 *            The number of steps to take (TODO: Is this correct?)
 	 */
 	private void findAllTargets(BoardCell curCell, int numSteps) {
-		for(BoardCell cell_t : adjMatrix.get(curCell)) {
+		for (BoardCell cell_t : adjMatrix.get(curCell)) {
 			BoardCell cell = getCellAt(cell_t.getRow(), cell_t.getColumn());
-			if(!visited.contains(cell)) {
+			if (!visited.contains(cell)) {
 				visited.add(cell);
-				if(numSteps == 1) {
-					if(cell.getInitial() == 'W' || cell.isDoorway()) {
+				if (numSteps == 1) {
+					if (cell.getInitial() == 'W' || cell.isDoorway()) {
 						targets.add(cell);
 					}
 				} else {
-					if(cell.isDoorway()) {
+					if (cell.isDoorway()) {
 						targets.add(cell);
 					}
 					findAllTargets(cell, numSteps - 1);
@@ -396,7 +411,7 @@ public class Board {
 		try {
 			loadPeople(); // load people
 			loadDeck(); // load deck
-		} catch(FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
@@ -411,7 +426,7 @@ public class Board {
 		players = new Player[NUM_PLAYERS];
 		int i = 0;
 
-		while(sc.hasNextLine()) {
+		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
 			String[] parts = line.split(", ");
 			players[i] = new Player(parts[0], parts[1]);
@@ -436,14 +451,14 @@ public class Board {
 		Scanner sc = new Scanner(new File(weaponConfigFile));
 		weapons = new Card[6];
 		int i = 0;
-		while(sc.hasNextLine()) {
-		String line = sc.nextLine();
+		while (sc.hasNextLine()) {
+			String line = sc.nextLine();
 			weapons[i] = new Card(line, CardType.WEAPON);
 			i++;
 		}
 		int answer = random.nextInt(weapons.length);
-		for(int j = 0; j < weapons.length; j++) {
-			if(j != answer) {
+		for (int j = 0; j < weapons.length; j++) {
+			if (j != answer) {
 				deck.push(weapons[j]);
 			}
 		}
@@ -454,39 +469,40 @@ public class Board {
 		rooms = new Card[9];
 		Scanner rSc = new Scanner(new File(roomConfigFile));
 		i = 0;
-		
-		while(rSc.hasNextLine()) {
+
+		while (rSc.hasNextLine()) {
 			String line = rSc.nextLine();
 			String[] parts = line.split(", ");
-			if(parts[2].equals("Card")) {
+			if (parts[2].equals("Card")) {
 				rooms[i] = new Card(parts[1], CardType.ROOM);
 			}
+			i++;
 		}
 		answer = random.nextInt(rooms.length);
-		for(int j = 0; j < rooms.length; j++) {
-			if(j != answer) {
+		for (int j = 0; j < rooms.length; j++) {
+			if (j != answer) {
 				deck.push(rooms[j]);
 			}
 		}
 		answerRoom = rooms[answer];
-		
+
 		rSc.close();
 
 		// gets players
 		answer = random.nextInt(players.length);
-		for(int j = 0; j < players.length; j++) {
-			if(j != answer) {
+		for (int j = 0; j < players.length; j++) {
+			if (j != answer) {
 				deck.push(new Card(players[j].getName(), CardType.PERSON));
 			}
 		}
 		answerPerson = new Card(players[answer].getName(), CardType.PERSON);
-		
+
 		solution = new Solution(answerPerson, answerRoom, answerWeapon);
 		chosenCards = new Card[3];
 		chosenCards[0] = answerPerson;
 		chosenCards[1] = answerRoom;
 		chosenCards[2] = answerWeapon;
-		
+
 	}
 
 	/**
@@ -495,11 +511,11 @@ public class Board {
 	public void dealCards() {
 		deck = randomize(deck);
 		int i = 0;
-		
-		while(deck.size() != 0) {
+
+		while (deck.size() != 0) {
 			players[i].giveCard(deck.pop());
 			i++;
-			if(i == NUM_PLAYERS) {
+			if (i == NUM_PLAYERS) {
 				i = 0;
 			}
 		}
@@ -508,9 +524,8 @@ public class Board {
 	/**
 	 * Randomizes the deck, as well as choosing one card of each type
 	 * 
-	 * NOT YET IMPLEMENTED!
-	 * currently removes 3 cards from the deck to simulate choosing the 3 cards
-	 * and returns the unrandomized deck.
+	 * NOT YET IMPLEMENTED! currently removes 3 cards from the deck to simulate
+	 * choosing the 3 cards and returns the unrandomized deck.
 	 * 
 	 * @param deck
 	 * @return randomized deck
@@ -522,7 +537,7 @@ public class Board {
 		c = deck.pop();
 		return deck;
 	}
-	
+
 	/**
 	 * @return deck
 	 */
@@ -537,14 +552,6 @@ public class Board {
 		return players;
 	}
 
-	/**
-	 *Creates a dummy solution for testing
-	 * 
-	 */
-	public void selectAnswer() {
-			
-	}
-
 	public Card handleSuggestions() {
 		return null;
 	}
@@ -552,22 +559,22 @@ public class Board {
 	public boolean checkAccusation() {
 		return false;
 	}
-	
+
 	public void makeSuggestion(Card c1, Card c2, Card c3) {
-		
+
 		suggestedCards = new Card[3];
 		suggestedCards[0] = c1;
 		suggestedCards[1] = c2;
 		suggestedCards[2] = c3;
-		
+
 	}
-	
-	public String getRoom(char ch) throws FileNotFoundException{
+
+	public String getRoom(char ch) throws FileNotFoundException {
 		Scanner sc = new Scanner(new File(roomConfigFile));
 
 		String room = "";
-		
-		while(sc.hasNextLine()) {
+
+		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
 			String[] parts = line.split(", ");
 			if (parts[0].charAt(0) == ch) {
@@ -579,8 +586,10 @@ public class Board {
 		sc.close();
 		return room;
 	}
-	
+
 	public boolean makeAccusation(Card c1, Card c2, Card c3) {
-		return false;
+		
+		return (chosenCards[0].equals(c1) && chosenCards[1].equals(c2) && chosenCards[2].equals(c3));
+		
 	}
 }

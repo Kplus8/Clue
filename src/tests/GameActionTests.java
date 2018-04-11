@@ -169,7 +169,6 @@ public class GameActionTests {
 	@Test
 	public void testMakeAccusation() {
 
-		board.selectAnswer(); // this is chosen randomly
 		Card[] answer = board.getChosenCards(); // correct answers
 
 		// correct answer
