@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -12,21 +13,27 @@ import java.util.Set;
  * @author Brandon Verkamp
  */
 public class ComputerPlayer extends Player{
+	
+	BoardCell justVisited;
 	/**
 	 * Picks a location to move to
 	 * @param set
 	 * @return BoardCell
 	 */
 	public BoardCell pickLocation(Set<BoardCell> set) {
-		String[] rooms = { "Game room", "Living room", "Office", "Bedroom", "Den", "Dining room", "Kitchen",
-				"Greenhouse", "Theater" };
-		Set<BoardCell> options = new HashSet<>();
-		Random die = new Random();
+		if(this.getRoom() != null) {
+			justVisited = this.getRoom();
+		}
 		
+		BoardCell[] options =  set.toArray(new BoardCell[0]);
 		
-		
-		return null;
-		
+		for(BoardCell s : set) {
+			if(s.isRoom() && s != justVisited) {
+				return s;
+			}
+		}
+		Random random = new Random();
+		return options[random.nextInt(options.length)];
 	}
 	
 	/**

@@ -235,9 +235,9 @@ public class GameActionTests {
 		board.calcTargets(7, 8, 1);
 		assertEquals(player.pickLocation(board.getTargets()), board.getCellAt(6, 8));
 
-		// test that if room was just visited, it is not chosen
+		// test that if room was just visited, it may be chosen
 		board.calcTargets(7, 8, 1);
-		assertNotEquals(player.pickLocation(board.getTargets()), board.getCellAt(6, 8));
+		assertEquals(player.pickLocation(board.getTargets()), board.getCellAt(6, 8));
 	}
 
 }

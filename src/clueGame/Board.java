@@ -426,7 +426,7 @@ public class Board {
 		Card answerWeapon;
 		// gets weapons
 		Scanner sc = new Scanner(new File(weaponConfigFile));
-		
+		weapons = new Card[6];
 		int i = 0;
 		while(sc.hasNextLine()) {
 		String line = sc.nextLine();
@@ -443,6 +443,7 @@ public class Board {
 		sc.close();
 
 		// gets rooms
+		rooms = new Card[9];
 		Scanner rSc = new Scanner(new File(roomConfigFile));
 		i = 0;
 		
@@ -473,6 +474,7 @@ public class Board {
 		answerPerson = new Card(players[answer].getName(), CardType.PERSON);
 		
 		solution = new Solution(answerPerson, answerRoom, answerWeapon);
+		chosenCards = new Card[3];
 		chosenCards[0] = answerPerson;
 		chosenCards[1] = answerRoom;
 		chosenCards[2] = answerWeapon;
