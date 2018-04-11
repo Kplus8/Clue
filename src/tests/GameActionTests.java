@@ -68,7 +68,7 @@ public class GameActionTests {
 		p3.giveCard(c);
 		p3.giveCard(c2);
 
-		board.makeSuggestion(c, new Card("Den", CardType.ROOM), new Card("irrelevant", CardType.PERSON));
+		board.makeSuggestion(c, c2, new Card("irrelevant", CardType.PERSON));
 
 		boolean den = false;
 		boolean knife = false;

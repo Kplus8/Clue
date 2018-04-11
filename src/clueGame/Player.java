@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Represents a player and information about them
@@ -20,11 +21,11 @@ public class Player {
 
 	public Player() {
 		super();
-		
+
 		cards = new ArrayList<>();
 		seenCards = new ArrayList<>();
 	}
-	
+
 	public Player(String playerName, String color) {
 		this.playerName = playerName;
 		this.color = convertColor(color);
@@ -44,7 +45,7 @@ public class Player {
 		this.row = row;
 		this.column = column;
 	}
-	
+
 	/**
 	 * @return name
 	 */
@@ -58,7 +59,7 @@ public class Player {
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
-	
+
 	/**
 	 * @return seenCards
 	 */
@@ -74,7 +75,7 @@ public class Player {
 	public void giveCard(Card card) {
 		cards.add(card);
 	}
-	
+
 	/**
 	 * Adds the specified card to this player's seen cards
 	 * 
@@ -108,7 +109,27 @@ public class Player {
 	 * @return Card
 	 */
 	public Card disproveSuggestion() {
-		return null;
+
+		Board board = Board.getInstance();
+		Card[] suggested = board.getSuggestedCards();
+
+		ArrayList<Card> aCards = new ArrayList<>();
+
+		for (Card c : cards) {
+			if (c.equals(suggested[0]) || c.equals(suggested[1])
+					|| c.equals(suggested[2])) {
+
+				aCards.add(c);
+
+			}
+		}
+
+		if (aCards.size() != 0) {
+			return aCards.get((new Random()).nextInt(aCards.size()));
+		} else {
+			return null;
+		}
+
 	}
 
 	public BoardCell getRoom() {
