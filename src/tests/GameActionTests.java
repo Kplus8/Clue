@@ -128,46 +128,22 @@ public class GameActionTests {
 
 	@Test
 	public void testHandleSuggestion() {
-
-		ComputerPlayer p1 = new ComputerPlayer();
-		ComputerPlayer p2 = new ComputerPlayer();
-		ComputerPlayer p3 = new ComputerPlayer();
-		ComputerPlayer p4 = new ComputerPlayer();
-		ComputerPlayer p5 = new ComputerPlayer();
-		Player hp = new Player();
+		Card[] answer = board.getChosenCards();
 		
 		// Suggestion no one can disprove returns null
-		Card c1 = new Card("Colonel Mustard", CardType.PERSON);
-		Card c2 = new Card("Den", CardType.ROOM);
-		Card c3 = new Card("Knife", CardType.WEAPON);
-		board.makeSuggestion(c1, c2, c3);
+		board.makeSuggestion(answer[0], answer[1], answer[2]);
 		assertNull(board.handleSuggestions());
 		
 		// Suggestion only accusing player can disprove returns null
-		p1.giveCard(c1);
-		p1.giveCard(new Card("Irrelevant", CardType.WEAPON));
-		p1.giveCard(new Card("Irrelevant", CardType.ROOM));
-		//assertEquals(board.handleSuggestions(), new Card("Colonel Mustard", CardType.PERSON));
+		Player[] players = board.getPeople();
+		players[0].giveCard(answer[0]);
 		assertNull(board.handleSuggestions());
-		assertEquals(null, board.handleSuggestions());
 		
-		// Suggestion only human can disprove returns answer (i.e., card that
-		// disproves suggestion)
-		assertEquals(new Card("Colonel Mustard", CardType.PERSON), board.handleSuggestions());
-		
-		// Suggestion only human can disprove, but human is accuser, returns
-		// null
-		assertNull(board.handleSuggestions());
 		// Suggestion that two players can disprove, correct player (based on
 		// starting with next player in list) returns answer
-		p2.giveCard(c2);
-		p1.giveCard(new Card("Irrelevant", CardType.WEAPON));
-		p1.giveCard(new Card("Irrelevant", CardType.PERSON));
-		assertEquals(board.handleSuggestions(), c1);
-
-		// Suggestion that human and another player can disprove, other player
-		// is next in list, ensure other player returns answer
-		assertEquals(board.handleSuggestions(), c1);
+		players[1].giveCard(answer[1]);
+		players[2].giveCard(answer[2]);
+		assertEquals(board.handleSuggestions(), answer[1]);
 
 	}
 

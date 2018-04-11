@@ -110,14 +110,7 @@ public class Board {
 		try {
 			loadRoomConfig(); // read in legend file
 			loadBoardConfig(); // reads in board file
-		} catch (FileNotFoundException | BadConfigFormatException e) { // FIXME
-																		// technically
-																		// bad
-																		// form
-																		// (catch
-																		// different
-																		// exceptions
-																		// separately)
+		} catch (FileNotFoundException | BadConfigFormatException e) { // FIXME technically bad form (catch different exceptions separately)
 			e.printStackTrace();
 		}
 
@@ -434,6 +427,8 @@ public class Board {
 		}
 
 		sc.close();
+		
+		activePlayer = players[0];
 	}
 
 	/**
@@ -553,21 +548,36 @@ public class Board {
 	}
 
 	public Card handleSuggestions() {
-		//TODO Implement
-		//TODO make sure suggested room is the same room as player is in
-		//TODO if valid, move suggested person to room
-		//TODO disprove player by player
-		return null;
+		for(Player player : players) {
+			if(player.getName() == activePlayer.getName()) continue;
+			for(Card suggestion : suggestedCards) {
+				if(suggestion.getCardType() == CardType.PERSON && player.getName() == suggestion.getCardName()) {
+					//TODO move player to suggested room
+				}
+			}
+		}
+		
+		for(Player player : players) {
+			if(player.getName() == activePlayer.getName()) continue;
+			Card disproval = player.disproveSuggestion();
+			if(disproval != null) return disproval;
+		}
+		
+		return null; //no player was able to disprove
 	}
 
 	public boolean checkAccusation() {
-		//TODO implement
 		//Disprove player by player, if no disprovals then player wins
+		for(Player player : players) {
+			if(player.getName() == activePlayer.getName()) continue;
+			Card disproval = player.disproveSuggestion();
+			if(disproval != null) return true;
+		}
+		
 		return false;
 	}
 
 	public void makeSuggestion(Card c1, Card c2, Card c3) {
-		//TODO complete
 		suggestedCards = new Card[3];
 		suggestedCards[0] = c1;
 		suggestedCards[1] = c2;
