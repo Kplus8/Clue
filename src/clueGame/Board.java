@@ -553,15 +553,21 @@ public class Board {
 	}
 
 	public Card handleSuggestions() {
+		//TODO Implement
+		//TODO make sure suggested room is the same room as player is in
+		//TODO if valid, move suggested person to room
+		//TODO disprove player by player
 		return null;
 	}
 
 	public boolean checkAccusation() {
+		//TODO implement
+		//Disprove player by player, if no disprovals then player wins
 		return false;
 	}
 
 	public void makeSuggestion(Card c1, Card c2, Card c3) {
-
+		//TODO complete
 		suggestedCards = new Card[3];
 		suggestedCards[0] = c1;
 		suggestedCards[1] = c2;

@@ -49,7 +49,7 @@ public class GameActionTests {
 
 		board.makeSuggestion(c, new Card("Irrelevant", CardType.ROOM), new Card("irrelevant", CardType.PERSON));
 
-		assertEquals(p.disproveSuggestion(), c);
+		assertEquals(c, p.disproveSuggestion());
 
 		// if player has no matching card
 
@@ -58,7 +58,7 @@ public class GameActionTests {
 		board.makeSuggestion(new Card("iRrelevant", CardType.WEAPON), new Card("Irrelevant", CardType.ROOM),
 				new Card("irrelevant", CardType.PERSON));
 
-		assertEquals(p2.disproveSuggestion(), null);
+		assertNull(p2.disproveSuggestion());
 
 		// if player has more than one matching card
 
@@ -135,24 +135,29 @@ public class GameActionTests {
 		ComputerPlayer p4 = new ComputerPlayer();
 		ComputerPlayer p5 = new ComputerPlayer();
 		Player hp = new Player();
-
+		
+		// Suggestion no one can disprove returns null
 		Card c1 = new Card("Colonel Mustard", CardType.PERSON);
 		Card c2 = new Card("Den", CardType.ROOM);
 		Card c3 = new Card("Knife", CardType.WEAPON);
-		// Suggestion no one can disprove returns null
 		board.makeSuggestion(c1, c2, c3);
-		assertEquals(board.handleSuggestions(), null);
+		assertNull(board.handleSuggestions());
+		
 		// Suggestion only accusing player can disprove returns null
 		p1.giveCard(c1);
 		p1.giveCard(new Card("Irrelevant", CardType.WEAPON));
 		p1.giveCard(new Card("Irrelevant", CardType.ROOM));
-		assertEquals(board.handleSuggestions(), new Card("Colonel Mustard", CardType.PERSON));
+		//assertEquals(board.handleSuggestions(), new Card("Colonel Mustard", CardType.PERSON));
+		assertNull(board.handleSuggestions());
+		assertEquals(null, board.handleSuggestions());
+		
 		// Suggestion only human can disprove returns answer (i.e., card that
 		// disproves suggestion)
-		assertEquals(board.handleSuggestions(), new Card("Colonel Mustard", CardType.PERSON));
+		assertEquals(new Card("Colonel Mustard", CardType.PERSON), board.handleSuggestions());
+		
 		// Suggestion only human can disprove, but human is accuser, returns
 		// null
-		assertEquals(board.handleSuggestions(), null);
+		assertNull(board.handleSuggestions());
 		// Suggestion that two players can disprove, correct player (based on
 		// starting with next player in list) returns answer
 		p2.giveCard(c2);

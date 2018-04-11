@@ -41,19 +41,19 @@ public class FileTests {
 	@Test
 	public void testLegend() {
 		Map<Character, String> legend = board.getLegend();
-		assertEquals(legend.size(), LEGEND_SIZE);
+		assertEquals(LEGEND_SIZE, legend.size());
 
-		assertEquals(legend.get('G'), "Game room");
-		assertEquals(legend.get('L'), "Living room");
-		assertEquals(legend.get('O'), "Office");
-		assertEquals(legend.get('B'), "Bedroom");
-		assertEquals(legend.get('N'), "Den");
-		assertEquals(legend.get('D'), "Dining room");
-		assertEquals(legend.get('K'), "Kitchen");
-		assertEquals(legend.get('H'), "Greenhouse");
-		assertEquals(legend.get('T'), "Theater");
-		assertEquals(legend.get('X'), "Closet");
-		assertEquals(legend.get('W'), "Walkway");
+		assertEquals("Game room", legend.get('G'));
+		assertEquals("Living room", legend.get('L'));
+		assertEquals("Office", legend.get('O'));
+		assertEquals("Bedroom", legend.get('B'));
+		assertEquals("Den", legend.get('N'));
+		assertEquals("Dining room", legend.get('D'));
+		assertEquals("Kitchen", legend.get('K'));
+		assertEquals("Greenhouse", legend.get('H'));
+		assertEquals("Theater", legend.get('T'));
+		assertEquals("Closet", legend.get('X'));
+		assertEquals("Walkway", legend.get('W'));
 	}
 
 	/**
