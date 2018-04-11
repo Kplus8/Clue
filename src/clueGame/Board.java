@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -10,6 +11,9 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Collections;
 import java.util.Stack;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  * Represents the state of the game board as well as other game components -
@@ -607,5 +611,20 @@ public class Board {
 		
 		return (chosenCards[0].equals(c1) && chosenCards[1].equals(c2) && chosenCards[2].equals(c3));
 		
+	}
+	
+	/**
+	 * Main, creates GUI
+	 * @param args
+	 */
+	
+	public static void main(String[] args) {
+	
+		JFrame frame = new JFrame("Lower Panel");
+		frame.setSize(630, 220);
+		frame.add(new LowerGUI());
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 	}
 }
