@@ -58,7 +58,7 @@ public class GameSetupTests {
 	public void testLoadDeck() {
 		Stack<Card> deck = board.getDeck();
 
-		assertEquals(deck.size(), (6 + 6 + 9)); // 6 people, 6 weapons, 9 rooms
+		assertEquals((6 + 6 + 9), deck.size()); // 6 people, 6 weapons, 9 rooms
 
 		ArrayList<Card> people = new ArrayList<>();
 		ArrayList<Card> weapons = new ArrayList<>();
@@ -75,7 +75,7 @@ public class GameSetupTests {
 			}
 		}
 
-		assertEquals(people.size(), 6);
+		assertEquals(6, people.size());
 		for(Card c : people) {
 			if(c.getCardName().equals("Colonel Mustard")) {
 				assertTrue(true); // Colonel Mustard is in List
@@ -83,7 +83,7 @@ public class GameSetupTests {
 			}
 		}
 
-		assertEquals(weapons.size(), 6);
+		assertEquals(6, weapons.size());
 		for(Card c : weapons) {
 			if(c.getCardName().equals("CandleStick")) {
 				assertTrue(true); // Candlestick is in List
@@ -91,7 +91,7 @@ public class GameSetupTests {
 			}
 		}
 
-		assertEquals(rooms.size(), 9);
+		assertEquals(9, rooms.size());
 		for(Card c : rooms) {
 			if(c.getCardName().equals("Den")) {
 				assertTrue(true); // Den is in List
@@ -106,15 +106,15 @@ public class GameSetupTests {
 		board.loadConfigFiles();
 		
 		Stack<Card> deck = board.getDeck();
-		assertEquals(deck.size(), (6 + 6 + 9)); // 6 people, 6 weapons, 9 rooms
+		assertEquals((6 + 6 + 9), deck.size()); // 6 people, 6 weapons, 9 rooms
 		board.dealCards();
 		deck = board.getDeck();
 
-		assertEquals(deck.size(), 0); // all cards are dealt
+		assertEquals(0, deck.size()); // all cards are dealt
 
 		Player[] players = board.getPeople();
 		for(Player p : players) {
-			assertEquals(p.getCards().size(), 3); // all players get 3 cards
+			assertEquals(3, p.getCards().size()); // all players get 3 cards
 		}
 		
 		// since cards are removed as they are dealt it is impossible to deal the same card twice,
