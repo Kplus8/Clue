@@ -1,6 +1,5 @@
 package clueGame;
 
-import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -9,11 +8,14 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.Collections;
 import java.util.Stack;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+
+import java.awt.*;
 
 /**
  * Represents the state of the game board as well as other game components -
@@ -23,7 +25,7 @@ import javax.swing.JPanel;
  * @author Graham Kitchenka
  * @author Brandon Verkamp
  */
-public class Board {
+public class Board extends JPanel {
 	public static final int MAX_BOARD_SIZE = 50;
 	public static final int NUM_PLAYERS = 6;
 
@@ -114,7 +116,14 @@ public class Board {
 		try {
 			loadRoomConfig(); // read in legend file
 			loadBoardConfig(); // reads in board file
-		} catch (FileNotFoundException | BadConfigFormatException e) { // FIXME technically bad form (catch different exceptions separately)
+		} catch (FileNotFoundException | BadConfigFormatException e) { // FIXME
+																		// technically
+																		// bad
+																		// form
+																		// (catch
+																		// different
+																		// exceptions
+																		// separately)
 			e.printStackTrace();
 		}
 
@@ -128,8 +137,7 @@ public class Board {
 	 * @throws FileNotFoundException
 	 * @throws BadConfigFormatException
 	 */
-	public void loadRoomConfig() throws FileNotFoundException,
-			BadConfigFormatException {
+	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
 		Scanner sc = new Scanner(new File(roomConfigFile));
 
 		while (sc.hasNextLine()) {
@@ -138,8 +146,7 @@ public class Board {
 			if (!(parts[2].equals("Card") || parts[2].equals("Other"))) {
 				sc.close();
 				throw new BadConfigFormatException(
-						"Unrecognized type in Legend file: " + roomConfigFile
-								+ ", " + parts[2]);
+						"Unrecognized type in Legend file: " + roomConfigFile + ", " + parts[2]);
 			}
 			legend.put(line.charAt(0), parts[1]);
 		}
@@ -152,8 +159,7 @@ public class Board {
 	 * 
 	 * @throws FileNotFoundException
 	 */
-	public void loadBoardConfig() throws FileNotFoundException,
-			BadConfigFormatException {
+	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
 		Scanner sc = new Scanner(new File(boardConfigFile));
 		int row = 0;
 
@@ -163,36 +169,29 @@ public class Board {
 
 			if (parts.length != numCols) {
 				sc.close();
-				throw new BadConfigFormatException("Mismatched column length. "
-						+ boardConfigFile);
+				throw new BadConfigFormatException("Mismatched column length. " + boardConfigFile);
 			}
 
 			for (int column = 0; column < parts.length; column++) {
 				if (!legend.keySet().contains(parts[column].charAt(0))) {
 					sc.close();
-					throw new BadConfigFormatException("Unrecognized initial. "
-							+ boardConfigFile + ", " + parts[column].charAt(0));
+					throw new BadConfigFormatException(
+							"Unrecognized initial. " + boardConfigFile + ", " + parts[column].charAt(0));
 				}
 
 				if (parts[column].length() == 1) {
-					board[row][column] = new BoardCell(row, column,
-							parts[column].charAt(0), DoorDirection.NONE);
+					board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE);
 				} else {
 					if (parts[column].substring(1).equals("U")) {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.UP);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.UP);
 					} else if (parts[column].substring(1).equals("D")) {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.DOWN);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.DOWN);
 					} else if (parts[column].substring(1).equals("L")) {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.LEFT);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.LEFT);
 					} else if (parts[column].substring(1).equals("R")) {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.RIGHT);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.RIGHT);
 					} else {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.NONE);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE);
 					}
 				}
 			}
@@ -266,8 +265,7 @@ public class Board {
 			for (int j = 0; j < board[i].length; j++) {
 				int l = board[i].length;
 				int w = board.length;
-				if (getCellAt(i, j).getInitial() == 'W'
-						|| getCellAt(i, j).isDoorway()) {
+				if (getCellAt(i, j).getInitial() == 'W' || getCellAt(i, j).isDoorway()) {
 					HashSet<BoardCell> temp = new HashSet<>();
 					BoardCell bc;
 
@@ -431,7 +429,7 @@ public class Board {
 		}
 
 		sc.close();
-		
+
 		activePlayer = players[0];
 	}
 
@@ -523,17 +521,12 @@ public class Board {
 	/**
 	 * Randomizes the deck, as well as choosing one card of each type
 	 * 
-	 * NOT YET IMPLEMENTED! currently removes 3 cards from the deck to simulate
-	 * choosing the 3 cards and returns the unrandomized deck.
+	 * NOT YET IMPLEMENTED!
 	 * 
 	 * @param deck
 	 * @return randomized deck
 	 */
 	private Stack<Card> randomize(Stack<Card> deck) {
-		Card c;
-		c = deck.pop();
-		c = deck.pop();
-		c = deck.pop();
 		return deck;
 	}
 
@@ -552,32 +545,37 @@ public class Board {
 	}
 
 	public Card handleSuggestions() {
-		for(Player player : players) {
-			if(player.getName() == activePlayer.getName()) continue;
-			for(Card suggestion : suggestedCards) {
-				if(suggestion.getCardType() == CardType.PERSON && player.getName() == suggestion.getCardName()) {
-					//TODO move player to suggested room
+		for (Player player : players) {
+			if (player.getName() == activePlayer.getName())
+				continue;
+			for (Card suggestion : suggestedCards) {
+				if (suggestion.getCardType() == CardType.PERSON && player.getName() == suggestion.getCardName()) {
+					// TODO move player to suggested room
 				}
 			}
 		}
-		
-		for(Player player : players) {
-			if(player.getName() == activePlayer.getName()) continue;
+
+		for (Player player : players) {
+			if (player.getName() == activePlayer.getName())
+				continue;
 			Card disproval = player.disproveSuggestion();
-			if(disproval != null) return disproval;
+			if (disproval != null)
+				return disproval;
 		}
-		
-		return null; //no player was able to disprove
+
+		return null; // no player was able to disprove
 	}
 
 	public boolean checkAccusation() {
-		//Disprove player by player, if no disprovals then player wins
-		for(Player player : players) {
-			if(player.getName() == activePlayer.getName()) continue;
+		// Disprove player by player, if no disprovals then player wins
+		for (Player player : players) {
+			if (player.getName() == activePlayer.getName())
+				continue;
 			Card disproval = player.disproveSuggestion();
-			if(disproval != null) return true;
+			if (disproval != null)
+				return true;
 		}
-		
+
 		return false;
 	}
 
@@ -608,23 +606,21 @@ public class Board {
 	}
 
 	public boolean makeAccusation(Card c1, Card c2, Card c3) {
-		
+
 		return (chosenCards[0].equals(c1) && chosenCards[1].equals(c2) && chosenCards[2].equals(c3));
-		
+
 	}
-	
-	/**
-	 * Main, creates GUI
-	 * @param args
-	 */
-	
-	public static void main(String[] args) {
-	
-		JFrame frame = new JFrame("Lower Panel");
-		frame.setSize(630, 220);
-		frame.add(new LowerGUI());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		// loop through all cells and draw them
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numCols; col++) {
+				getCellAt(row, col).draw(g);
+			}
+		}
+
 	}
 }

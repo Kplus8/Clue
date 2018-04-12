@@ -1,0 +1,69 @@
+package clueGame;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
+import javax.swing.*;
+
+public class ClueGame extends JFrame implements ActionListener {
+
+	/**
+	 * Main, creates GUI
+	 * 
+	 * @param args
+	 */
+
+	public static void main(String[] args) {
+
+		ClueGame game = new ClueGame();
+		game.createGUI();
+
+	}
+
+	public void createGUI() {
+		setSize(630, 220);
+		add(new LowerGUI(), BorderLayout.SOUTH);
+		add(new ClueGameGUI(), BorderLayout.EAST);
+
+		// menu bar
+		JMenuBar menu = new JMenuBar();
+		JMenu file = new JMenu("File");
+		JMenuItem detective = new JMenuItem("View Detective Notes");
+		detective.addActionListener(this);
+		detective.setActionCommand("detective pikachu");
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(this);
+		exit.setActionCommand("exit");
+		file.add(detective);
+		file.add(exit);
+		menu.add(file);
+
+		add(menu, BorderLayout.NORTH);
+
+		Board board = Board.getInstance();
+		board.setConfigFiles("data" + File.separatorChar + "Map.csv", "data" + File.separatorChar + "ClueRooms.txt");
+		board.initialize();
+		add(board, BorderLayout.CENTER);
+
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Clue");
+		setLocationRelativeTo(null);
+		setVisible(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		if (e.getActionCommand().equals("exit")) {
+			this.dispose();
+		} else if (e.getActionCommand().equals("detective pikachu")) {
+			// show detective notes
+			DetectiveNotes d = new DetectiveNotes();
+			d.setVisible(true);
+		}
+
+	}
+
+}
