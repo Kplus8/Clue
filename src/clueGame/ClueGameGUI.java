@@ -18,14 +18,14 @@ import javax.swing.border.TitledBorder;
 
 public class ClueGameGUI extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public ClueGameGUI() {
 
 		//setLayout(new GridLayout(1, 1));
-		
-		// Main game area
-		
-		JPanel game = new JPanel();
-		
 		
 		// My Cards panel
 		

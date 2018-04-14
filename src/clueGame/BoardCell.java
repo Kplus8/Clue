@@ -36,7 +36,7 @@ public class BoardCell {
 
 	public void draw(Graphics g) {
 
-		final int MULT = 20;
+		final int MULT = 25;
 
 		if (isWalkway()) {
 
@@ -49,6 +49,21 @@ public class BoardCell {
 
 			g.setColor(Color.GRAY);
 			g.fillRect(column * MULT, row * MULT, MULT, MULT);
+			g.setColor(Color.BLUE);
+			switch (dir) {
+			case UP:
+				g.fillRect(column * MULT, row * MULT, MULT, MULT - 20);
+				break;
+			case DOWN:
+				g.fillRect(column * MULT, row * MULT + 20, MULT, MULT - 20);
+				break;
+			case LEFT:
+				g.fillRect(column * MULT, row * MULT, MULT - 20, MULT);
+				break;
+			case RIGHT:
+				g.fillRect(column * MULT + 20, row * MULT, MULT - 20, MULT);
+				break;
+			}
 
 		} else { // is a room
 

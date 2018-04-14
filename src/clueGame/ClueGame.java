@@ -17,13 +17,20 @@ public class ClueGame extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 
+		// load Board
+		Board board = Board.getInstance();
+		board.setConfigFiles("data" + File.separatorChar + "Map.csv", "data" + File.separatorChar + "ClueRooms.txt");
+		board.initialize();
+		board.loadConfigFiles();
+		
+		// load GUI
 		ClueGame game = new ClueGame();
 		game.createGUI();
 
 	}
 
 	public void createGUI() {
-		setSize(630, 220);
+		setSize(800, 800);
 		add(new LowerGUI(), BorderLayout.SOUTH);
 		add(new ClueGameGUI(), BorderLayout.EAST);
 
