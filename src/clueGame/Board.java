@@ -190,6 +190,8 @@ public class Board extends JPanel {
 						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.LEFT);
 					} else if (parts[column].substring(1).equals("R")) {
 						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.RIGHT);
+					} else if (parts[column].substring(1).equals("N")) {
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE, true);
 					} else {
 						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE);
 					}

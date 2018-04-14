@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 
 /**
  * Represents a single cell on the board
@@ -12,6 +13,7 @@ import java.awt.*;
 public class BoardCell {
 	private int column, row;
 	private char initial;
+	private boolean dispName = false;
 	private DoorDirection dir = DoorDirection.NONE;
 
 	public BoardCell(int row, int column) {
@@ -24,6 +26,15 @@ public class BoardCell {
 		this.row = row;
 		this.initial = initial;
 		this.dir = dir;
+	}
+
+	public BoardCell(int row, int column, char initial, DoorDirection dir,
+			boolean dispName) {
+		this.column = column;
+		this.row = row;
+		this.initial = initial;
+		this.dir = dir;
+		this.dispName = dispName;
 	}
 
 	public int getRow() {
@@ -69,6 +80,16 @@ public class BoardCell {
 
 			g.setColor(Color.GRAY);
 			g.fillRect(column * MULT, row * MULT, MULT, MULT);
+
+			if (dispName) {
+				g.setColor(Color.BLUE);
+				try {
+					g.drawString(Board.getInstance().getRoom(initial).toUpperCase(), column
+							* MULT, row * MULT);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
 
 		}
 
