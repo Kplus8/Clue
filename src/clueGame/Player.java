@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
 
+import java.awt.*;
+
 /**
  * Represents a player and information about them
  *
@@ -143,4 +145,12 @@ public class Player {
 		}
 	}
 
+	public void draw(Graphics g) {
+		final int s = 25;
+		g.setColor(color);
+		g.fillOval(column*s, row*s, s, s);
+		g.setColor(Color.BLACK);
+		g.drawOval(column*s, row*s, s, s);
+	}
+	
 }

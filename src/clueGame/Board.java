@@ -427,6 +427,7 @@ public class Board extends JPanel {
 			String line = sc.nextLine();
 			String[] parts = line.split(", ");
 			players[i] = new Player(parts[0], parts[1]);
+			players[i].setLocation(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
 			i++;
 		}
 
@@ -622,6 +623,11 @@ public class Board extends JPanel {
 			for (int col = 0; col < numCols; col++) {
 				getCellAt(row, col).draw(g);
 			}
+		}
+		
+		// paint players
+		for (Player p : players) {
+			p.draw(g);
 		}
 
 	}
