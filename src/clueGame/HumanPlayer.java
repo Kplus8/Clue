@@ -7,6 +7,10 @@ package clueGame;
  * @author Brandon Verkamp
  *
  */
-public class HumanPlayer extends Player{
+public class HumanPlayer extends Player {
+
+	public HumanPlayer(String playerName, String color) {
+		super(playerName, color);
+	}
 
 }

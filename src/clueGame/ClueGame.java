@@ -22,10 +22,15 @@ public class ClueGame extends JFrame implements ActionListener {
 		board.setConfigFiles("data" + File.separatorChar + "Map.csv", "data" + File.separatorChar + "ClueRooms.txt");
 		board.initialize();
 		board.loadConfigFiles();
+		board.dealCards();
 		
 		// load GUI
 		ClueGame game = new ClueGame();
 		game.createGUI();
+		
+		// display splash
+		JOptionPane.showMessageDialog(null, "You are Miss Scarlet. Press Next Player to begin.", "Clue", JOptionPane.INFORMATION_MESSAGE);
+		
 
 	}
 

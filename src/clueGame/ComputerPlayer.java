@@ -2,7 +2,6 @@ package clueGame;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -18,6 +17,14 @@ public class ComputerPlayer extends Player {
 
 	BoardCell justVisited;
 
+	public ComputerPlayer(String playerName, String color){
+		super(playerName, color);
+	}
+	
+	public ComputerPlayer(){
+		super();
+	}
+	
 	/**
 	 * Picks a location to move to
 	 * 

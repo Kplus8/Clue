@@ -2,6 +2,7 @@ package clueGame;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -137,7 +138,8 @@ public class Board extends JPanel {
 	 * @throws FileNotFoundException
 	 * @throws BadConfigFormatException
 	 */
-	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
+	public void loadRoomConfig() throws FileNotFoundException,
+			BadConfigFormatException {
 		Scanner sc = new Scanner(new File(roomConfigFile));
 
 		while (sc.hasNextLine()) {
@@ -146,7 +148,8 @@ public class Board extends JPanel {
 			if (!(parts[2].equals("Card") || parts[2].equals("Other"))) {
 				sc.close();
 				throw new BadConfigFormatException(
-						"Unrecognized type in Legend file: " + roomConfigFile + ", " + parts[2]);
+						"Unrecognized type in Legend file: " + roomConfigFile
+								+ ", " + parts[2]);
 			}
 			legend.put(line.charAt(0), parts[1]);
 		}
@@ -159,7 +162,8 @@ public class Board extends JPanel {
 	 * 
 	 * @throws FileNotFoundException
 	 */
-	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
+	public void loadBoardConfig() throws FileNotFoundException,
+			BadConfigFormatException {
 		Scanner sc = new Scanner(new File(boardConfigFile));
 		int row = 0;
 
@@ -169,31 +173,40 @@ public class Board extends JPanel {
 
 			if (parts.length != numCols) {
 				sc.close();
-				throw new BadConfigFormatException("Mismatched column length. " + boardConfigFile);
+				throw new BadConfigFormatException("Mismatched column length. "
+						+ boardConfigFile);
 			}
 
 			for (int column = 0; column < parts.length; column++) {
 				if (!legend.keySet().contains(parts[column].charAt(0))) {
 					sc.close();
-					throw new BadConfigFormatException(
-							"Unrecognized initial. " + boardConfigFile + ", " + parts[column].charAt(0));
+					throw new BadConfigFormatException("Unrecognized initial. "
+							+ boardConfigFile + ", " + parts[column].charAt(0));
 				}
 
 				if (parts[column].length() == 1) {
-					board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE);
+					board[row][column] = new BoardCell(row, column,
+							parts[column].charAt(0), DoorDirection.NONE);
 				} else {
 					if (parts[column].substring(1).equals("U")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.UP);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.UP);
 					} else if (parts[column].substring(1).equals("D")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.DOWN);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.DOWN);
 					} else if (parts[column].substring(1).equals("L")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.LEFT);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.LEFT);
 					} else if (parts[column].substring(1).equals("R")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.RIGHT);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.RIGHT);
 					} else if (parts[column].substring(1).equals("N")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE, true);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.NONE,
+								true);
 					} else {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.NONE);
 					}
 				}
 			}
@@ -267,7 +280,8 @@ public class Board extends JPanel {
 			for (int j = 0; j < board[i].length; j++) {
 				int l = board[i].length;
 				int w = board.length;
-				if (getCellAt(i, j).getInitial() == 'W' || getCellAt(i, j).isDoorway()) {
+				if (getCellAt(i, j).getInitial() == 'W'
+						|| getCellAt(i, j).isDoorway()) {
 					HashSet<BoardCell> temp = new HashSet<>();
 					BoardCell bc;
 
@@ -426,8 +440,13 @@ public class Board extends JPanel {
 		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
 			String[] parts = line.split(", ");
-			players[i] = new Player(parts[0], parts[1]);
-			players[i].setLocation(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+			if (parts[0].equals("Miss Scarlet")) {
+				players[i] = new HumanPlayer(parts[0], parts[1]);
+			} else {
+				players[i] = new ComputerPlayer(parts[0], parts[1]);
+			}
+			players[i].setLocation(Integer.parseInt(parts[2]),
+					Integer.parseInt(parts[3]));
 			i++;
 		}
 
@@ -522,7 +541,7 @@ public class Board extends JPanel {
 	}
 
 	/**
-	 * Randomizes the deck, as well as choosing one card of each type
+	 * Randomizes the deck
 	 * 
 	 * NOT YET IMPLEMENTED!
 	 * 
@@ -530,7 +549,26 @@ public class Board extends JPanel {
 	 * @return randomized deck
 	 */
 	private Stack<Card> randomize(Stack<Card> deck) {
-		return deck;
+		
+		Stack<Card> r = new Stack<>();
+		Random rand = new Random();
+		int num = deck.size();
+		ArrayList<Card> temp = new ArrayList<>();
+		
+		// turn stack into array to make randomizing easier
+		for (int i = 0; i < num; i++) {
+			temp.add(deck.pop());
+		}
+		
+		// randomize
+		for (int i = 0; i < num; i++) {
+			int j = rand.nextInt(temp.size());
+			r.push(temp.get(j));
+			temp.remove(j);
+			
+		}
+		
+		return r;
 	}
 
 	/**
@@ -552,7 +590,8 @@ public class Board extends JPanel {
 			if (player.getName() == activePlayer.getName())
 				continue;
 			for (Card suggestion : suggestedCards) {
-				if (suggestion.getCardType() == CardType.PERSON && player.getName() == suggestion.getCardName()) {
+				if (suggestion.getCardType() == CardType.PERSON
+						&& player.getName() == suggestion.getCardName()) {
 					// TODO move player to suggested room
 				}
 			}
@@ -610,21 +649,22 @@ public class Board extends JPanel {
 
 	public boolean makeAccusation(Card c1, Card c2, Card c3) {
 
-		return (chosenCards[0].equals(c1) && chosenCards[1].equals(c2) && chosenCards[2].equals(c3));
+		return (chosenCards[0].equals(c1) && chosenCards[1].equals(c2) && chosenCards[2]
+				.equals(c3));
 
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		// loop through all cells and draw them
 		for (int row = 0; row < numRows; row++) {
 			for (int col = 0; col < numCols; col++) {
 				getCellAt(row, col).draw(g);
 			}
 		}
-		
+
 		// paint players
 		for (Player p : players) {
 			p.draw(g);
