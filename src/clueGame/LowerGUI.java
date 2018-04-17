@@ -2,6 +2,8 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -15,7 +17,7 @@ import javax.swing.border.TitledBorder;
  * @author Brandon Verkamp
  */
 
-public class LowerGUI extends JPanel {
+public class LowerGUI extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,8 +36,14 @@ public class LowerGUI extends JPanel {
 		upper.add(turn);
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridLayout(1, 2));
-		buttons.add(new JButton("Next Player"), BorderLayout.WEST);
-		buttons.add(new JButton("Make an accusation"), BorderLayout.EAST);
+		JButton np = new JButton("Next Player");
+		np.setActionCommand("next player");
+		np.addActionListener(this);
+		buttons.add(np, BorderLayout.WEST);
+		JButton ma = new JButton("Make an accusation");
+		ma.setActionCommand("accusation");
+		ma.addActionListener(this);
+		buttons.add(ma, BorderLayout.EAST);
 		upper.add(buttons);
 		add(upper);
 
@@ -76,6 +84,19 @@ public class LowerGUI extends JPanel {
 		lower.add(guessResponse);
 
 		add(lower);
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		if (e.getActionCommand().equals("next player")) {
+			// next player
+
+		} else if (e.getActionCommand().equals("accusation")) {
+			// make an accusation
+
+		}
+
 	}
 
 }
