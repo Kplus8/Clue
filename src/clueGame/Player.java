@@ -48,6 +48,14 @@ public class Player {
 		this.column = column;
 	}
 
+	public int getRow() {
+		return row;
+	}
+	
+	public int getColumn() {
+		return column;
+	}
+	
 	/**
 	 * @return name
 	 */

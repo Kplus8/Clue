@@ -48,7 +48,7 @@ public class BoardCell {
 	public void draw(Graphics g) {
 
 		final int MULT = 25;
-
+		
 		if (isWalkway()) {
 
 			g.setColor(Color.YELLOW);

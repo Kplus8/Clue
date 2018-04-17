@@ -14,9 +14,12 @@ import java.util.Stack;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Represents the state of the game board as well as other game components -
@@ -26,7 +29,7 @@ import java.awt.*;
  * @author Graham Kitchenka
  * @author Brandon Verkamp
  */
-public class Board extends JPanel {
+public class Board extends JPanel implements MouseListener {
 	public static final int MAX_BOARD_SIZE = 50;
 	public static final int NUM_PLAYERS = 6;
 
@@ -50,12 +53,24 @@ public class Board extends JPanel {
 	private Player activePlayer;
 	private Solution solution;
 	private Random random = new Random();
+	private boolean playerMakeMove = false;
+	private ArrayList<Rectangle> boxes;
+
+	/**
+	 * @param playerMakeMove
+	 */
+
+	public void setPlayerMakeMove(boolean playerMakeMove) {
+		this.playerMakeMove = playerMakeMove;
+	}
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
 
 	// constructor is private to ensure only one can be created
 	private Board() {
+		this.addMouseListener(this);
+		boxes = new ArrayList<>();
 	}
 
 	/**
@@ -67,20 +82,71 @@ public class Board extends JPanel {
 		return theInstance;
 	}
 
+	/**
+	 * 
+	 * @return suggested cards
+	 */
+
 	public Card[] getSuggestedCards() {
 		return suggestedCards;
 	}
+
+	/**
+	 * 
+	 * @return chosenCards
+	 */
 
 	public Card[] getChosenCards() {
 		return chosenCards;
 	}
 
+	/**
+	 * 
+	 * @return weapons
+	 */
+
 	public Card[] getWeapons() {
 		return weapons;
 	}
 
+	/**
+	 * 
+	 * @return rooms
+	 */
+
 	public Card[] getRooms() {
 		return rooms;
+	}
+
+	/**
+	 * If activePlayer is not instantiated, sets to the human player
+	 * 
+	 * @return activePlayer
+	 */
+
+	public Player getActivePlayer() {
+
+		if (!activePlayer.equals(null)) {
+			return activePlayer;
+		} else {
+			activePlayer = getPeople()[0];
+			return activePlayer;
+		}
+	}
+
+	/**
+	 * Increases turn order by changing the active player
+	 */
+
+	public void passTurn() {
+
+		for (int i = 0; i < getPeople().length; i++) {
+			if (activePlayer.equals(players[i])) {
+				activePlayer = players[(i + 1) % players.length];
+				break;
+			}
+		}
+
 	}
 
 	/**
@@ -138,8 +204,7 @@ public class Board extends JPanel {
 	 * @throws FileNotFoundException
 	 * @throws BadConfigFormatException
 	 */
-	public void loadRoomConfig() throws FileNotFoundException,
-			BadConfigFormatException {
+	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
 		Scanner sc = new Scanner(new File(roomConfigFile));
 
 		while (sc.hasNextLine()) {
@@ -148,8 +213,7 @@ public class Board extends JPanel {
 			if (!(parts[2].equals("Card") || parts[2].equals("Other"))) {
 				sc.close();
 				throw new BadConfigFormatException(
-						"Unrecognized type in Legend file: " + roomConfigFile
-								+ ", " + parts[2]);
+						"Unrecognized type in Legend file: " + roomConfigFile + ", " + parts[2]);
 			}
 			legend.put(line.charAt(0), parts[1]);
 		}
@@ -162,8 +226,7 @@ public class Board extends JPanel {
 	 * 
 	 * @throws FileNotFoundException
 	 */
-	public void loadBoardConfig() throws FileNotFoundException,
-			BadConfigFormatException {
+	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
 		Scanner sc = new Scanner(new File(boardConfigFile));
 		int row = 0;
 
@@ -173,40 +236,32 @@ public class Board extends JPanel {
 
 			if (parts.length != numCols) {
 				sc.close();
-				throw new BadConfigFormatException("Mismatched column length. "
-						+ boardConfigFile);
+				throw new BadConfigFormatException("Mismatched column length. " + boardConfigFile);
 			}
 
 			for (int column = 0; column < parts.length; column++) {
 				if (!legend.keySet().contains(parts[column].charAt(0))) {
 					sc.close();
-					throw new BadConfigFormatException("Unrecognized initial. "
-							+ boardConfigFile + ", " + parts[column].charAt(0));
+					throw new BadConfigFormatException(
+							"Unrecognized initial. " + boardConfigFile + ", " + parts[column].charAt(0));
 				}
 
 				if (parts[column].length() == 1) {
-					board[row][column] = new BoardCell(row, column,
-							parts[column].charAt(0), DoorDirection.NONE);
+					board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE);
 				} else {
 					if (parts[column].substring(1).equals("U")) {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.UP);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.UP);
 					} else if (parts[column].substring(1).equals("D")) {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.DOWN);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.DOWN);
 					} else if (parts[column].substring(1).equals("L")) {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.LEFT);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.LEFT);
 					} else if (parts[column].substring(1).equals("R")) {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.RIGHT);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.RIGHT);
 					} else if (parts[column].substring(1).equals("N")) {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.NONE,
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE,
 								true);
 					} else {
-						board[row][column] = new BoardCell(row, column,
-								parts[column].charAt(0), DoorDirection.NONE);
+						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE);
 					}
 				}
 			}
@@ -280,8 +335,7 @@ public class Board extends JPanel {
 			for (int j = 0; j < board[i].length; j++) {
 				int l = board[i].length;
 				int w = board.length;
-				if (getCellAt(i, j).getInitial() == 'W'
-						|| getCellAt(i, j).isDoorway()) {
+				if (getCellAt(i, j).getInitial() == 'W' || getCellAt(i, j).isDoorway()) {
 					HashSet<BoardCell> temp = new HashSet<>();
 					BoardCell bc;
 
@@ -445,8 +499,7 @@ public class Board extends JPanel {
 			} else {
 				players[i] = new ComputerPlayer(parts[0], parts[1]);
 			}
-			players[i].setLocation(Integer.parseInt(parts[2]),
-					Integer.parseInt(parts[3]));
+			players[i].setLocation(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
 			i++;
 		}
 
@@ -543,31 +596,29 @@ public class Board extends JPanel {
 	/**
 	 * Randomizes the deck
 	 * 
-	 * NOT YET IMPLEMENTED!
-	 * 
 	 * @param deck
 	 * @return randomized deck
 	 */
 	private Stack<Card> randomize(Stack<Card> deck) {
-		
+
 		Stack<Card> r = new Stack<>();
 		Random rand = new Random();
 		int num = deck.size();
 		ArrayList<Card> temp = new ArrayList<>();
-		
+
 		// turn stack into array to make randomizing easier
 		for (int i = 0; i < num; i++) {
 			temp.add(deck.pop());
 		}
-		
+
 		// randomize
 		for (int i = 0; i < num; i++) {
 			int j = rand.nextInt(temp.size());
 			r.push(temp.get(j));
 			temp.remove(j);
-			
+
 		}
-		
+
 		return r;
 	}
 
@@ -590,8 +641,7 @@ public class Board extends JPanel {
 			if (player.getName() == activePlayer.getName())
 				continue;
 			for (Card suggestion : suggestedCards) {
-				if (suggestion.getCardType() == CardType.PERSON
-						&& player.getName() == suggestion.getCardName()) {
+				if (suggestion.getCardType() == CardType.PERSON && player.getName() == suggestion.getCardName()) {
 					// TODO move player to suggested room
 				}
 			}
@@ -608,6 +658,12 @@ public class Board extends JPanel {
 		return null; // no player was able to disprove
 	}
 
+	/**
+	 * Checks an accusation by getting players to disprove
+	 * 
+	 * @return boolean
+	 */
+
 	public boolean checkAccusation() {
 		// Disprove player by player, if no disprovals then player wins
 		for (Player player : players) {
@@ -621,6 +677,14 @@ public class Board extends JPanel {
 		return false;
 	}
 
+	/**
+	 * Players makes a suggestion of 3 cards
+	 * 
+	 * @param c1
+	 * @param c2
+	 * @param c3
+	 */
+
 	public void makeSuggestion(Card c1, Card c2, Card c3) {
 		suggestedCards = new Card[3];
 		suggestedCards[0] = c1;
@@ -628,6 +692,14 @@ public class Board extends JPanel {
 		suggestedCards[2] = c3;
 
 	}
+
+	/**
+	 * Gets the name of a room, by passing in the room's initial
+	 * 
+	 * @param ch
+	 * @return Room Name
+	 * @throws FileNotFoundException
+	 */
 
 	public String getRoom(char ch) throws FileNotFoundException {
 		Scanner sc = new Scanner(new File(roomConfigFile));
@@ -647,12 +719,24 @@ public class Board extends JPanel {
 		return room;
 	}
 
+	/**
+	 * Player Makes an accusation
+	 * 
+	 * @param c1
+	 * @param c2
+	 * @param c3
+	 * @return boolean
+	 */
+
 	public boolean makeAccusation(Card c1, Card c2, Card c3) {
 
-		return (chosenCards[0].equals(c1) && chosenCards[1].equals(c2) && chosenCards[2]
-				.equals(c3));
+		return (chosenCards[0].equals(c1) && chosenCards[1].equals(c2) && chosenCards[2].equals(c3));
 
 	}
+
+	/**
+	 * Draws the board
+	 */
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -669,6 +753,72 @@ public class Board extends JPanel {
 		for (Player p : players) {
 			p.draw(g);
 		}
+
+	}
+
+	public void paintTargets(Graphics g) {
+		final int MULT = 25;
+
+		boxes.clear();
+
+		// loop through all cells and draw them
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numCols; col++) {
+				if (targets.contains(getCellAt(row, col))) {
+
+					boxes.add(new Rectangle(col * MULT, row * MULT, MULT, MULT));
+
+					g.setColor(Color.CYAN);
+					g.fillRect(col * MULT, row * MULT, MULT, MULT);
+					g.setColor(Color.BLACK);
+					g.drawRect(col * MULT, row * MULT, MULT, MULT);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+
+	}
+
+	/**
+	 * Checks for player's selected target
+	 */
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+
+		final int MULT = 25;
+
+		if (playerMakeMove) {
+			for (int i = 0; i < boxes.size(); i++) {
+				if (boxes.get(i).contains(e.getX(), e.getY())) {
+					playerMakeMove = false;
+					activePlayer.setLocation((int)boxes.get(i).getY()/MULT, (int)boxes.get(i).getX()/MULT);
+					passTurn();
+					// enable button
+					this.paintComponent(this.getGraphics());
+					
+					break;
+				}
+			}
+		}
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
 
 	}
 }

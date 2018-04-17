@@ -34,6 +34,10 @@ public class ClueGame extends JFrame implements ActionListener {
 
 	}
 
+	/**
+	 * Creates GUI
+	 */
+	
 	public void createGUI() {
 		setSize(800, 800);
 		add(new LowerGUI(), BorderLayout.SOUTH);
@@ -65,6 +69,10 @@ public class ClueGame extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
+	/**
+	 * Action Listener
+	 */
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 

@@ -23,6 +23,10 @@ public class ClueGameGUI extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Creates ClueGameGUI
+	 */
+	
 	public ClueGameGUI() {
 
 		// get player's cards

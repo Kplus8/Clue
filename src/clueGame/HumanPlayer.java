@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.util.Set;
+
 /**
  * 
  * @author Jim DeBlock
@@ -11,6 +13,16 @@ public class HumanPlayer extends Player {
 
 	public HumanPlayer(String playerName, String color) {
 		super(playerName, color);
+	}
+
+	/**
+	 * Pass through list of targets, waits for player to select choice
+	 * 
+	 * @return selected cell
+	 */
+
+	public void makeMove() {
+		Board.getInstance().setPlayerMakeMove(true);
 	}
 
 }

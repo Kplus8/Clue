@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -17,9 +20,16 @@ import javax.swing.border.TitledBorder;
  * @author Brandon Verkamp
  */
 
-public class LowerGUI extends JPanel implements ActionListener{
+public class LowerGUI extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
+
+	private JTextField response, sGuess, wTurn, roll;
+	private JButton np;
+
+	/**
+	 * Creates GameControlGUI
+	 */
 
 	public LowerGUI() {
 		setLayout(new GridLayout(2, 2));
@@ -30,13 +40,13 @@ public class LowerGUI extends JPanel implements ActionListener{
 		upper.setLayout(new GridLayout(1, 2));
 		JPanel turn = new JPanel();
 		turn.add(new JLabel("Whose Turn?"));
-		JTextField wTurn = new JTextField(20);
+		wTurn = new JTextField(20);
 		wTurn.setEditable(false);
 		turn.add(wTurn);
 		upper.add(turn);
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridLayout(1, 2));
-		JButton np = new JButton("Next Player");
+		np = new JButton("Next Player");
 		np.setActionCommand("next player");
 		np.addActionListener(this);
 		buttons.add(np, BorderLayout.WEST);
@@ -56,7 +66,7 @@ public class LowerGUI extends JPanel implements ActionListener{
 
 		JPanel die = new JPanel();
 		die.setBorder(new TitledBorder(new EtchedBorder(), "Die"));
-		JTextField roll = new JTextField(3);
+		roll = new JTextField(3);
 		roll.setEditable(false);
 		die.add(new JLabel("Roll"));
 		die.add(roll);
@@ -67,31 +77,67 @@ public class LowerGUI extends JPanel implements ActionListener{
 		JPanel guess = new JPanel();
 		guess.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
 		guess.add(new JLabel("Guess"));
-		JTextField sGuess = new JTextField(15);
+		sGuess = new JTextField(15);
 		sGuess.setEditable(false);
 		guess.add(sGuess);
 		lower.add(guess);
 
 		// response panel
-		
+
 		JPanel guessResponse = new JPanel();
-		guessResponse.setBorder(new TitledBorder(new EtchedBorder(),
-				"Guess Result"));
+		guessResponse.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
 		guessResponse.add(new JLabel("Response"));
-		JTextField response = new JTextField(15);
+		response = new JTextField(15);
 		response.setEditable(false);
 		guessResponse.add(response);
 		lower.add(guessResponse);
 
 		add(lower);
 	}
+
+	public void setNPEnabled() {
+		np.setEnabled(true);
+	}
 	
+	/**
+	 * Action Listener
+	 */
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getActionCommand().equals("next player")) {
 			// next player
 
+			// roll die
+			Random rand = new Random();
+			roll.setText((rand.nextInt(6) + 1) + "");
+
+			// get players
+
+			Board board = Board.getInstance();
+			Player ap = board.getActivePlayer();
+			wTurn.setText(ap.getName());
+
+			if (board.getPeople()[0].equals(ap)) { // human player
+
+				HumanPlayer hp = (HumanPlayer) ap;
+				board.calcTargets(hp.getRow(), hp.getColumn(), Integer.parseInt(roll.getText()));
+				board.paintTargets(board.getGraphics());
+				np.setEnabled(false); // disables next player button
+				// player makes choice
+				hp.makeMove(); // waits for player
+			} else { // computer player
+
+				ComputerPlayer cp = (ComputerPlayer) ap;
+				board.calcTargets(cp.getRow(), cp.getColumn(), Integer.parseInt(roll.getText()));
+				BoardCell cell = cp.pickLocation(board.getTargets());
+				cp.setLocation(cell.getRow(), cell.getColumn());
+				// increment active player
+				board.passTurn();
+				// redraw graphics
+				board.paintComponent(board.getGraphics());
+			}
 		} else if (e.getActionCommand().equals("accusation")) {
 			// make an accusation
 
