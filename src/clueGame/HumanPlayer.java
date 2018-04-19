@@ -1,7 +1,5 @@
 package clueGame;
 
-import java.util.Set;
-
 /**
  * 
  * @author Jim DeBlock

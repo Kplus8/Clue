@@ -17,14 +17,14 @@ public class ComputerPlayer extends Player {
 
 	BoardCell justVisited;
 
-	public ComputerPlayer(String playerName, String color){
+	public ComputerPlayer(String playerName, String color) {
 		super(playerName, color);
 	}
-	
-	public ComputerPlayer(){
+
+	public ComputerPlayer() {
 		super();
 	}
-	
+
 	/**
 	 * Picks a location to move to
 	 * 
@@ -69,8 +69,7 @@ public class ComputerPlayer extends Player {
 		Card player = null, weapon = null, room = null;
 
 		try {
-			room = new Card(board.getRoom(this.getRoom().getInitial()),
-					CardType.ROOM);
+			room = new Card(board.getRoom(this.getRoom().getInitial()), CardType.ROOM);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -104,10 +103,7 @@ public class ComputerPlayer extends Player {
 		} else {
 			boolean cont = true;
 			while (cont) {
-				player = new Card(
-						board.getPeople()[r.nextInt(board.getPeople().length)]
-								.getName(),
-						CardType.PERSON);
+				player = new Card(board.getPeople()[r.nextInt(board.getPeople().length)].getName(), CardType.PERSON);
 				boolean cont2 = true;
 				for (Card c : players) {
 					if (c.equals(player)) {
@@ -127,8 +123,7 @@ public class ComputerPlayer extends Player {
 		} else {
 			boolean cont = true;
 			while (cont) {
-				weapon = board.getWeapons()[r
-						.nextInt(board.getWeapons().length)];
+				weapon = board.getWeapons()[r.nextInt(board.getWeapons().length)];
 				boolean cont2 = true;
 				for (Card c : weapons) {
 					if (c.equals(weapon)) {
@@ -140,6 +135,9 @@ public class ComputerPlayer extends Player {
 					cont = false;
 			}
 		}
+
+		LowerGUI.getInstance().setGuessText(
+				player.getCardName() + " in the " + room.getCardName() + " with the " + weapon.getCardName() + ".");
 
 		board.makeSuggestion(player, weapon, room);
 

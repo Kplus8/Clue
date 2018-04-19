@@ -824,6 +824,7 @@ public class Board extends JPanel implements MouseListener {
 	public void mousePressed(MouseEvent e) {
 
 		final int MULT = 25;
+		boolean move = false;
 
 		if (playerMakeMove) {
 			for (int i = 0; i < boxes.size(); i++) {
@@ -835,9 +836,12 @@ public class Board extends JPanel implements MouseListener {
 					LowerGUI.getInstance().setNPEnabled();
 					// repaint graphics
 					this.paintComponent(this.getGraphics());
-
+					move = true;
 					break;
 				}
+			}
+			if (!move) {
+				JOptionPane.showMessageDialog(null, "Not a valid option.", "Clue", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 

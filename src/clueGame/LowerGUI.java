@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +24,7 @@ import javax.swing.border.TitledBorder;
 public class LowerGUI extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static LowerGUI theInstance = new LowerGUI();
 
 	private JTextField response, sGuess, wTurn, roll;
@@ -32,7 +33,7 @@ public class LowerGUI extends JPanel implements ActionListener {
 	public static LowerGUI getInstance() {
 		return theInstance;
 	}
-	
+
 	/**
 	 * Creates GameControlGUI
 	 */
@@ -71,6 +72,7 @@ public class LowerGUI extends JPanel implements ActionListener {
 		// die panel
 
 		JPanel die = new JPanel();
+		/*die.setPreferredSize(new Dimension(50, 50));*/
 		die.setBorder(new TitledBorder(new EtchedBorder(), "Die"));
 		roll = new JTextField(3);
 		roll.setEditable(false);
@@ -83,7 +85,7 @@ public class LowerGUI extends JPanel implements ActionListener {
 		JPanel guess = new JPanel();
 		guess.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
 		guess.add(new JLabel("Guess"));
-		sGuess = new JTextField(15);
+		sGuess = new JTextField(30);
 		sGuess.setEditable(false);
 		guess.add(sGuess);
 		lower.add(guess);
@@ -105,6 +107,10 @@ public class LowerGUI extends JPanel implements ActionListener {
 		np.setEnabled(true);
 	}
 	
+	public void setGuessText(String text) {
+		sGuess.setText(text);
+	}
+
 	/**
 	 * Action Listener
 	 */
@@ -139,6 +145,10 @@ public class LowerGUI extends JPanel implements ActionListener {
 				board.calcTargets(cp.getRow(), cp.getColumn(), Integer.parseInt(roll.getText()));
 				BoardCell cell = cp.pickLocation(board.getTargets());
 				cp.setLocation(cell.getRow(), cell.getColumn());
+				// if entered room, make guess
+				if (cell.isRoom()) {
+					cp.createSuggestion();
+				}
 				// increment active player
 				board.passTurn();
 				// redraw graphics
