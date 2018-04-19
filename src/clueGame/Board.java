@@ -431,6 +431,12 @@ public class Board extends JPanel implements MouseListener {
 		BoardCell startCell = getCellAt(x, y);
 		visited.add(startCell);
 		findAllTargets(startCell, pathLength);
+		for (Player p : players) {
+			if (p.getRow() != startCell.getRow() && p.getColumn() != startCell.getColumn()
+					&& !getCellAt(p.getRow(), p.getColumn()).isDoorway()) {
+				targets.remove(getCellAt(p.getRow(), p.getColumn()));
+			}
+		}
 	}
 
 	/**

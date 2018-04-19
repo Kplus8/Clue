@@ -1,3 +1,27 @@
+commit 94cef79bed51dbec3e84ffeb629304aacd4e2163
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Thu Apr 19 15:42:18 2018 -0600
+
+    Now re-enables button, so Next Player now works as intended. Resized Detective Notes frame.
+
+commit 5267d26ea8c00d37dd661f6dba010978cd727006
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Tue Apr 17 16:50:36 2018 -0600
+
+    Need to re-enable button
+
+commit a1f715900ff447ccda1567a867a6dba646e155cb
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Tue Apr 17 15:30:50 2018 -0600
+
+    Added action listener to control GUI
+
+commit 86eb8dff705b2211e2db71d2a10c1ef762d9e219
+Author: jdeblock <jdeblock@mymail.mines.edu>
+Date:   Sun Apr 15 17:05:48 2018 -0600
+
+    Added start message and displaying cards of the player
+
 commit 3fd75d2d4ad6cf4f662d7dedd9da9997e2a75754
 Author: jdeblock <jdeblock@mymail.mines.edu>
 Date:   Sat Apr 14 15:16:31 2018 -0600
