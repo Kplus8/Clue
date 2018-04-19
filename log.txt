@@ -1,3 +1,15 @@
+commit cd07161f01e615441997e6201b26ef5b9b4ae9fe
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Thu Apr 19 16:15:45 2018 -0600
+
+    Added message when not valid space is chosen
+
+commit af7db782840769ad037b31947cc29e6db6bd80c4
+Author: James DeBlock <jdeblock@mines.edu>
+Date:   Thu Apr 19 15:58:57 2018 -0600
+
+    Players cannot move onto another, aside from entering rooms
+
 commit 94cef79bed51dbec3e84ffeb629304aacd4e2163
 Author: James DeBlock <jdeblock@mines.edu>
 Date:   Thu Apr 19 15:42:18 2018 -0600

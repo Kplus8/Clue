@@ -697,6 +697,50 @@ public class Board extends JPanel implements MouseListener {
 		suggestedCards[1] = c2;
 		suggestedCards[2] = c3;
 
+		checkSuggestions();
+
+	}
+
+	public void checkSuggestions() {
+
+		boolean card = false;
+		Card c = new Card("", CardType.ROOM);
+
+		// get player after activePlayer
+		int np = 0;
+		for (int i = 0; i < getPeople().length; i++) {
+			if (activePlayer.equals(players[i])) {
+				np = (i + 1) % players.length;
+				break;
+			}
+		}
+
+		// loop through players until a card is chosen
+		for (int i = np; i < players.length; i++) {
+
+			c = players[i].disproveSuggestion();
+			if (c != null) {
+				card = true;
+				break;
+			}
+
+		}
+		if (!card) {
+			for (int i = 0; i < np - 1; i++) {
+
+				c = players[i].disproveSuggestion();
+				if (c != null) {
+					break;
+				}
+			}
+		}
+		
+		// update textbox
+		LowerGUI.getInstance().setResponseText(c.getCardName());
+		// add card to cp player's seen cards
+		for (Player p : players) {
+			p.giveSeenCard(c);
+		}
 	}
 
 	/**

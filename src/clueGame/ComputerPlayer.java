@@ -16,6 +16,7 @@ import java.util.Set;
 public class ComputerPlayer extends Player {
 
 	BoardCell justVisited;
+	private boolean readyAccusation = false;
 
 	public ComputerPlayer(String playerName, String color) {
 		super(playerName, color);
@@ -23,6 +24,10 @@ public class ComputerPlayer extends Player {
 
 	public ComputerPlayer() {
 		super();
+	}
+
+	public boolean getReadyAccusation() {
+		return readyAccusation;
 	}
 
 	/**

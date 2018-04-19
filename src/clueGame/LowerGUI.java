@@ -72,7 +72,7 @@ public class LowerGUI extends JPanel implements ActionListener {
 		// die panel
 
 		JPanel die = new JPanel();
-		/*die.setPreferredSize(new Dimension(50, 50));*/
+		/* die.setPreferredSize(new Dimension(50, 50)); */
 		die.setBorder(new TitledBorder(new EtchedBorder(), "Die"));
 		roll = new JTextField(3);
 		roll.setEditable(false);
@@ -106,9 +106,13 @@ public class LowerGUI extends JPanel implements ActionListener {
 	public void setNPEnabled() {
 		np.setEnabled(true);
 	}
-	
+
 	public void setGuessText(String text) {
 		sGuess.setText(text);
+	}
+
+	public void setResponseText(String text) {
+		response.setText(text);
 	}
 
 	/**
@@ -142,12 +146,17 @@ public class LowerGUI extends JPanel implements ActionListener {
 			} else { // computer player
 
 				ComputerPlayer cp = (ComputerPlayer) ap;
-				board.calcTargets(cp.getRow(), cp.getColumn(), Integer.parseInt(roll.getText()));
-				BoardCell cell = cp.pickLocation(board.getTargets());
-				cp.setLocation(cell.getRow(), cell.getColumn());
-				// if entered room, make guess
-				if (cell.isRoom()) {
-					cp.createSuggestion();
+
+				if (cp.getReadyAccusation()) { // make accusation
+
+				} else { // move player
+					board.calcTargets(cp.getRow(), cp.getColumn(), Integer.parseInt(roll.getText()));
+					BoardCell cell = cp.pickLocation(board.getTargets());
+					cp.setLocation(cell.getRow(), cell.getColumn());
+					// if entered room, make guess
+					if (cell.isRoom()) {
+						cp.createSuggestion();
+					}
 				}
 				// increment active player
 				board.passTurn();
