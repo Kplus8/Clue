@@ -23,15 +23,21 @@ import javax.swing.border.TitledBorder;
 public class LowerGUI extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static LowerGUI theInstance = new LowerGUI();
 
 	private JTextField response, sGuess, wTurn, roll;
 	private JButton np;
 
+	public static LowerGUI getInstance() {
+		return theInstance;
+	}
+	
 	/**
 	 * Creates GameControlGUI
 	 */
 
-	public LowerGUI() {
+	private LowerGUI() {
 		setLayout(new GridLayout(2, 2));
 
 		// Upper half, with whose turn it is and buttons

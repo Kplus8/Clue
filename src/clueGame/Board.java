@@ -772,6 +772,24 @@ public class Board extends JPanel implements MouseListener {
 					g.fillRect(col * MULT, row * MULT, MULT, MULT);
 					g.setColor(Color.BLACK);
 					g.drawRect(col * MULT, row * MULT, MULT, MULT);
+
+					if (getCellAt(row, col).isDoorway()) {
+						g.setColor(Color.BLUE);
+						switch (getCellAt(row, col).getDoorDirection()) {
+						case UP:
+							g.fillRect(col * MULT, row * MULT, MULT, MULT - 20);
+							break;
+						case DOWN:
+							g.fillRect(col * MULT, row * MULT + 20, MULT, MULT - 20);
+							break;
+						case LEFT:
+							g.fillRect(col * MULT, row * MULT, MULT - 20, MULT);
+							break;
+						case RIGHT:
+							g.fillRect(col * MULT + 20, row * MULT, MULT - 20, MULT);
+							break;
+						}
+					}
 				}
 			}
 		}
@@ -805,11 +823,13 @@ public class Board extends JPanel implements MouseListener {
 			for (int i = 0; i < boxes.size(); i++) {
 				if (boxes.get(i).contains(e.getX(), e.getY())) {
 					playerMakeMove = false;
-					activePlayer.setLocation((int)boxes.get(i).getY()/MULT, (int)boxes.get(i).getX()/MULT);
+					activePlayer.setLocation((int) boxes.get(i).getY() / MULT, (int) boxes.get(i).getX() / MULT);
 					passTurn();
 					// enable button
+					LowerGUI.getInstance().setNPEnabled();
+					// repaint graphics
 					this.paintComponent(this.getGraphics());
-					
+
 					break;
 				}
 			}

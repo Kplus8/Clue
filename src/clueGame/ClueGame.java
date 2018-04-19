@@ -40,7 +40,7 @@ public class ClueGame extends JFrame implements ActionListener {
 	
 	public void createGUI() {
 		setSize(800, 800);
-		add(new LowerGUI(), BorderLayout.SOUTH);
+		add(LowerGUI.getInstance(), BorderLayout.SOUTH);
 		add(new ClueGameGUI(), BorderLayout.EAST);
 
 		// menu bar

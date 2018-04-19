@@ -22,12 +22,13 @@ public class DetectiveNotes extends JDialog {
 		JPanel people = new JPanel();
 		people.setBorder(new TitledBorder(new EtchedBorder(), "People"));
 		// people.setLayout(new GridLayout());
-		String[] lPeople = new String[board.getPeople().length];
+		String[] lPeople = new String[board.getPeople().length + 1];
+		lPeople[0] = "Don't Know";
 		for (int i = 0; i < board.getPeople().length; i++) {
 			Player p = board.getPeople()[i];
 			JCheckBox check = new JCheckBox(p.getName());
 			people.add(check);
-			lPeople[i] = p.getName();
+			lPeople[i + 1] = p.getName();
 		}
 
 		// person guess
@@ -37,13 +38,14 @@ public class DetectiveNotes extends JDialog {
 
 		// get rooms
 		JPanel rooms = new JPanel();
-		String[] lRooms = new String[board.getRooms().length];
+		String[] lRooms = new String[board.getRooms().length + 1];
 		rooms.setBorder(new TitledBorder(new EtchedBorder(), "Rooms"));
+		lRooms[0] = "Don't Know";
 		for (int i = 0; i < board.getRooms().length; i++) {
 			Card r = board.getRooms()[i];
 			JCheckBox check = new JCheckBox(r.getCardName());
 			rooms.add(check);
-			lRooms[i] = r.getCardName();
+			lRooms[i + 1] = r.getCardName();
 		}
 
 		// room guess
@@ -53,13 +55,14 @@ public class DetectiveNotes extends JDialog {
 
 		// get weapons
 		JPanel weapons = new JPanel();
-		String[] lWeapons = new String[board.getWeapons().length];
+		String[] lWeapons = new String[board.getWeapons().length + 1];
 		weapons.setBorder(new TitledBorder(new EtchedBorder(), "Weapons"));
+		lWeapons[0] = "Don't Know";
 		for (int i = 0; i < board.getWeapons().length; i++) {
 			Card w = board.getWeapons()[i];
 			JCheckBox check = new JCheckBox(w.getCardName());
 			weapons.add(check);
-			lWeapons[i] = w.getCardName();
+			lWeapons[i + 1] = w.getCardName();
 		}
 
 		// weapon guess
@@ -67,7 +70,7 @@ public class DetectiveNotes extends JDialog {
 		wGuess.setBorder(new TitledBorder(new EtchedBorder(), "Weapon Guess"));
 		wGuess.add(new JComboBox<String>(lWeapons));
 
-		setSize(450, 500);
+		setSize(450, 550);
 		setTitle("Detective Notes");
 		add(people);
 		add(pGuess);
