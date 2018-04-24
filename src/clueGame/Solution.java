@@ -1,7 +1,8 @@
 package clueGame;
 
 /**
- * The solution to the game - the person, room, and weapon that comprise the answer
+ * The solution to the game - the person, room, and weapon that comprise the
+ * answer
  *
  * @author Jim DeBlock
  * @author Graham Kitchenka
@@ -27,6 +28,17 @@ public class Solution {
 	public String getWeapon() {
 		return weapon.getCardName();
 	}
-	
-	
+
+	public Card getPersonCard() {
+		return person;
+	}
+
+	public Card getRoomCard() {
+		return room;
+	}
+
+	public Card getWeaponCard() {
+		return weapon;
+	}
+
 }

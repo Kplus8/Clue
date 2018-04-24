@@ -20,6 +20,7 @@ public class Player {
 	private Color color;
 	private ArrayList<Card> cards;
 	private ArrayList<Card> seenCards;
+	protected boolean canAccuse = false;
 
 	public Player() {
 		super();
@@ -43,6 +44,10 @@ public class Player {
 		return color;
 	}
 
+	public void setCanAccuse(boolean canAccuse) {
+		this.canAccuse = canAccuse;
+	}
+
 	public void setLocation(int row, int column) {
 		this.row = row;
 		this.column = column;
@@ -51,11 +56,11 @@ public class Player {
 	public int getRow() {
 		return row;
 	}
-	
+
 	public int getColumn() {
 		return column;
 	}
-	
+
 	/**
 	 * @return name
 	 */
@@ -126,8 +131,7 @@ public class Player {
 		ArrayList<Card> aCards = new ArrayList<>();
 
 		for (Card c : cards) {
-			if (c.equals(suggested[0]) || c.equals(suggested[1])
-					|| c.equals(suggested[2])) {
+			if (c.equals(suggested[0]) || c.equals(suggested[1]) || c.equals(suggested[2])) {
 
 				aCards.add(c);
 
@@ -156,9 +160,9 @@ public class Player {
 	public void draw(Graphics g) {
 		final int s = 25;
 		g.setColor(color);
-		g.fillOval(column*s, row*s, s, s);
+		g.fillOval(column * s, row * s, s, s);
 		g.setColor(Color.BLACK);
-		g.drawOval(column*s, row*s, s, s);
+		g.drawOval(column * s, row * s, s, s);
 	}
-	
+
 }

@@ -37,7 +37,6 @@ public class Card {
 	@Override
 	public boolean equals(Object obj) {
 		Card c = (Card) obj;
-		return c.getCardName().equals(this.getCardName())
-				&& c.getCardType().equals(this.getCardType());
+		return c.getCardName().equals(this.getCardName()) && c.getCardType().equals(this.getCardType());
 	}
 }

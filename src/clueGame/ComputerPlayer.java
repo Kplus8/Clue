@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 /**
  * A player which chooses moves algorithmically as opposed to choosing according
  * to human input
@@ -14,6 +16,8 @@ import java.util.Set;
  * @author Brandon Verkamp
  */
 public class ComputerPlayer extends Player {
+
+	private Solution lastCombo;
 
 	BoardCell justVisited;
 	private boolean readyAccusation = false;
@@ -27,7 +31,7 @@ public class ComputerPlayer extends Player {
 	}
 
 	public boolean getReadyAccusation() {
-		return readyAccusation;
+		return super.canAccuse;
 	}
 
 	/**
@@ -56,7 +60,22 @@ public class ComputerPlayer extends Player {
 	 * Makes an accusation
 	 */
 	public void makeAccusations() {
-		return;
+		Board board = Board.getInstance();
+
+		if (board.makeAccusation(lastCombo.getPersonCard(), lastCombo.getWeaponCard(), lastCombo.getRoomCard())) {
+
+			JOptionPane.showMessageDialog(null,
+					this.getName() + " has won! The answer was " + lastCombo.getPerson() + " in the "
+							+ lastCombo.getRoom() + " with the " + lastCombo.getWeapon() + ".",
+					"Clue", JOptionPane.INFORMATION_MESSAGE);
+			Runtime.getRuntime().exit(0);
+
+		} else {
+			JOptionPane.showMessageDialog(null,
+					this.getName() + " guessed incorrectly, their guess was " + lastCombo.getPerson() + " in the "
+							+ lastCombo.getRoom() + " with the " + lastCombo.getWeapon() + ".",
+					"Clue", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	/**
@@ -141,9 +160,10 @@ public class ComputerPlayer extends Player {
 			}
 		}
 
-		LowerGUI.getInstance().setGuessText(
-				player.getCardName() + " in the " + room.getCardName() + " with the " + weapon.getCardName() + ".");
+		LowerGUI.getInstance()
+				.setGuessText(player.getCardName() + ", " + room.getCardName() + ", " + weapon.getCardName());
 
+		lastCombo = new Solution(player, room, weapon);
 		board.makeSuggestion(player, weapon, room);
 
 	}

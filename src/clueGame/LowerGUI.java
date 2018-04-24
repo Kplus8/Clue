@@ -28,7 +28,7 @@ public class LowerGUI extends JPanel implements ActionListener {
 	private static LowerGUI theInstance = new LowerGUI();
 
 	private JTextField response, sGuess, wTurn, roll;
-	private JButton np;
+	private JButton np, ma;
 
 	public static LowerGUI getInstance() {
 		return theInstance;
@@ -57,7 +57,7 @@ public class LowerGUI extends JPanel implements ActionListener {
 		np.setActionCommand("next player");
 		np.addActionListener(this);
 		buttons.add(np, BorderLayout.WEST);
-		JButton ma = new JButton("Make an accusation");
+		ma = new JButton("Make an accusation");
 		ma.setActionCommand("accusation");
 		ma.addActionListener(this);
 		buttons.add(ma, BorderLayout.EAST);
@@ -83,9 +83,10 @@ public class LowerGUI extends JPanel implements ActionListener {
 		// guess panel
 
 		JPanel guess = new JPanel();
+		guess.setLayout(new GridLayout(2, 1));
 		guess.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
 		guess.add(new JLabel("Guess"));
-		sGuess = new JTextField(30);
+		sGuess = new JTextField(20);
 		sGuess.setEditable(false);
 		guess.add(sGuess);
 		lower.add(guess);
@@ -149,6 +150,9 @@ public class LowerGUI extends JPanel implements ActionListener {
 
 				if (cp.getReadyAccusation()) { // make accusation
 
+					cp.setCanAccuse(false);
+					cp.makeAccusations();
+					
 				} else { // move player
 					board.calcTargets(cp.getRow(), cp.getColumn(), Integer.parseInt(roll.getText()));
 					BoardCell cell = cp.pickLocation(board.getTargets());
@@ -165,7 +169,15 @@ public class LowerGUI extends JPanel implements ActionListener {
 			}
 		} else if (e.getActionCommand().equals("accusation")) {
 			// make an accusation
+			Board board = Board.getInstance();
+			if (board.getActivePlayer().getName().equals("Miss Scarlet")) { 
 
+				AccusationGUI a = new AccusationGUI();
+				a.setVisible(true);
+				
+			} else {
+				JOptionPane.showMessageDialog(null, "It's not your turn!", "Clue", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 
 	}

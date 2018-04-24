@@ -697,6 +697,18 @@ public class Board extends JPanel implements MouseListener {
 		suggestedCards[1] = c2;
 		suggestedCards[2] = c3;
 
+		// teleport player to room
+		for (Player p : players) {
+
+			if (p.getName().equals(c1.getCardName())) {
+				p.setLocation(activePlayer.getRow(), activePlayer.getColumn());
+				break;
+			}
+
+		}
+
+		this.paintComponent(this.getGraphics());
+
 		checkSuggestions();
 
 	}
@@ -734,7 +746,14 @@ public class Board extends JPanel implements MouseListener {
 				}
 			}
 		}
-		
+
+		if (c == null) {
+			c = new Card("No cards were found", CardType.PERSON);
+			if (!activePlayer.getCards().contains(suggestedCards[2])) {
+				activePlayer.setCanAccuse(true);
+			}
+		}
+
 		// update textbox
 		LowerGUI.getInstance().setResponseText(c.getCardName());
 		// add card to cp player's seen cards
@@ -875,12 +894,19 @@ public class Board extends JPanel implements MouseListener {
 				if (boxes.get(i).contains(e.getX(), e.getY())) {
 					playerMakeMove = false;
 					activePlayer.setLocation((int) boxes.get(i).getY() / MULT, (int) boxes.get(i).getX() / MULT);
-					passTurn();
+
 					// enable button
 					LowerGUI.getInstance().setNPEnabled();
 					// repaint graphics
 					this.paintComponent(this.getGraphics());
 					move = true;
+
+					// if moved into room, show suggestion dialog
+					if (getCellAt(activePlayer.getRow(), activePlayer.getColumn()).getInitial() != 'W') {
+						SuggestionGUI s = new SuggestionGUI();
+						s.setVisible(true);
+					}
+					passTurn();
 					break;
 				}
 			}
