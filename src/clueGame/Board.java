@@ -204,7 +204,8 @@ public class Board extends JPanel implements MouseListener {
 	 * @throws FileNotFoundException
 	 * @throws BadConfigFormatException
 	 */
-	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
+	public void loadRoomConfig() throws FileNotFoundException,
+			BadConfigFormatException {
 		Scanner sc = new Scanner(new File(roomConfigFile));
 
 		while (sc.hasNextLine()) {
@@ -213,7 +214,8 @@ public class Board extends JPanel implements MouseListener {
 			if (!(parts[2].equals("Card") || parts[2].equals("Other"))) {
 				sc.close();
 				throw new BadConfigFormatException(
-						"Unrecognized type in Legend file: " + roomConfigFile + ", " + parts[2]);
+						"Unrecognized type in Legend file: " + roomConfigFile
+								+ ", " + parts[2]);
 			}
 			legend.put(line.charAt(0), parts[1]);
 		}
@@ -226,7 +228,8 @@ public class Board extends JPanel implements MouseListener {
 	 * 
 	 * @throws FileNotFoundException
 	 */
-	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
+	public void loadBoardConfig() throws FileNotFoundException,
+			BadConfigFormatException {
 		Scanner sc = new Scanner(new File(boardConfigFile));
 		int row = 0;
 
@@ -236,32 +239,40 @@ public class Board extends JPanel implements MouseListener {
 
 			if (parts.length != numCols) {
 				sc.close();
-				throw new BadConfigFormatException("Mismatched column length. " + boardConfigFile);
+				throw new BadConfigFormatException("Mismatched column length. "
+						+ boardConfigFile);
 			}
 
 			for (int column = 0; column < parts.length; column++) {
 				if (!legend.keySet().contains(parts[column].charAt(0))) {
 					sc.close();
-					throw new BadConfigFormatException(
-							"Unrecognized initial. " + boardConfigFile + ", " + parts[column].charAt(0));
+					throw new BadConfigFormatException("Unrecognized initial. "
+							+ boardConfigFile + ", " + parts[column].charAt(0));
 				}
 
 				if (parts[column].length() == 1) {
-					board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE);
+					board[row][column] = new BoardCell(row, column,
+							parts[column].charAt(0), DoorDirection.NONE);
 				} else {
 					if (parts[column].substring(1).equals("U")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.UP);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.UP);
 					} else if (parts[column].substring(1).equals("D")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.DOWN);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.DOWN);
 					} else if (parts[column].substring(1).equals("L")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.LEFT);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.LEFT);
 					} else if (parts[column].substring(1).equals("R")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.RIGHT);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.RIGHT);
 					} else if (parts[column].substring(1).equals("N")) {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE,
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.NONE,
 								true);
 					} else {
-						board[row][column] = new BoardCell(row, column, parts[column].charAt(0), DoorDirection.NONE);
+						board[row][column] = new BoardCell(row, column,
+								parts[column].charAt(0), DoorDirection.NONE);
 					}
 				}
 			}
@@ -335,7 +346,8 @@ public class Board extends JPanel implements MouseListener {
 			for (int j = 0; j < board[i].length; j++) {
 				int l = board[i].length;
 				int w = board.length;
-				if (getCellAt(i, j).getInitial() == 'W' || getCellAt(i, j).isDoorway()) {
+				if (getCellAt(i, j).getInitial() == 'W'
+						|| getCellAt(i, j).isDoorway()) {
 					HashSet<BoardCell> temp = new HashSet<>();
 					BoardCell bc;
 
@@ -432,7 +444,8 @@ public class Board extends JPanel implements MouseListener {
 		visited.add(startCell);
 		findAllTargets(startCell, pathLength);
 		for (Player p : players) {
-			if (p.getRow() != startCell.getRow() && p.getColumn() != startCell.getColumn()
+			if (p.getRow() != startCell.getRow()
+					&& p.getColumn() != startCell.getColumn()
 					&& !getCellAt(p.getRow(), p.getColumn()).isDoorway()) {
 				targets.remove(getCellAt(p.getRow(), p.getColumn()));
 			}
@@ -505,7 +518,8 @@ public class Board extends JPanel implements MouseListener {
 			} else {
 				players[i] = new ComputerPlayer(parts[0], parts[1]);
 			}
-			players[i].setLocation(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+			players[i].setLocation(Integer.parseInt(parts[2]),
+					Integer.parseInt(parts[3]));
 			i++;
 		}
 
@@ -647,7 +661,8 @@ public class Board extends JPanel implements MouseListener {
 			if (player.getName() == activePlayer.getName())
 				continue;
 			for (Card suggestion : suggestedCards) {
-				if (suggestion.getCardType() == CardType.PERSON && player.getName() == suggestion.getCardName()) {
+				if (suggestion.getCardType() == CardType.PERSON
+						&& player.getName() == suggestion.getCardName()) {
 					// TODO move player to suggested room
 				}
 			}
@@ -799,7 +814,8 @@ public class Board extends JPanel implements MouseListener {
 
 	public boolean makeAccusation(Card c1, Card c2, Card c3) {
 
-		return (chosenCards[0].equals(c1) && chosenCards[1].equals(c2) && chosenCards[2].equals(c3));
+		return (chosenCards[0].equals(c1) && chosenCards[1].equals(c2) && chosenCards[2]
+				.equals(c3));
 
 	}
 
@@ -849,13 +865,15 @@ public class Board extends JPanel implements MouseListener {
 							g.fillRect(col * MULT, row * MULT, MULT, MULT - 20);
 							break;
 						case DOWN:
-							g.fillRect(col * MULT, row * MULT + 20, MULT, MULT - 20);
+							g.fillRect(col * MULT, row * MULT + 20, MULT,
+									MULT - 20);
 							break;
 						case LEFT:
 							g.fillRect(col * MULT, row * MULT, MULT - 20, MULT);
 							break;
 						case RIGHT:
-							g.fillRect(col * MULT + 20, row * MULT, MULT - 20, MULT);
+							g.fillRect(col * MULT + 20, row * MULT, MULT - 20,
+									MULT);
 							break;
 						}
 					}
@@ -893,7 +911,8 @@ public class Board extends JPanel implements MouseListener {
 			for (int i = 0; i < boxes.size(); i++) {
 				if (boxes.get(i).contains(e.getX(), e.getY())) {
 					playerMakeMove = false;
-					activePlayer.setLocation((int) boxes.get(i).getY() / MULT, (int) boxes.get(i).getX() / MULT);
+					activePlayer.setLocation((int) boxes.get(i).getY() / MULT,
+							(int) boxes.get(i).getX() / MULT);
 
 					// enable button
 					LowerGUI.getInstance().setNPEnabled();
@@ -902,7 +921,8 @@ public class Board extends JPanel implements MouseListener {
 					move = true;
 
 					// if moved into room, show suggestion dialog
-					if (getCellAt(activePlayer.getRow(), activePlayer.getColumn()).getInitial() != 'W') {
+					if (getCellAt(activePlayer.getRow(),
+							activePlayer.getColumn()).getInitial() != 'W') {
 						SuggestionGUI s = new SuggestionGUI();
 						s.setVisible(true);
 					}
@@ -911,7 +931,8 @@ public class Board extends JPanel implements MouseListener {
 				}
 			}
 			if (!move) {
-				JOptionPane.showMessageDialog(null, "Not a valid option.", "Clue", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Not a valid option.",
+						"Clue", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 

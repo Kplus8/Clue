@@ -65,19 +65,25 @@ public class AccusationGUI extends JDialog implements ActionListener {
 
 		if (e.getActionCommand().equals("submit")) {
 			// submit
-			Card p = new Card(cPerson.getSelectedItem().toString(), CardType.PERSON);
-			Card w = new Card(cWeapon.getSelectedItem().toString(), CardType.WEAPON);
+			Card p = new Card(cPerson.getSelectedItem().toString(),
+					CardType.PERSON);
+			Card w = new Card(cWeapon.getSelectedItem().toString(),
+					CardType.WEAPON);
 			Card r = new Card(cRoom.getSelectedItem().toString(), CardType.ROOM);
-			if (Board.getInstance().makeAccusation(p, w, r)) {
+			if (Board.getInstance().makeAccusation(p, r, w)) {
 				// correct
 				JOptionPane.showMessageDialog(null,
-						"Correct, you win! The answer was " + cPerson.getSelectedItem().toString() + " in the "
-								+ cRoom.getSelectedItem().toString() + " with the "
+						"Correct, you win! The answer was "
+								+ cPerson.getSelectedItem().toString()
+								+ " in the "
+								+ cRoom.getSelectedItem().toString()
+								+ " with the "
 								+ cWeapon.getSelectedItem().toString() + ".",
 						"Clue", JOptionPane.INFORMATION_MESSAGE);
 				Runtime.getRuntime().exit(0);
 			} else {
-				JOptionPane.showMessageDialog(null, "Sorry, that's not right.", "Clue", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Sorry, that's not right.",
+						"Clue", JOptionPane.INFORMATION_MESSAGE);
 				Board board = Board.getInstance();
 				board.passTurn();
 				// enable button

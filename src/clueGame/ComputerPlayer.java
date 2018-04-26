@@ -62,19 +62,24 @@ public class ComputerPlayer extends Player {
 	public void makeAccusations() {
 		Board board = Board.getInstance();
 
-		if (board.makeAccusation(lastCombo.getPersonCard(), lastCombo.getWeaponCard(), lastCombo.getRoomCard())) {
+		if (board.makeAccusation(lastCombo.getPersonCard(),
+				lastCombo.getRoomCard(), lastCombo.getWeaponCard())) {
 
-			JOptionPane.showMessageDialog(null,
-					this.getName() + " has won! The answer was " + lastCombo.getPerson() + " in the "
-							+ lastCombo.getRoom() + " with the " + lastCombo.getWeapon() + ".",
-					"Clue", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, this.getName()
+					+ " has won! The answer was " + lastCombo.getPerson()
+					+ " in the " + lastCombo.getRoom() + " with the "
+					+ lastCombo.getWeapon() + ".", "Clue",
+					JOptionPane.INFORMATION_MESSAGE);
 			Runtime.getRuntime().exit(0);
 
 		} else {
-			JOptionPane.showMessageDialog(null,
-					this.getName() + " guessed incorrectly, their guess was " + lastCombo.getPerson() + " in the "
-							+ lastCombo.getRoom() + " with the " + lastCombo.getWeapon() + ".",
-					"Clue", JOptionPane.INFORMATION_MESSAGE);
+//			JOptionPane.showMessageDialog(
+//					null,
+//					this.getName() + " guessed incorrectly, their guess was "
+//							+ lastCombo.getPerson() + " in the "
+//							+ lastCombo.getRoom() + " with the "
+//							+ lastCombo.getWeapon() + ".", "Clue",
+//					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -93,7 +98,8 @@ public class ComputerPlayer extends Player {
 		Card player = null, weapon = null, room = null;
 
 		try {
-			room = new Card(board.getRoom(this.getRoom().getInitial()), CardType.ROOM);
+			room = new Card(board.getRoom(this.getRoom().getInitial()),
+					CardType.ROOM);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -127,7 +133,10 @@ public class ComputerPlayer extends Player {
 		} else {
 			boolean cont = true;
 			while (cont) {
-				player = new Card(board.getPeople()[r.nextInt(board.getPeople().length)].getName(), CardType.PERSON);
+				player = new Card(
+						board.getPeople()[r.nextInt(board.getPeople().length)]
+								.getName(),
+						CardType.PERSON);
 				boolean cont2 = true;
 				for (Card c : players) {
 					if (c.equals(player)) {
@@ -147,7 +156,8 @@ public class ComputerPlayer extends Player {
 		} else {
 			boolean cont = true;
 			while (cont) {
-				weapon = board.getWeapons()[r.nextInt(board.getWeapons().length)];
+				weapon = board.getWeapons()[r
+						.nextInt(board.getWeapons().length)];
 				boolean cont2 = true;
 				for (Card c : weapons) {
 					if (c.equals(weapon)) {
@@ -160,8 +170,9 @@ public class ComputerPlayer extends Player {
 			}
 		}
 
-		LowerGUI.getInstance()
-				.setGuessText(player.getCardName() + ", " + room.getCardName() + ", " + weapon.getCardName());
+		LowerGUI.getInstance().setGuessText(
+				player.getCardName() + ", " + room.getCardName() + ", "
+						+ weapon.getCardName());
 
 		lastCombo = new Solution(player, room, weapon);
 		board.makeSuggestion(player, weapon, room);
